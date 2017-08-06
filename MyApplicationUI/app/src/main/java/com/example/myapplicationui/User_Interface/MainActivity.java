@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         TTSClass.Init(this, "음성메뉴는 위쪽, 터치메뉴는 아래쪽을 터치하세요");
     }
-//송탄불기둥 박지찬 수원 폭격기 김현우
+
     public void onClickVoice(View view) {
         ((whiteVoice)getApplicationContext()).WV = 100;
         Intent intent = new Intent(this, MenuActivity.class);
