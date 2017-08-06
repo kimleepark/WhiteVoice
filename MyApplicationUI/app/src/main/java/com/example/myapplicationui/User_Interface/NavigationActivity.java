@@ -75,7 +75,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     double startX = 0.0;
     double startY = 0.0;
-
     //우리집 라면은 제일 맛있는 라면
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,12 +117,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         dumDB.add(new pathListItem(8, "경유지7",37.010957, 127.265527));
         dumDB.add(new pathListItem(9, "목적지",37.011188, 127.265817));
         */
-
-
-        //이건 커밋 이건 패치 이건 오거니제이션
-
-
-
 
         try{
             //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록

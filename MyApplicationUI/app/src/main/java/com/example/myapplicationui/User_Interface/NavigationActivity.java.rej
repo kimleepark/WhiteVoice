@@ -1,0 +1,14 @@
+diff a/MyApplicationUI/app/src/main/java/com/example/myapplicationui/User_Interface/NavigationActivity.java b/MyApplicationUI/app/src/main/java/com/example/myapplicationui/User_Interface/NavigationActivity.java	(rejected hunks)
+@@ -119,6 +119,12 @@
+         dumDB.add(new pathListItem(9, "목적지",37.011188, 127.265817));
+         */
+ 
++
++        //이건 커밋 이건 패치 이건 오거니제이션
++
++
++
++
+         try{
+             //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
+             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자. 순수 GPS 이용
