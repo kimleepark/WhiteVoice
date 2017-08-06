@@ -75,7 +75,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     double startX = 0.0;
     double startY = 0.0;
-
+    //우리집 라면은 제일 맛있는 라면
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
