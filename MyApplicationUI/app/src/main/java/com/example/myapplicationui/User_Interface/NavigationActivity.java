@@ -133,14 +133,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         }
 
-        //new ProcessLocation().execute();
-
-        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
-        parsing.onLoad();
+        new ProcessLocation().execute();
 
         //TTSClass.Init(this, "경로안내를 시작합니다.");
     }
-
 
 
     class ProcessLocation extends AsyncTask<Void, Void, String> {
@@ -172,6 +168,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            parsing.setData("하나로마트대덕농협", mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+            parsing.onLoad();
             dialog.dismiss();
         }
     }
@@ -298,87 +296,88 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     public void onSensorChanged(SensorEvent event) {
         // 센서값이 변경되었을 때 호출되는 콜백 메서드
         String clockBasedDirection1 = "", clockBasedDirection2 = "";
-        double trueBearing = bearingP1toP2(mLatitude,mLongitude,dLatitude,dLongtitude);
-        double degree = event.values[0]- trueBearing;
+        if(mLatitude!=0.0&&mLongitude!=0.0) {
+            double trueBearing = bearingP1toP2(mLatitude, mLongitude, dLatitude, dLongtitude);
+            double degree = event.values[0] - trueBearing;
         /*if(index == 0 && dataUpdate) {
             startX = mLatitude;
             startY = mLongitude;
         }*/
 
-        //거리계산을 위한 위경도 설정
-        try{
-            if(mLatitude != 0 && mLongitude !=0){
-                pointA.setLatitude(mLatitude);
-                pointA.setLongitude(mLongitude);
-                dataUpdate = true;
-                if(first == 0)
-                first++;
+            //거리계산을 위한 위경도 설정
+            try {
+                if (mLatitude != 0 && mLongitude != 0) {
+                    pointA.setLatitude(mLatitude);
+                    pointA.setLongitude(mLongitude);
+                    dataUpdate = true;
+                    if (first == 0)
+                        first++;
+                }
+                pointB.setLatitude(dLatitude);
+                pointB.setLongitude(dLongtitude);
+                distanceAToB = pointA.distanceTo(pointB);
+            } catch (Exception e) {
+
             }
-            pointB.setLatitude(dLatitude);
-            pointB.setLongitude(dLongtitude);
-            distanceAToB = pointA.distanceTo(pointB);
-        }catch (Exception e){
-
-        }
-        detectPointA.setLatitude(mLatitude);    //현재좌표
-        detectPointA.setLongitude(mLongitude);
-        detectPointB.setLatitude(detectedX);    //이전 좌표
-        detectPointB.setLongitude(detectedY);
-        detectedX = mLatitude;  //이전좌표에 현재좌표 업데이트
-        detectedY = mLongitude;
-        //위치 검사
-        if(dataUpdate && first == 1){
-            detectedDistance = detectPointA.distanceTo(detectPointB);
-        }
+            detectPointA.setLatitude(mLatitude);    //현재좌표
+            detectPointA.setLongitude(mLongitude);
+            detectPointB.setLatitude(detectedX);    //이전 좌표
+            detectPointB.setLongitude(detectedY);
+            detectedX = mLatitude;  //이전좌표에 현재좌표 업데이트
+            detectedY = mLongitude;
+            //위치 검사
+            if (dataUpdate && first == 1) {
+                detectedDistance = detectPointA.distanceTo(detectPointB);
+            }
 
 
-        if(index==0){
-            TTSClass.Init(this, parsing.pathListItems.get(1).getMent());
-            index++;
-        }
+            if (index == 0) {
+                TTSClass.Init(this, parsing.pathListItems.get(1).getMent());
+                index++;
+            }
 
-        try{    //데이터 가져와서 사용하기.
-            if(distanceAToB > 5.0){
+            try {    //데이터 가져와서 사용하기.
+                if (distanceAToB > 5.0) {
+                    dLatitude = parsing.pathListItems.get(index).getX();
+                    dLongtitude = parsing.pathListItems.get(index).getY();
+                    MentView.setText("X : " + String.valueOf(parsing.pathListItems.get(index).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index).getY()));
+                } else if (dataUpdate) {
+                    if (distanceAToB <= 5.0 && index >= 1) {
+                        index++;
+                        TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
+                    }
+                }
                 dLatitude = parsing.pathListItems.get(index).getX();
                 dLongtitude = parsing.pathListItems.get(index).getY();
-                MentView.setText("X : " + String.valueOf(parsing.pathListItems.get(index).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index).getY()));
-            }else if(dataUpdate){
-                if(distanceAToB <= 5.0 && index>=1){
-                    index++;
-                    TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
+                pointB.setLatitude(dLatitude);
+                pointB.setLongitude(dLongtitude);
+                if (index == parsing.pathListItems.size()) {
+                    index = 0;
+                    dataUpdate = false;
                 }
-            }
-            dLatitude = parsing.pathListItems.get(index).getX();
-            dLongtitude = parsing.pathListItems.get(index).getY();
-            pointB.setLatitude(dLatitude);
-            pointB.setLongitude(dLongtitude);
-            if(index == parsing.pathListItems.size()){
-                index = 0;
-                dataUpdate = false;
-            }
-        }catch (Exception e){
+            } catch (Exception e) {
 
-        }
+            }
 
-        if(degree < 0){
-            degree = Math.abs(degree);
-        }else if(degree > 0){
-            degree = 360 - degree;
-        }
-        if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
-            // 방향센서값이 변경된거라면
-            int tmp = (int)(degree / 30);
-            int tmp2 = (int)(event.values[0] / 30);
-            if(tmp == 0)
-                tmp = 12;
-            if(tmp2 == 0)
-                tmp2 = 12;
-            clockBasedDirection2 = tmp + "시 방향";
-            clockBasedDirection1 = tmp2 + "시 방향";
-        }
-        LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
-        ClockView.setText(clockBasedDirection2);
-        AtoBView.setText(String.valueOf(distanceAToB));
+            if (degree < 0) {
+                degree = Math.abs(degree);
+            } else if (degree > 0) {
+                degree = 360 - degree;
+            }
+            if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+                // 방향센서값이 변경된거라면
+                int tmp = (int) (degree / 30);
+                int tmp2 = (int) (event.values[0] / 30);
+                if (tmp == 0)
+                    tmp = 12;
+                if (tmp2 == 0)
+                    tmp2 = 12;
+                clockBasedDirection2 = tmp + "시 방향";
+                clockBasedDirection1 = tmp2 + "시 방향";
+            }
+            LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
+            ClockView.setText(clockBasedDirection2);
+            AtoBView.setText(String.valueOf(distanceAToB));
 /*
         if(detectedDistance < 50.0){
             if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
@@ -386,6 +385,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             }
         }
 */
+        }else {
+
+        }
     }
 
     public boolean pathDetect(double previousX, double previousY, double nextX, double nextY, double myX, double myY, double baseValue){
