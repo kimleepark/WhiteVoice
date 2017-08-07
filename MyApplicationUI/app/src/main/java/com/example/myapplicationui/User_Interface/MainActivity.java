@@ -16,10 +16,7 @@ import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
 
 public class MainActivity extends Activity {
-<<<<<<< HEAD
 
-=======
->>>>>>> 206cac0fb8ff074d35f1d545ed78064fd54d79f6
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

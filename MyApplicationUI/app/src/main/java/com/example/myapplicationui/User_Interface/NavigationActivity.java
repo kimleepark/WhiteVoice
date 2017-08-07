@@ -20,7 +20,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplicationui.CS.CSApi;
 import com.example.myapplicationui.CS.CSGetResult;
@@ -94,17 +93,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
 
-<<<<<<< HEAD
-        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);
-        parsing.onLoad();
-=======
-        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
-        //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
-
-          parsing.onLoad();
->>>>>>> 206cac0fb8ff074d35f1d545ed78064fd54d79f6
-
-        TTSClass.Init(this, "경로안내를 시작합니다.");
         /*for(int i = 0; i<= parsing.pathListItems.size();i++) {
             dumDB.add(new pathListItem(i, parsing.pathListItems.get(i).getMent(), parsing.pathListItems.get(i).getX(), parsing.pathListItems.get(i).getY()));
         }
@@ -119,6 +107,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         dumDB.add(new pathListItem(8, "경유지7",37.010957, 127.265527));
         dumDB.add(new pathListItem(9, "목적지",37.011188, 127.265817));
         */
+
 
         try{
             //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
@@ -136,6 +125,13 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         }
 
+        new ProcessLocation().execute();
+
+        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+        parsing.onLoad();
+
+        //TTSClass.Init(this, "경로안내를 시작합니다.");
+
         if(path!=null){
             File mFile = new File(path);
             new ProcessCloudSight().execute(mFile);
@@ -151,7 +147,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             super.onPreExecute();
             dialog= new ProgressDialog(NavigationActivity.this); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
-            dialog.setMessage("분석중입니다...");             //ProgressDialog 메세지
+            dialog.setMessage("경로검색 중 입니다...");             //ProgressDialog 메세지
             dialog.setCancelable(false);                      //종료금지
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
             //dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
@@ -159,20 +155,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }
         @Override
         protected String doInBackground(Void... voids) {
-            try{
-                //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
-                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자. 순수 GPS 이용
-                        100, // 통지사이의 최소 시간간격 (miliSecond)
-                        1, // 통지사이의 최소 변경거리 (m)
-                        mLocationListener);
-                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자. Network WiFi를 이용
-                        100, // 통지사이의 최소 시간간격 (miliSecond)
-                        1, // 통지사이의 최소 변경거리 (m)
-                        mLocationListener);
-
-                lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
-            }catch (SecurityException ex){
-
+            while (true) {
+                if (mLatitude != 0.0 && mLongitude != 0.0) {
+                    //Toast.makeText(getApplicationContext(), "좌표설정 완료", Toast.LENGTH_SHORT).show();
+                    break;
+                }
             }
             return null;
         }
@@ -180,6 +167,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+            dialog.dismiss();
         }
     }
 
@@ -369,7 +357,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         ClockView.setText(clockBasedDirection2);
         AtoBView.setText(String.valueOf(distanceAToB));
         if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
-            Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
         }
 
     }
