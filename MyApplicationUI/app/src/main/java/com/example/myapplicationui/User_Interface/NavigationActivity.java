@@ -75,7 +75,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     double startX = 0.0;
     double startY = 0.0;
-    //우리집 라면은 제일 맛있는 라면
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,8 +99,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
 
-        parsing.setData("하나로마트 대덕농협", 37.011272, 127.264478);
-        parsing.onLoad();
+        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+        //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
+
+          parsing.onLoad();
 
         TTSClass.Init(this, "경로안내를 시작합니다.");
         /*for(int i = 0; i<= parsing.pathListItems.size();i++) {
@@ -361,7 +363,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // 센서의 정확도가 변경되었을 때 호출되는 콜백 메서드
     }
-
+    public void onClickResearch(View view){
+        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);
+        parsing.onLoad();
+    }
     public void onClickTAP(View view){
         Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
         startActivity(intent);

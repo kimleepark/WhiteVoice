@@ -11,7 +11,6 @@ import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.Conection.whiteVoice;
 
 public class MainActivity extends Activity {
-    //두헌이꼬추 쥐똥꼬추
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -66,6 +66,7 @@
         android:layout_width="0dp"
         android:layout_height="72dp"
         android:text="재탐색"
+        android:onClick="onClickResearch"
         android:textSize="40sp"
         android:gravity="center"
         tools:layout_constraintRight_creator="1"
