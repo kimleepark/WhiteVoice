@@ -93,23 +93,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
-<<<<<<< HEAD
-        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
-        //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
-        parsing.onLoad();
-=======
 
-<<<<<<< HEAD
-        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);
-        parsing.onLoad();
-=======
         parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
         //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
 
-          parsing.onLoad();
->>>>>>> 206cac0fb8ff074d35f1d545ed78064fd54d79f6
-
->>>>>>> 3994181b4c2c716ba8094c839a22c8d976b40e8d
+        parsing.onLoad();
         TTSClass.Init(this, "경로안내를 시작합니다.");
         try{
             //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
@@ -398,9 +386,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     public void onClickResearch(View view){
         setContentView(R.layout.activity_navigation);
 
-        //GPS 허가
-        GpsPermissionCheckForMashMallo();
-
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //LocationManager 객체를 얻어온다.
@@ -415,7 +400,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
-        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+        parsing.setData("하나로마트대덕농협", 37.011572, 127.265478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
         //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
         parsing.onLoad();
         TTSClass.Init(this, "경로안내를 시작합니다.");
