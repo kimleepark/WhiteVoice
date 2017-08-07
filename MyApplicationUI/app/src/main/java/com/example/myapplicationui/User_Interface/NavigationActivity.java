@@ -61,6 +61,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double distanceAToB = 0;
     int index = 0, first = 0;
     boolean dataUpdate = false;
+    boolean near10m1 = false, near10m2 = true;
     Location pointA = new Location("A");
     Location pointB = new Location("B");
     Location detectPointA = new Location("dectedA");
@@ -341,9 +342,18 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     dLatitude = parsing.pathListItems.get(index).getX();
                     dLongtitude = parsing.pathListItems.get(index).getY();
                     MentView.setText("X : " + String.valueOf(parsing.pathListItems.get(index).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index).getY()));
+                    if(distanceAToB <= 10.0 && near10m2){
+                        near10m1 = true;
+                    }
+                    if(distanceAToB <= 10.0 && near10m1 && near10m2){
+                        TTSClass.Init(this, "경유지까지 10m 근방입니다.");
+                        near10m2 = false;
+                    }
                 } else if (dataUpdate) {
                     if (distanceAToB <= 5.0 && index >= 1) {
                         index++;
+                        near10m1 = false;
+                        near10m2 = true;
                         TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
                     }
                 }
