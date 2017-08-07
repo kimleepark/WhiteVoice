@@ -10,5 +10,5 @@ public class whiteVoice extends Application{
 
     public int WV;
     public int sttCode = 0;
-    public String camPath;
+    public String target;
 }

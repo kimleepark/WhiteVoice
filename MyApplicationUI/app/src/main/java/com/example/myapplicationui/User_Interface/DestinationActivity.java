@@ -43,9 +43,8 @@ public class DestinationActivity extends AppCompatActivity {
                 BtnOK.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String strText = editText.getText().toString().replace(" ","");
+                        ((whiteVoice)getApplicationContext()).target = editText.getText().toString().replace(" ","");
                         Intent intent = new Intent(getApplication(), NavigationActivity.class);
-                        intent.putExtra("value", strText);
                         startActivity(intent);
                         finish();
                     }

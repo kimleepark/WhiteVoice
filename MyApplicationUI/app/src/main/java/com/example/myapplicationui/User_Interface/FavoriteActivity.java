@@ -76,9 +76,8 @@ public class FavoriteActivity extends AppCompatActivity{
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 ListViewItem item = (ListViewItem)parent.getItemAtPosition(position); //아이템 받아오기
-                String strtext = item.getText();
+                ((whiteVoice)getApplicationContext()).target = item.getText();
                 Intent intent = new Intent(getApplication(), NavigationActivity.class);
-                intent.putExtra("value", strtext);
                 startActivity(intent);
             }
         });
