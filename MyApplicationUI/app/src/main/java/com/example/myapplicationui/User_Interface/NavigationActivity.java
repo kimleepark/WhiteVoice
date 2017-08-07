@@ -333,6 +333,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
 
             if (index == 0) {
+                mentChange(index+1);
                 TTSClass.Init(this, parsing.pathListItems.get(1).getMent());
                 index++;
             }
@@ -354,6 +355,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         index++;
                         near10m1 = false;
                         near10m2 = true;
+                        mentChange(index);
                         TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
                     }
                 }
@@ -397,6 +399,17 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 */
         }else {
 
+        }
+    }
+    public void mentChange(int index){
+        String a = parsing.pathListItems.get(index).getMent();
+        String b;
+        if(a.indexOf("m 이동")!=-1) {
+            a = a.substring(0, a.indexOf("m 이동"));
+            if (a.indexOf(" ") != -1) {
+                a="";
+            }
+            parsing.pathListItems.get(index).setMent(a);
         }
     }
 
