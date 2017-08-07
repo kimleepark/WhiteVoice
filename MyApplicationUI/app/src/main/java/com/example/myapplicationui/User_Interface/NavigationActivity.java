@@ -25,6 +25,7 @@ import com.example.myapplicationui.CS.CSApi;
 import com.example.myapplicationui.CS.CSGetResult;
 import com.example.myapplicationui.CS.CSPostConfig;
 import com.example.myapplicationui.CS.CSPostResult;
+import com.example.myapplicationui.Conection.whiteVoice;
 import com.example.myapplicationui.Function.CameraActivity;
 import com.example.myapplicationui.Function.ParsingClass;
 import com.example.myapplicationui.Function.TTSClass;
@@ -75,9 +76,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     ParsingClass parsing = new ParsingClass();
 
-    double startX = 0.0;
-    double startY = 0.0;
-    String target;
+    //double startX = 0.0;
+    //double startY = 0.0;
     String path;
 
     @Override
@@ -92,10 +92,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         Intent intent = new Intent(getIntent());
         path = intent.getStringExtra("path");
-        target = intent.getStringExtra("value");
        //Log.e("value", target);
         TextView tView = (TextView)findViewById(R.id.targetView);
-        tView.setText(target);
+        tView.setText(((whiteVoice)getApplicationContext()).target);
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
@@ -504,6 +503,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             dialog.dismiss();
             TTSClass.Init(getApplication(), name);
             temp = null;
+            path = null;
         }
     }
 }
