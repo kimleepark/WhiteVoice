@@ -98,28 +98,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
-
         parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
         //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
-
-          parsing.onLoad();
-
+        parsing.onLoad();
         TTSClass.Init(this, "경로안내를 시작합니다.");
-        /*for(int i = 0; i<= parsing.pathListItems.size();i++) {
-            dumDB.add(new pathListItem(i, parsing.pathListItems.get(i).getMent(), parsing.pathListItems.get(i).getX(), parsing.pathListItems.get(i).getY()));
-        }
-
-        dumDB.add(new pathListItem(1, "출발지",37.011285, 127.264672));
-        dumDB.add(new pathListItem(2, "경유지1",37.011384, 127.264283));
-        dumDB.add(new pathListItem(3, "경유지2",37.011270, 127.263430));
-        dumDB.add(new pathListItem(4, "경유지3",37.010390, 127.263540));
-        dumDB.add(new pathListItem(5, "경유지4",37.010491, 127.264221));
-        dumDB.add(new pathListItem(6, "경유지5",37.010522, 127.264875));
-        dumDB.add(new pathListItem(7, "경유지6",37.010908, 127.264854));
-        dumDB.add(new pathListItem(8, "경유지7",37.010957, 127.265527));
-        dumDB.add(new pathListItem(9, "목적지",37.011188, 127.265817));
-        */
-
         try{
             //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자. 순수 GPS 이용
