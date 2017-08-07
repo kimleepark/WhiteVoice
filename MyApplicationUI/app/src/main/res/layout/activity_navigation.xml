@@ -10,7 +10,7 @@
         android:id="@+id/targetView"
         android:layout_width="0dp"
         android:layout_height="79dp"
-        android:text="한경대학교"
+        android:text="기본값"
         android:textSize="30sp"
         android:gravity="center"
         tools:layout_constraintTop_creator="1"

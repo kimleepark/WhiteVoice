@@ -72,6 +72,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     double startX = 0.0;
     double startY = 0.0;
+    String target;
+    String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +86,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         ClockView = (TextView)findViewById(R.id.clockView);
 
         Intent intent = new Intent(getIntent());
-        String path = intent.getStringExtra("path");
-        String target = intent.getStringExtra("value");
+        path = intent.getStringExtra("path");
+        target = intent.getStringExtra("value");
        //Log.e("value", target);
         TextView tView = (TextView)findViewById(R.id.targetView);
         tView.setText(target);
@@ -124,18 +126,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         }
 
-        new ProcessLocation().execute();
+        //new ProcessLocation().execute();
 
         parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
         parsing.onLoad();
 
         //TTSClass.Init(this, "경로안내를 시작합니다.");
-
-        if(path!=null){
-            File mFile = new File(path);
-            new ProcessCloudSight().execute(mFile);
-        }
     }
+
+
 
     class ProcessLocation extends AsyncTask<Void, Void, String> {
 
@@ -263,6 +262,12 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     @Override
     protected void onResume() { // 화면에 보이기 직전에 센서자원 획득
         super.onResume();
+
+        if(path!=null){
+            File mFile = new File(path);
+            new ProcessCloudSight().execute(mFile);
+        }
+
         // 센서의 값이 변경되었을 때 콜백 받기위한 리스너를 등록한다
         sm.registerListener(this,        // 콜백 받을 리스너
                 s,            // 콜백 원하는 센서
@@ -394,46 +399,12 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         // 센서의 정확도가 변경되었을 때 호출되는 콜백 메서드
     }
     public void onClickResearch(View view){
-        setContentView(R.layout.activity_navigation);
-
-        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //LocationManager 객체를 얻어온다.
-        ClockView = (TextView)findViewById(R.id.clockView);
-
-        Intent intent = new Intent(getIntent());
-        String path = intent.getStringExtra("path");
-        String target = intent.getStringExtra("value");
-        Log.e("value", target);
-        TextView tView = (TextView)findViewById(R.id.targetView);
-        tView.setText(target);
-        LocationView = (TextView)findViewById(R.id.textL);
-        MentView = (TextView)findViewById(R.id.mentView);
-        AtoBView = (TextView)findViewById(R.id.textAtoB);
         parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
         //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
         parsing.onLoad();
-        TTSClass.Init(this, "경로안내를 시작합니다.");
-        try{
-            //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자. 순수 GPS 이용
-                    100, // 통지사이의 최소 시간간격 (miliSecond)
-                    1, // 통지사이의 최소 변경거리 (m)
-                    mLocationListener);
-            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자. Network WiFi를 이용
-                    100, // 통지사이의 최소 시간간격 (miliSecond)
-                    1, // 통지사이의 최소 변경거리 (m)
-                    mLocationListener);
+        index = 0;
+        TTSClass.Init(this, "경로안내를 다시 시작합니다.");
 
-            lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
-        }catch (SecurityException ex){
-
-        }
-
-        if(path!=null){
-            File mFile = new File(path);
-            new ProcessCloudSight().execute(mFile);
-        }
     }
     public void onClickTAP(View view){
         Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
