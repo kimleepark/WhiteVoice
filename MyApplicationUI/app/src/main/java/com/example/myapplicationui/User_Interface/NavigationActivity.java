@@ -1,10 +1,8 @@
 package com.example.myapplicationui.User_Interface;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
@@ -81,9 +79,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        //GPS 허가
-        GpsPermissionCheckForMashMallo();
-
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //LocationManager 객체를 얻어온다.
@@ -92,17 +87,22 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         Intent intent = new Intent(getIntent());
         String path = intent.getStringExtra("path");
         String target = intent.getStringExtra("value");
-        Log.e("value", target);
+       //Log.e("value", target);
         TextView tView = (TextView)findViewById(R.id.targetView);
         tView.setText(target);
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
 
+<<<<<<< HEAD
+        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);
+        parsing.onLoad();
+=======
         parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
         //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
 
           parsing.onLoad();
+>>>>>>> 206cac0fb8ff074d35f1d545ed78064fd54d79f6
 
         TTSClass.Init(this, "경로안내를 시작합니다.");
         /*for(int i = 0; i<= parsing.pathListItems.size();i++) {
@@ -139,6 +139,47 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         if(path!=null){
             File mFile = new File(path);
             new ProcessCloudSight().execute(mFile);
+        }
+    }
+
+    class ProcessLocation extends AsyncTask<Void, Void, String> {
+
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog= new ProgressDialog(NavigationActivity.this); //ProgressDialog 객체 생성
+            //dialog.setTitle("Progress");                   //ProgressDialog 제목
+            dialog.setMessage("분석중입니다...");             //ProgressDialog 메세지
+            dialog.setCancelable(false);                      //종료금지
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
+            //dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
+            dialog.show(); //ProgressDialog 보여주기
+        }
+        @Override
+        protected String doInBackground(Void... voids) {
+            try{
+                //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자. 순수 GPS 이용
+                        100, // 통지사이의 최소 시간간격 (miliSecond)
+                        1, // 통지사이의 최소 변경거리 (m)
+                        mLocationListener);
+                lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자. Network WiFi를 이용
+                        100, // 통지사이의 최소 시간간격 (miliSecond)
+                        1, // 통지사이의 최소 변경거리 (m)
+                        mLocationListener);
+
+                lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
+            }catch (SecurityException ex){
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
         }
     }
 
@@ -444,30 +485,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             dialog.dismiss();
             TTSClass.Init(getApplication(), name);
             temp = null;
-        }
-    }
-
-    public void GpsPermissionCheckForMashMallo() {
-        //마시멜로우 버전 이하면 if문에 걸리지 않습니다.
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-            alertDialog.setTitle("GPS 사용 허가 요청");
-            alertDialog.setMessage("앰버요청 발견을 알리기위해서는 사용자의 GPS 허가가 필요합니다.\n('허가'를 누르면 GPS 허가 요청창이 뜹니다.)");
-            // OK 를 누르게 되면 설정창으로 이동합니다.
-            alertDialog.setPositiveButton("허가",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            ActivityCompat.requestPermissions(NavigationActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-                        }
-                    });
-            // Cancle 하면 종료 합니다.
-            alertDialog.setNegativeButton("거절",
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    });
-            alertDialog.show();
         }
     }
 }

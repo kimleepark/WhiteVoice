@@ -30,7 +30,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -109,14 +108,14 @@ public class CameraActivity extends AppCompatActivity {
             ((FrameLayout) findViewById(R.id.layout)).addView(preview);
             preview.setKeepScreenOn(true);
 
-            /* 프리뷰 화면 눌렀을 때  사진을 찍음
-            preview.setOnClickListener(new OnClickListener() {
+            //프리뷰 화면 눌렀을 때  사진을 찍음
+            preview.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View arg0) {
                     camera.takePicture(shutterCallback, rawCallback, jpegCallback);
                 }
-            });*/
+            });
         }
 
         preview.setCamera(null);
@@ -165,7 +164,7 @@ public class CameraActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_camera);
 
-        Button button = (Button)findViewById(R.id.btnCapture);
+        /*Button button = (Button)findViewById(R.id.btnCapture);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,7 +172,7 @@ public class CameraActivity extends AppCompatActivity {
                 Log.e("click", "pass");
             }
 
-        });
+        });*/
 
 
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
