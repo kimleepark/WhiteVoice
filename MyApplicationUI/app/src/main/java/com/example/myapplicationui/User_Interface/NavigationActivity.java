@@ -346,35 +346,32 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     dLatitude = parsing.pathListItems.get(index).getX();
                     dLongtitude = parsing.pathListItems.get(index).getY();
                     MentView.setText("X : " + String.valueOf(parsing.pathListItems.get(index).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index).getY()));
-<<<<<<< HEAD
-                    if(String.valueOf((int)(event.values[0]/30)).equals(tmpClock1)){    //시계방향이 다음 경유지를 가리키면 진동
+
+                    if(String.valueOf((int)(event.values[0]/30)).equals(tmpClock1)) {    //시계방향이 다음 경유지를 가리키면 진동
                         vibrator.vibrate(2000);
                         tmpClock1 = null;
-=======
+                    }
                     if(distanceAToB <= 10.0 && near10m2){
                         near10m1 = true;
                     }
                     if(distanceAToB <= 10.0 && near10m1 && near10m2){
                         TTSClass.Init(this, "경유지까지 10m 근방입니다.");
                         near10m2 = false;
->>>>>>> 32f1ff091beab308324439c647f72d4fd42bd03e
+
                     }
                 } else if (dataUpdate) {
                     if (distanceAToB <= 5.0 && index >= 1) {
                         index++;
-<<<<<<< HEAD
                         if (degree < 0) {
                             degree = Math.abs(degree);
                         } else if (degree > 0) {
                             degree = 360 - degree;
                         }
                         tmpClock1 = String.valueOf((int)degree/30);
-                        //TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
-=======
+
                         near10m1 = false;
                         near10m2 = true;
-                        TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
->>>>>>> 32f1ff091beab308324439c647f72d4fd42bd03e
+                        //TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
                     }
                 }
                 dLatitude = parsing.pathListItems.get(index).getX();
