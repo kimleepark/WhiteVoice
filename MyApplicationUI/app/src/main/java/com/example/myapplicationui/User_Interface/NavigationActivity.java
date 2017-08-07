@@ -339,12 +339,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
 
             if (index == 0) {
-<<<<<<< HEAD
+
                 mentChange(index+1);
                 TTSClass.Init(this, parsing.pathListItems.get(1).getMent());
-=======
-                //TTSClass.Init(this, parsing.pathListItems.get(1).getMent());
->>>>>>> 0455d9a415e2afacf2318553daee2e8db4f3786f
                 index++;
             }
             try {    //데이터 가져와서 사용하기.
@@ -403,16 +400,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                         near10m1 = false;
                         near10m2 = true;
-<<<<<<< HEAD
                         mentChange(index);
-=======
-<<<<<<< HEAD
-                        disIndex = 4;
->>>>>>> 0455d9a415e2afacf2318553daee2e8db4f3786f
+
                         TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
-=======
-                        //TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
->>>>>>> 889938baf4584613a4bfaed242a19da8f4d93bc8
                     }
                 }
                 dLatitude = parsing.pathListItems.get(index).getX();
