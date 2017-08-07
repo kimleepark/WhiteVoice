@@ -58,10 +58,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double dLatitude = 0;   //더미 위도
     double dLongtitude = 0; //더미 경도
     double distanceAToB = 0;
-    int index = 0;
+    int index = 0, first = 0;
     boolean dataUpdate = false;
     Location pointA = new Location("A");
     Location pointB = new Location("B");
+    Location detectPointA = new Location("dectedA");
+    Location detectPointB = new Location("dectedB");
+    double detectedX = 0;
+    double detectedY = 0;
+    double detectedDistance = 0;
     LocationManager lm;
     //ArrayList<pathListItem> dumDB = new ArrayList<pathListItem>();
 
@@ -94,7 +99,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
-
+        detectPointA.setLatitude(0);
+        detectPointA.setLongitude(0);
+        detectPointB.setLatitude(0);
+        detectPointB.setLongitude(0);
         /*for(int i = 0; i<= parsing.pathListItems.size();i++) {
             dumDB.add(new pathListItem(i, parsing.pathListItems.get(i).getMent(), parsing.pathListItems.get(i).getX(), parsing.pathListItems.get(i).getY()));
         }
@@ -293,7 +301,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         String clockBasedDirection1 = "", clockBasedDirection2 = "";
         double trueBearing = bearingP1toP2(mLatitude,mLongitude,dLatitude,dLongtitude);
         double degree = event.values[0]- trueBearing;
-
         /*if(index == 0 && dataUpdate) {
             startX = mLatitude;
             startY = mLongitude;
@@ -305,6 +312,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 pointA.setLatitude(mLatitude);
                 pointA.setLongitude(mLongitude);
                 dataUpdate = true;
+                if(first == 0)
+                first++;
             }
             pointB.setLatitude(dLatitude);
             pointB.setLongitude(dLongtitude);
@@ -312,6 +321,17 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }catch (Exception e){
 
         }
+        detectPointA.setLatitude(mLatitude);    //현재좌표
+        detectPointA.setLongitude(mLongitude);
+        detectPointB.setLatitude(detectedX);    //이전 좌표
+        detectPointB.setLongitude(detectedY);
+        detectedX = mLatitude;  //이전좌표에 현재좌표 업데이트
+        detectedY = mLongitude;
+        //위치 검사
+        if(dataUpdate && first == 1){
+            detectedDistance = detectPointA.distanceTo(detectPointB);
+        }
+
 
         if(index==0){
             TTSClass.Init(this, parsing.pathListItems.get(1).getMent());
@@ -360,10 +380,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
         ClockView.setText(clockBasedDirection2);
         AtoBView.setText(String.valueOf(distanceAToB));
-
-  /*      if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
-            Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
->>>>>>> db69ce2c33ba3b878fbdbfcbefac728004ebf4ab
+/*
+        if(detectedDistance < 50.0){
+            if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
+                Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+            }
         }
 */
     }
