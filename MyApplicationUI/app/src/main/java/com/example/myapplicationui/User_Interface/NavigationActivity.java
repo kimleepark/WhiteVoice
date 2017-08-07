@@ -92,7 +92,13 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
+<<<<<<< HEAD
+        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+        //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
+        parsing.onLoad();
+=======
 
+<<<<<<< HEAD
         /*for(int i = 0; i<= parsing.pathListItems.size();i++) {
             dumDB.add(new pathListItem(i, parsing.pathListItems.get(i).getMent(), parsing.pathListItems.get(i).getX(), parsing.pathListItems.get(i).getY()));
         }
@@ -109,6 +115,20 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         */
 
 
+=======
+<<<<<<< HEAD
+        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);
+        parsing.onLoad();
+=======
+        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+        //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
+
+          parsing.onLoad();
+>>>>>>> 206cac0fb8ff074d35f1d545ed78064fd54d79f6
+
+>>>>>>> 3994181b4c2c716ba8094c839a22c8d976b40e8d
+        TTSClass.Init(this, "경로안내를 시작합니다.");
+>>>>>>> db69ce2c33ba3b878fbdbfcbefac728004ebf4ab
         try{
             //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자. 순수 GPS 이용
@@ -356,10 +376,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
         ClockView.setText(clockBasedDirection2);
         AtoBView.setText(String.valueOf(distanceAToB));
+<<<<<<< HEAD
         if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
             //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+=======
+  /*      if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
+            Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+>>>>>>> db69ce2c33ba3b878fbdbfcbefac728004ebf4ab
         }
-
+*/
     }
 
     public boolean pathDetect(double previousX, double previousY, double nextX, double nextY, double myX, double myY, double baseValue){
@@ -393,8 +418,49 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         // 센서의 정확도가 변경되었을 때 호출되는 콜백 메서드
     }
     public void onClickResearch(View view){
-        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);
+        setContentView(R.layout.activity_navigation);
+
+        //GPS 허가
+        GpsPermissionCheckForMashMallo();
+
+        sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
+        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //LocationManager 객체를 얻어온다.
+        ClockView = (TextView)findViewById(R.id.clockView);
+
+        Intent intent = new Intent(getIntent());
+        String path = intent.getStringExtra("path");
+        String target = intent.getStringExtra("value");
+        Log.e("value", target);
+        TextView tView = (TextView)findViewById(R.id.targetView);
+        tView.setText(target);
+        LocationView = (TextView)findViewById(R.id.textL);
+        MentView = (TextView)findViewById(R.id.mentView);
+        AtoBView = (TextView)findViewById(R.id.textAtoB);
+        parsing.setData("하나로마트대덕농협", 37.011272, 127.264478);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+        //parsing.setData(target, pointA.getLatitude(), pointB.getLongitude());
         parsing.onLoad();
+        TTSClass.Init(this, "경로안내를 시작합니다.");
+        try{
+            //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, // 등록할 위치제공자. 순수 GPS 이용
+                    100, // 통지사이의 최소 시간간격 (miliSecond)
+                    1, // 통지사이의 최소 변경거리 (m)
+                    mLocationListener);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, // 등록할 위치제공자. Network WiFi를 이용
+                    100, // 통지사이의 최소 시간간격 (miliSecond)
+                    1, // 통지사이의 최소 변경거리 (m)
+                    mLocationListener);
+
+            lm.removeUpdates(mLocationListener);  //  미수신할때는 반드시 자원해체를 해주어야 한다.
+        }catch (SecurityException ex){
+
+        }
+
+        if(path!=null){
+            File mFile = new File(path);
+            new ProcessCloudSight().execute(mFile);
+        }
     }
     public void onClickTAP(View view){
         Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
