@@ -59,9 +59,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double dLatitude = 0;   //더미 위도
     double dLongtitude = 0; //더미 경도
     double distanceAToB = 0;
-    int index = 0, first = 0;
+    int index = 0, first = 0, disIndex = 4;
     boolean dataUpdate = false;
     boolean near10m1 = false, near10m2 = true;
+    boolean divFour1 = false, divFour2 = true;
     Location pointA = new Location("A");
     Location pointB = new Location("B");
     Location detectPointA = new Location("dectedA");
@@ -345,15 +346,42 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     if(distanceAToB <= 10.0 && near10m2){
                         near10m1 = true;
                     }
+
                     if(distanceAToB <= 10.0 && near10m1 && near10m2){
-                        TTSClass.Init(this, "경유지까지 10m 근방입니다.");
+                        TTSClass.Init(this, "경유지까지 10미터 근방입니다.");
                         near10m2 = false;
+                    }
+
+                    if(index != parsing.pathListItems.size()){
+                        Location A = new Location("A");
+                        Location B = new Location("B");
+                        A.setLatitude(parsing.pathListItems.get(index).getX());
+                        A.setLongitude(parsing.pathListItems.get(index).getY());
+                        B.setLatitude(parsing.pathListItems.get(index + 1).getX());
+                        B.setLongitude(parsing.pathListItems.get(index + 1).getY());
+                        if(disIndex == 4) {
+                            TTSClass.Init(this, "다음 경유지까지 " + (int) (A.distanceTo(B)) + "미터");
+                            disIndex--;
+                        }else{
+                            if((distanceAToB <= (A.distanceTo(B)/4 *disIndex)) && divFour2 ){
+                                divFour1 = true;
+                            }
+
+                            if((distanceAToB <= (A.distanceTo(B)/4 *disIndex)) && divFour2 && divFour1){
+                                TTSClass.Init(this, "다음 경유지까지 " + (int)(A.distanceTo(B)/4*disIndex) + "미터");
+                                disIndex--;
+                                divFour2 = false;
+                            }
+                            divFour2 = true;
+                            divFour1 = false;
+                        }
                     }
                 } else if (dataUpdate) {
                     if (distanceAToB <= 5.0 && index >= 1) {
                         index++;
                         near10m1 = false;
                         near10m2 = true;
+                        disIndex = 4;
                         TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
                     }
                 }
