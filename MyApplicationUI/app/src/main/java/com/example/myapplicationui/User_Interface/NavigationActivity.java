@@ -55,6 +55,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     TextView ClockView;
     TextView LocationView;
     TextView AtoBView;
+    TextView tView;
 
     double mLatitude = 0; //위도
     double mLongitude = 0; //경도
@@ -103,8 +104,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         Intent intent = new Intent(getIntent());
         path = intent.getStringExtra("path");
        //Log.e("value", target);
-        TextView tView = (TextView)findViewById(R.id.targetView);
+        tView = (TextView)findViewById(R.id.targetView);
         tView.setText(((whiteVoice)getApplicationContext()).target);
+        tView.setText(parsing.destinationmap);
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
@@ -363,14 +365,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 //clockBasedDirection2 = tmp2 + "시 방향";
             }
             LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
+            tView.setText(parsing.destinationmap);
             ClockView.setText(clockBasedDirection1);
             AtoBView.setText(String.valueOf(distanceAToB));
             try {    //데이터 가져와서 사용하기.
                 if (distanceAToB > 5.0) {
                     dLatitude = parsing.pathListItems.get(index).getX();
                     dLongtitude = parsing.pathListItems.get(index).getY();
-                    MentView.setText("X : " + String.valueOf(parsing.pathListItems.get(index).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index).getY()));
-
+                    MentView.setText("X : " + String.valueOf(parsing.pathListItems.get(index).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index).getY()) + "\n" + parsing.mentCopy[index] + "\nindex : " + index + "\nsize : " + parsing.pathListItems.size());
+                    //MentView.setText(parsing.mentCopy[index]);
                     if(String.valueOf((int)(event.values[0]/30)).equals(tmpClock1)) {    //시계방향이 다음 경유지를 가리키면 진동
                         vibrator.vibrate(2000);
                         tmpClock1 = null;
@@ -384,7 +387,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         near10m2 = false;
                     }
 
-                    if(index != parsing.pathListItems.size()){
+                    if(index != parsing.pathListItems.size()-1){
                         Location A = new Location("A");
                         Location B = new Location("B");
                         A.setLatitude(parsing.pathListItems.get(index).getX());
@@ -431,9 +434,13 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 dLongtitude = parsing.pathListItems.get(index).getY();
                 pointB.setLatitude(dLatitude);
                 pointB.setLongitude(dLongtitude);
-                if (index == parsing.pathListItems.size()) {
+                if (index == parsing.pathListItems.size()-1) {
                     index = 0;
                     dataUpdate = false;
+                    TTSClass.Init(this, "안내를 종료합니다.");
+                    Intent intent2 = new Intent(this, MenuActivity.class);
+                    startActivity(intent2);
+                    finish();
                 }
             } catch (Exception e) {
 

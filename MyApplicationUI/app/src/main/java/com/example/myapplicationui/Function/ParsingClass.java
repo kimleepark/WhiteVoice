@@ -40,6 +40,7 @@ public class ParsingClass {
     public String encryy;
     public String encryx1;           //파싱으로 가져온 암호화된 시작 좌표
     public String encryy1;
+    public String mentCopy[] = new String[100];
 
     private static Thread thread = null;
     String parsing_url;  // 파싱해오고자 하는 URL
@@ -79,7 +80,7 @@ public class ParsingClass {
         }catch(Exception e){
         }
         //도착지설정
-        parsing_url = "https://m.map.daum.net/actions/searchView?q="+destinationmap+"&wxEnc="+encryx+"&wyEnc="+encryy+"&lvl=4&rcode=B7218A141";
+        parsing_url = "https://m.map.daum.net/actions/searchView?q="+destinationmap+"&wxEnc="+encryx+"&wyEnc="+encryy+"&lvl=4&rcode=B7218A141&sort=2&viewmap=false";
         task = new Runnable(){
             public void run(){
                 getData2(parsing_url);
@@ -314,6 +315,12 @@ public class ParsingClass {
 
         placex[99]=0;
         //Log.e("LIST 채킹","채크리스트 : " + index +", "+ ment +", "+ pointx +", "+ pointy);
+
+        for(int i=0;i<ment.length;i++){
+            mentCopy[i]=ment[i];
+        }
+
+
         return array;  // 입력된 배열값을 리턴
     }
     public void getWGS84Location(String strURL){
