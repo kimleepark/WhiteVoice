@@ -1,143 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.myapplicationui.User_Interface.NavigationActivity">
+    android:weightSum="1">
 
     <TextView
         android:id="@+id/targetView"
-        android:layout_width="0dp"
-        android:layout_height="79dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:text="기본값"
         android:textSize="30sp"
         android:gravity="center"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="21dp"
-        android:layout_marginEnd="21dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="7dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_weight="0.1"/>
 
+    <TextView
+        android:id="@+id/textL"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:text="TextView"
+        android:layout_weight="0.1"/>
 
     <TextView
         android:id="@+id/mentView"
-        android:layout_width="0dp"
-        android:layout_height="62dp"
-        android:textSize="15sp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:gravity="center_vertical"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="22dp"
-        android:layout_marginEnd="22dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="178dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:textSize="15sp"
+        android:layout_weight="0.1"/>
 
     <TextView
         android:id="@+id/clockView"
-        android:layout_width="0dp"
-        android:layout_height="65dp"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
         android:textSize="30sp"
         android:gravity="center_vertical"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="94dp"
-        app:layout_constraintTop_toBottomOf="@+id/mentView"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="90dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintBottom_toBottomOf="@+id/button3" />
+        android:layout_weight="0.1"/>
+
+    <TextView
+        android:id="@+id/textAtoB"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:textSize="20sp"
+        android:layout_weight="0.1"/>
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="72dp"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
         android:text="재탐색"
         android:onClick="onClickResearch"
         android:textSize="40sp"
         android:gravity="center"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="23dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="23dp"
-        app:layout_constraintRight_toRightOf="parent"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="113dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <TextView
-        android:id="@+id/textL"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:text="TextView"
-        android:gravity="center_vertical"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="13dp"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintVertical_bias="0.225"
-        app:layout_constraintBottom_toTopOf="@+id/mentView"
-        app:layout_constraintTop_toBottomOf="@+id/targetView" />
+        android:layout_weight="0.25"/>
 
     <Button
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
         android:id="@+id/BtnTap"
         android:gravity="center"
         android:onClick="onClickTAP"
         android:text="TAP"
         android:textSize="40sp"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        android:layout_marginStart="21dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="21dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/button3"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="17dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        android:layout_weight="0.25"/>
 
-    <TextView
-        android:id="@+id/textAtoB"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:textSize="20sp"
-        android:gravity="center_vertical"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/clockView"
-        android:layout_marginStart="21dp"
-        android:layout_marginEnd="21dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="15dp"
-        app:layout_constraintTop_toBottomOf="@+id/mentView"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="17dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
+</LinearLayout>
 
-
-</android.support.constraint.ConstraintLayout>

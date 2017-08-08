@@ -7,15 +7,15 @@
     <SurfaceView
         android:id="@+id/surfaceView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_weight="0.75"/>
 
-    <!--
     <Button
         android:id="@+id/btnCapture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="캡처" />
-        -->
-
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:text="캡쳐"
+        android:layout_gravity="bottom"
+        android:textSize="20sp"
+        android:layout_weight="0.25"/>
 </FrameLayout>

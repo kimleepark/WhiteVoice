@@ -24,12 +24,13 @@ public class DestinationActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editDA);
         Button BtnOK = (Button)findViewById(R.id.btnOK);
 
-        int request = getIntent().getIntExtra("request",-1);
+        int request = getIntent().getIntExtra("request", -1);
         switch(request) {
             case 1:
                 BtnOK.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        //setContentView(R.layout.activity_destination);
                         String strText = editText.getText().toString().replace(" ","");
                         Intent intent = new Intent();
                         intent.putExtra("value", strText);
@@ -43,6 +44,7 @@ public class DestinationActivity extends AppCompatActivity {
                 BtnOK.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
                         ((whiteVoice)getApplicationContext()).target = editText.getText().toString().replace(" ","");
                         Intent intent = new Intent(getApplication(), NavigationActivity.class);
                         startActivity(intent);
@@ -50,11 +52,14 @@ public class DestinationActivity extends AppCompatActivity {
                     }
                 });
                 break;
-        }
 
-        TTSClass.Init(this, "목적지를 말하세요");
-        Intent intent = new Intent(this, STT_Activity.class);
-        ((whiteVoice) getApplicationContext()).sttCode = 1;
-        startActivity(intent);
+            case 3:
+                TTSClass.Init(this, "목적지를 말하세요");
+                Intent intent = new Intent(this, STT_Activity.class);
+                ((whiteVoice) getApplicationContext()).sttCode = 1;
+                startActivity(intent);
+                finish();
+                break;
+        }
     }
 }

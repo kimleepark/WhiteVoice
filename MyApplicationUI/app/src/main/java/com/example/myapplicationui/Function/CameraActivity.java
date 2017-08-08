@@ -30,6 +30,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
@@ -164,7 +165,7 @@ public class CameraActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_camera);
 
-        /*Button button = (Button)findViewById(R.id.btnCapture);
+        Button button = (Button)findViewById(R.id.btnCapture);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +173,7 @@ public class CameraActivity extends AppCompatActivity {
                 Log.e("click", "pass");
             }
 
-        });*/
+        });
 
 
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {

@@ -337,7 +337,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 detectedDistance = detectPointA.distanceTo(detectPointB);
             }
 
-
             if (index == 0) {
                 //TTSClass.Init(this, parsing.pathListItems.get(1).getMent());
                 index++;
@@ -359,7 +358,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     if(distanceAToB <= 10.0 && near10m1 && near10m2){
                         TTSClass.Init(this, "경유지까지 10미터 근방입니다.");
                         near10m2 = false;
-
                     }
 
                     if(index != parsing.pathListItems.size()){
@@ -389,21 +387,19 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 } else if (dataUpdate) {
                     if (distanceAToB <= 5.0 && index >= 1) {
                         index++;
+
                         if (degree < 0) {
                             degree = Math.abs(degree);
                         } else if (degree > 0) {
                             degree = 360 - degree;
                         }
-                        tmpClock1 = String.valueOf((int)degree/30);
+                        tmpClock1 = String.valueOf((int)degree/30); //다음경유지 시계방향 저장
 
                         near10m1 = false;
                         near10m2 = true;
-<<<<<<< HEAD
+
                         disIndex = 4;
                         TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
-=======
-                        //TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
->>>>>>> 889938baf4584613a4bfaed242a19da8f4d93bc8
                     }
                 }
                 dLatitude = parsing.pathListItems.get(index).getX();

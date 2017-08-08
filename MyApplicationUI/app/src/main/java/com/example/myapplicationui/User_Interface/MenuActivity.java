@@ -8,12 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.myapplicationui.Function.STT_Activity;
-import com.example.myapplicationui.Function.TripleTapActivity;
-import com.example.myapplicationui.Function.OnTouchMultipleTapListener;
-import com.example.myapplicationui.R;
-import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.Conection.whiteVoice;
+import com.example.myapplicationui.Function.OnTouchMultipleTapListener;
+import com.example.myapplicationui.Function.STT_Activity;
+import com.example.myapplicationui.Function.TTSClass;
+import com.example.myapplicationui.R;
 
 
 public class MenuActivity extends Activity {
@@ -53,9 +52,9 @@ public class MenuActivity extends Activity {
         startActivity(intent);
     }
 
-    public void onClickDestination(View view) {
+    public void onClickDestinationV(View view) {
         Intent intent = new Intent(this,DestinationActivity.class);
-        intent.putExtra("request", 2);
+        intent.putExtra("request", 3);
         startActivity(intent);
     }
 
@@ -64,13 +63,9 @@ public class MenuActivity extends Activity {
         startActivity(intent);
     }*/
 
-    public void onClickPopup(View view){
-        Intent intent = new Intent(MenuActivity.this, STT_Activity.class);
-        startActivity(intent);
-    }
-
-    public void onClickTriple(View view){
-        Intent intent = new Intent(MenuActivity.this, TripleTapActivity.class);
+    public void onClickDestinationT(View view){
+        Intent intent = new Intent(this, DestinationActivity.class);
+        intent.putExtra("request", 2);
         startActivity(intent);
     }
 

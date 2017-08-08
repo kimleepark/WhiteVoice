@@ -61,8 +61,8 @@ public class STT_Activity extends Activity {
             TTSClass.Init(this, replace_sst);
 
             if (((whiteVoice)getApplicationContext()).sttCode==1) { //목적지
+                ((whiteVoice)getApplicationContext()).target = replace_sst;
                 intent = new Intent(this, NavigationActivity.class);
-                intent.putExtra("value", replace_sst);
                 startActivity(intent);
                 ((whiteVoice)getApplicationContext()).sttCode = 0;
                 finish();
@@ -94,7 +94,7 @@ public class STT_Activity extends Activity {
         }
     }
 
-    public void onClickClose(View view){
+    public void onClickCancel(View view){
         finish();
     }
 }
