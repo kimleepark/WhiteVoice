@@ -38,6 +38,7 @@ import com.google.api.client.json.jackson2.JacksonFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 public class NavigationActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -72,6 +73,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double detectedY = 0;
     double detectedDistance = 0;
     LocationManager lm;
+
+    String clockBasedDirection1;
+
     //ArrayList<pathListItem> dumDB = new ArrayList<pathListItem>();
 
     //public static final int REQUEST_CODE_MENU = 303;
@@ -302,7 +306,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     public void onSensorChanged(SensorEvent event) {
         // 센서값이 변경되었을 때 호출되는 콜백 메서드
-        String clockBasedDirection2 = "", clockBasedDirection1 = "";
+        clockBasedDirection1 = "";
         if(mLatitude!=0.0 && mLongitude!=0.0) {
             double trueBearing = bearingP1toP2(mLatitude, mLongitude, dLatitude, dLongtitude);
             double degree = event.values[0] - trueBearing;
@@ -338,9 +342,30 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             }
 
             if (index == 0) {
-                //TTSClass.Init(this, parsing.pathListItems.get(1).getMent());
                 index++;
+                mentChange(index);
+                TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
             }
+
+            if (degree < 0) {
+                degree = Math.abs(degree);
+            } else if (degree > 0) {
+                degree = 360 - degree;
+            }
+            if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+                // 방향센서값이 변경된거라면
+                int tmp1 = (int) (degree / 30);
+                int tmp2 = (int) (event.values[0] / 30);
+                if (tmp1 == 0)
+                    tmp1 = 12;
+                if (tmp2 == 0)
+                    tmp2 = 12;
+                clockBasedDirection1 = tmp1 + "시 방향";
+                //clockBasedDirection2 = tmp2 + "시 방향";
+            }
+            LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
+            ClockView.setText(clockBasedDirection1);
+            AtoBView.setText(String.valueOf(distanceAToB));
             try {    //데이터 가져와서 사용하기.
                 if (distanceAToB > 5.0) {
                     dLatitude = parsing.pathListItems.get(index).getX();
@@ -368,7 +393,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         B.setLatitude(parsing.pathListItems.get(index + 1).getX());
                         B.setLongitude(parsing.pathListItems.get(index + 1).getY());
                         if(disIndex == 4) {
-                            TTSClass.Init(this, "다음 경유지까지 " + (int) (A.distanceTo(B)) + "미터");
+                            TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int) (A.distanceTo(B)) + "미터 남았습니다.");
                             disIndex--;
                         }else{
                             if((distanceAToB <= (A.distanceTo(B)/4 *disIndex)) && divFour2 ){
@@ -376,7 +401,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                             }
 
                             if((distanceAToB <= (A.distanceTo(B)/4 *disIndex)) && divFour2 && divFour1){
-                                TTSClass.Init(this, "다음 경유지까지 " + (int)(A.distanceTo(B)/4*disIndex) + "미터");
+                                TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+(int)(A.distanceTo(B)/4*disIndex) + "미터 남았습니다.");
                                 disIndex--;
                                 divFour2 = false;
                             }
@@ -387,7 +412,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 } else if (dataUpdate) {
                     if (distanceAToB <= 5.0 && index >= 1) {
                         index++;
+<<<<<<< HEAD
 
+=======
+                        mentChange(index);
+>>>>>>> d2fe60116e621edfcdd6c7c2503a4a1defa6b2b1
                         if (degree < 0) {
                             degree = Math.abs(degree);
                         } else if (degree > 0) {
@@ -397,8 +426,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                         near10m1 = false;
                         near10m2 = true;
+<<<<<<< HEAD
 
                         disIndex = 4;
+=======
+>>>>>>> d2fe60116e621edfcdd6c7c2503a4a1defa6b2b1
                         TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
                     }
                 }
@@ -413,26 +445,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             } catch (Exception e) {
 
             }
-
-            if (degree < 0) {
-                degree = Math.abs(degree);
-            } else if (degree > 0) {
-                degree = 360 - degree;
-            }
-            if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
-                // 방향센서값이 변경된거라면
-                int tmp1 = (int) (degree / 30);
-                int tmp2 = (int) (event.values[0] / 30);
-                if (tmp1 == 0)
-                    tmp1 = 12;
-                if (tmp2 == 0)
-                    tmp2 = 12;
-                clockBasedDirection1 = tmp1 + "시 방향";
-                //clockBasedDirection2 = tmp2 + "시 방향";
-            }
-            LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
-            ClockView.setText(clockBasedDirection1);
-            AtoBView.setText(String.valueOf(distanceAToB));
 /*
         if(detectedDistance < 50.0){
             if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
@@ -443,6 +455,65 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }else {
 
         }
+    }
+    public void mentChange(int index){
+
+        String a = parsing.pathListItems.get(index).getMent();
+        String b="";
+        String c;
+
+        if(a.indexOf(")")!=-1){
+            if(a.indexOf(")")==a.length()-1){
+                b=a.substring(0,a.indexOf("("));
+                c=a.substring(a.indexOf("("),a.length());
+                b=b+"이동중. 현재 위치는 ";
+                c=c+"입니다.";
+                a=b+c;
+            }
+        }
+
+
+
+        if(a.indexOf("오른쪽길로")!=-1){
+            b=a.substring(0, a.indexOf("오른쪽길로"));
+            c=a.substring(a.indexOf("오른쪽길로")+5,a.length());
+            a=b+c;
+        }
+        else if(a.indexOf("오른쪽길") !=-1){
+            b=a.substring(0, a.indexOf("오른쪽길"));
+            c=a.substring(a.indexOf("오른쪽길")+4,a.length());
+            a=b+c;
+        }
+        if(a.indexOf("왼쪽길로") !=-1){
+            b=a.substring(0, a.indexOf("왼쪽길로"));
+            c=a.substring(a.indexOf("왼쪽길로")+4,a.length());
+            a=b+c;
+        }
+        else if(a.indexOf("왼쪽길") !=-1 ) {
+            b=a.substring(0, a.indexOf("왼쪽길"));
+            c=a.substring(a.indexOf("왼쪽길")+3,a.length());
+            a=b+c;
+        }
+        if(a.indexOf("m 이동")!=-1) {
+            b=a.substring(0, a.indexOf("m 이동"));
+            c=a.substring(a.indexOf("m 이동")+4,a.length());
+            if(b.lastIndexOf(" ")!=-1) {
+                b=b.substring(0, b.lastIndexOf(" "));
+            }
+            a=b+c;
+        }else if(a.indexOf("이동")!=-1) {
+            b=a.substring(0, a.indexOf("이동"));
+            c=a.substring(a.indexOf("이동")+2,a.length());
+            if(b.lastIndexOf(" ")!=-1)
+                b.substring(0,b.lastIndexOf(" "));
+            a=b+c;
+        }
+
+        if(Pattern.matches("^\\s?[0-9]+$", a))
+            a="";
+
+        a=a+".";
+        parsing.pathListItems.get(index).setMent(a);
     }
 
     public boolean pathDetect(double previousX, double previousY, double nextX, double nextY, double myX, double myY, double baseValue){
@@ -478,7 +549,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     public void onClickResearch(View view){
         index++;
-        TTSClass.Init(this, "다음경로로 안내합니다.");
+        mentChange(index);
+        TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
 
     }
 
