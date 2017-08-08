@@ -80,7 +80,7 @@ public class ParsingClass {
         }catch(Exception e){
         }
         //도착지설정
-        parsing_url = "https://m.map.daum.net/actions/searchView?q="+destinationmap+"&wxEnc="+encryx+"&wyEnc="+encryy+"&lvl=4&rcode=B7218A141";
+        parsing_url = "https://m.map.daum.net/actions/searchView?q="+destinationmap+"&wxEnc="+encryx+"&wyEnc="+encryy+"&lvl=4&rcode=B7218A141&sort=2&viewmap=false";
         task = new Runnable(){
             public void run(){
                 getData2(parsing_url);

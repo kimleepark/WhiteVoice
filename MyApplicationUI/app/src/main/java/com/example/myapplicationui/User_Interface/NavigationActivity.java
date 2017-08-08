@@ -55,6 +55,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     TextView ClockView;
     TextView LocationView;
     TextView AtoBView;
+    TextView tView;
 
     double mLatitude = 0; //위도
     double mLongitude = 0; //경도
@@ -103,8 +104,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         Intent intent = new Intent(getIntent());
         path = intent.getStringExtra("path");
        //Log.e("value", target);
-        TextView tView = (TextView)findViewById(R.id.targetView);
+        tView = (TextView)findViewById(R.id.targetView);
         tView.setText(((whiteVoice)getApplicationContext()).target);
+        tView.setText(parsing.destinationmap);
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
@@ -363,6 +365,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 //clockBasedDirection2 = tmp2 + "시 방향";
             }
             LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
+            tView.setText(parsing.destinationmap);
             ClockView.setText(clockBasedDirection1);
             AtoBView.setText(String.valueOf(distanceAToB));
             try {    //데이터 가져와서 사용하기.
