@@ -8,9 +8,10 @@
         android:id="@+id/editDA"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:layout_weight="0.15"
         android:hint="목적지를 입력하세요."
-        android:textSize="30sp"
-        android:layout_weight="0.15" />
+        android:text="도서관"
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/btnOK"
