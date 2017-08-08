@@ -384,7 +384,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         near10m2 = false;
                     }
 
-                    if(index != parsing.pathListItems.size()){
+                    if(index != parsing.pathListItems.size()-1){
                         Location A = new Location("A");
                         Location B = new Location("B");
                         A.setLatitude(parsing.pathListItems.get(index).getX());
@@ -431,9 +431,13 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 dLongtitude = parsing.pathListItems.get(index).getY();
                 pointB.setLatitude(dLatitude);
                 pointB.setLongitude(dLongtitude);
-                if (index == parsing.pathListItems.size()) {
+                if (index == parsing.pathListItems.size()-1) {
                     index = 0;
                     dataUpdate = false;
+                    TTSClass.Init(this, "안내를 종료합니다.");
+                    Intent intent2 = new Intent(this, MenuActivity.class);
+                    startActivity(intent2);
+                    finish();
                 }
             } catch (Exception e) {
 
