@@ -116,7 +116,7 @@ public class FavoriteActivity extends AppCompatActivity{
             items.add(item);
         }
         else if(resultCode == RESULT_OK && requestCode == 110){
-            String fData= data.getStringExtra("FA");
+            String fData= data.getStringExtra("value");
 
             for(int i = 0; i < items.size(); i++) {
                 tempText = items.get(i).getText();

@@ -95,7 +95,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         setContentView(R.layout.activity_navigation);
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);   //진동
-
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //LocationManager 객체를 얻어온다.
@@ -179,7 +178,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            parsing.setData("하나로마트대덕농협", mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+            parsing.setData(((whiteVoice)getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
             parsing.onLoad();
             dialog.dismiss();
         }
@@ -412,11 +411,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 } else if (dataUpdate) {
                     if (distanceAToB <= 5.0 && index >= 1) {
                         index++;
-<<<<<<< HEAD
-
-=======
                         mentChange(index);
->>>>>>> d2fe60116e621edfcdd6c7c2503a4a1defa6b2b1
+
                         if (degree < 0) {
                             degree = Math.abs(degree);
                         } else if (degree > 0) {
@@ -426,11 +422,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                         near10m1 = false;
                         near10m2 = true;
-<<<<<<< HEAD
 
                         disIndex = 4;
-=======
->>>>>>> d2fe60116e621edfcdd6c7c2503a4a1defa6b2b1
                         TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
                     }
                 }
@@ -445,13 +438,13 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             } catch (Exception e) {
 
             }
-/*
+
         if(detectedDistance < 50.0){
             if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
-                Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
             }
         }
-*/
+
         }else {
 
         }
@@ -471,8 +464,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 a=b+c;
             }
         }
-
-
 
         if(a.indexOf("오른쪽길로")!=-1){
             b=a.substring(0, a.indexOf("오른쪽길로"));
