@@ -21,7 +21,6 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((whiteVoice)getApplicationContext()).WV = 0;
         //GPS 허가
         GpsPermissionCheckForMashMallo();
         TTSClass.Init(this, "음성메뉴는 위쪽, 터치메뉴는 아래쪽을 터치하세요");
@@ -34,6 +33,7 @@ public class MainActivity extends Activity {
     }
 
     public void onClickTouch(View view) {
+        ((whiteVoice)getApplicationContext()).WV = 0;
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }

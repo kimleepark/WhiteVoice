@@ -27,7 +27,7 @@ public class TTSClass extends Activity{
                 if (status == TextToSpeech.SUCCESS) {
                     int result = mTTS.setLanguage(Locale.KOREA);
                     mTTS.setPitch(1);
-                    mTTS.setSpeechRate(0.7f);
+                    mTTS.setSpeechRate(1);
                     if (result == TextToSpeech.LANG_MISSING_DATA ||
                             result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         //Log.e(TAG, "Language is not available.");
@@ -58,7 +58,7 @@ public class TTSClass extends Activity{
                 if (status == TextToSpeech.SUCCESS) {
                     int result = mTTS.setLanguage(Locale.KOREA);
                     mTTS.setPitch(1);
-                    mTTS.setSpeechRate(0.7f);
+                    mTTS.setSpeechRate(1);
                     if (result == TextToSpeech.LANG_MISSING_DATA ||
                             result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         //Log.e(TAG, "Language is not available.");

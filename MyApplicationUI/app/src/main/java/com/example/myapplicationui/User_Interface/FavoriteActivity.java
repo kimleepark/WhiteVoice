@@ -2,19 +2,19 @@ package com.example.myapplicationui.User_Interface;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.myapplicationui.Function.STT_Activity;
 import com.example.myapplicationui.Conection.ListViewItem;
-import com.example.myapplicationui.R;
-import com.example.myapplicationui.Function.SDClass;
-import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.Conection.whiteVoice;
+import com.example.myapplicationui.Function.SDClass;
+import com.example.myapplicationui.Function.STT_Activity;
+import com.example.myapplicationui.Function.TTSClass;
+import com.example.myapplicationui.R;
 
 import java.util.ArrayList;
 
@@ -98,26 +98,35 @@ public class FavoriteActivity extends AppCompatActivity{
     @Override
     protected void onResume(){
         super.onResume();
+    }
 
+    public void AddItem(String text){
+        item = new ListViewItem();
+        item.setText(text);
+        items.add(item);
     }
 
     public void onClickAdd(View view){
-        Intent intent = new Intent(this, DestinationActivity.class);
-        intent.putExtra("request", 1);
-        startActivityForResult(intent,1);
+        if(((whiteVoice)getApplicationContext()).WV == 100) {
+            TTSClass.Init(getApplication(), "추가시킬 목적지를 말하세요");
+            Intent intentC = new Intent(getApplication(), STT_Activity.class);
+            ((whiteVoice) getApplicationContext()).sttCode = 2;
+            startActivity(intentC);
+        }else {
+            Intent intent = new Intent(this, DestinationActivity.class);
+            intent.putExtra("request", 1);
+            startActivityForResult(intent, 1);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(resultCode == RESULT_OK && requestCode == 1){
             String addData= data.getStringExtra("value");
-            item = new ListViewItem();
-            item.setText(addData);
-            items.add(item);
+            AddItem(addData);
         }
         else if(resultCode == RESULT_OK && requestCode == 110){
             String fData= data.getStringExtra("value");
-
             for(int i = 0; i < items.size(); i++) {
                 tempText = items.get(i).getText();
                 int temp = SDClass.distance(tempText,fData);

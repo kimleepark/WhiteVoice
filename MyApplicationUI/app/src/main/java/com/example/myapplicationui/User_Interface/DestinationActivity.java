@@ -27,24 +27,15 @@ public class DestinationActivity extends AppCompatActivity {
         int request = getIntent().getIntExtra("request", -1);
         switch(request) {
             case 1:
-                if(((whiteVoice)getApplicationContext()).WV == 100) {
-                    TTSClass.Init(getApplication(), "목적지를 말하세요");
-                    Intent intent = new Intent(getApplication(), STT_Activity.class);
-                    ((whiteVoice) getApplicationContext()).sttCode = 2;
-                    startActivity(intent);
-                    finish();
-                }
                 BtnOK.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         //setContentView(R.layout.activity_destination);
                         String strText = editText.getText().toString().replace(" ", "");
                         Intent intent = new Intent();
                         intent.putExtra("value", strText);
                         setResult(Activity.RESULT_OK, intent);
                         finish();
-
                     }
                 });
                 break;
@@ -57,7 +48,6 @@ public class DestinationActivity extends AppCompatActivity {
                         ((whiteVoice)getApplicationContext()).target = editText.getText().toString().replace(" ","");
                         Intent intent = new Intent(getApplication(), NavigationActivity.class);
                         startActivity(intent);
-
                         finish();
                     }
                 });
