@@ -59,7 +59,6 @@ public class FavoriteAdapter extends ArrayAdapter{
             }
         });
 
-
         return convertView;
     }
 }
