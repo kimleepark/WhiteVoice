@@ -58,7 +58,11 @@ public class MenuActivity extends Activity {
         intent.putExtra("request", 3);
         startActivity(intent);
     }
-
+    public void parsingDestinationV() {
+        Intent intent = new Intent(this,DestinationActivity.class);
+        intent.putExtra("request", 3);
+        startActivity(intent);
+    }
     /*public void onClickSetting(View view) {
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
