@@ -5,6 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,6 +23,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -63,7 +67,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double dLatitude = 0;   //더미 위도
     double dLongtitude = 0; //더미 경도
     double distanceAToB = 0;
-    int index = 0, first = 0, disIndex = 4;
+    int index = 0, first = 0, disIndex = 4, rotateNum = 0;
     boolean dataUpdate = false;
     boolean near10m1 = false, near10m2 = true;
     boolean divFour1 = false, divFour2 = true;
@@ -77,6 +81,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     LocationManager lm;
 
     String clockBasedDirection1;
+
+    ImageView arrow;
 
     //ArrayList<pathListItem> dumDB = new ArrayList<pathListItem>();
 
@@ -113,6 +119,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         LocationView = (TextView)findViewById(R.id.textL);
         MentView = (TextView)findViewById(R.id.mentView);
         AtoBView = (TextView)findViewById(R.id.textAtoB);
+        arrow = (ImageView)findViewById(R.id.arrow);
         detectPointA.setLatitude(0);
         detectPointA.setLongitude(0);
         detectPointB.setLatitude(0);
@@ -372,6 +379,16 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     tmp2 = 12;
                 clockBasedDirection1 = tmp1 + "시 방향";
                 //clockBasedDirection2 = tmp2 + "시 방향";
+                if(rotateNum == 0){
+                    arrow.setImageBitmap(rotateImage(BitmapFactory.decodeResource(getResources(), R.drawable.arrow_2), (float)degree));
+                    rotateNum++;
+                }else{
+                    rotateNum++;
+                    if(rotateNum == 17){
+                        rotateNum = 0;
+                    }
+                }
+
             }
             LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
             tView.setText(parsing.destinationmap);
@@ -456,7 +473,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             }
 
         if(detectedDistance < 50.0){
-            if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 15.0)){
+            if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)){
                 //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
             }
         }
@@ -644,5 +661,14 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             temp = null;
             path = null;
         }
+    }
+
+    public Bitmap rotateImage(Bitmap src, float degree){
+        // Matrix 객체 생성
+        Matrix matrix = new Matrix();
+        // 회전 각도 셋팅
+        matrix.postRotate(degree);
+        // 이미지와 Matrix 를 셋팅해서 Bitmap 객체 생성
+        return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
     }
 }
