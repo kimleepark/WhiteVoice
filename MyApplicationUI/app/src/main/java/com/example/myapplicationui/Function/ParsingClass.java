@@ -1,16 +1,11 @@
 package com.example.myapplicationui.Function;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplicationui.Conection.pathListItem;
-import com.example.myapplicationui.User_Interface.DestinationActivity;
 import com.example.myapplicationui.User_Interface.MenuActivity;
-import com.example.myapplicationui.User_Interface.NavigationActivity;
 
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
@@ -22,10 +17,10 @@ import java.util.ArrayList;
 /**
  * Created by 박지찬 on 2017-08-03.
  */
-
 public class ParsingClass extends Activity{
 
-    TextView textView;
+    MenuActivity ma = new MenuActivity();
+
     public ArrayList<pathListItem> pathListItems = new ArrayList<pathListItem>();
 
     public static final String KEY_SIMPLE_DATA = "data";
@@ -48,6 +43,7 @@ public class ParsingClass extends Activity{
     public String encryx1;           //파싱으로 가져온 암호화된 시작 좌표
     public String encryy1;
     public String mentCopy[] = new String[100];
+    
 
     private static Thread thread = null;
     String parsing_url;  // 파싱해오고자 하는 URL
@@ -184,20 +180,18 @@ public class ParsingClass extends Activity{
             destinationy=destinationy.substring(destinationy.indexOf("\'"),destinationy.indexOf(","));
             destinationy=destinationy.substring(1,destinationy.length()-1);
 
-            int a=1;
 
         }catch(Exception e){
-            //Toast.makeText(NavigationActivity.this , "출력할 문자열", Toast.LENGTH_LONG).show();
-            backToTheDestinationActivity();
-            System.out.print("11");
+            destinationmap="에러";
+            destinationy="975826";
+            destinationx="558705";
+            statingmap="안성시 안성2동";
+            e.getStackTrace();
+            e.getMessage();
         }
         return destinationx;  // 입력된 배열값을 리턴
     }
-    public void backToTheDestinationActivity(){
-//        Toast.makeText(this , "출력할 문자열", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
-    }
+
     public String getData3(String strURL){
         Source source;
         get_data = "";
