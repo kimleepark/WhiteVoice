@@ -1,9 +1,16 @@
 package com.example.myapplicationui.Function;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplicationui.Conection.pathListItem;
+import com.example.myapplicationui.User_Interface.DestinationActivity;
+import com.example.myapplicationui.User_Interface.MenuActivity;
+import com.example.myapplicationui.User_Interface.NavigationActivity;
 
 import net.htmlparser.jericho.Element;
 import net.htmlparser.jericho.HTMLElementName;
@@ -16,7 +23,7 @@ import java.util.ArrayList;
  * Created by 박지찬 on 2017-08-03.
  */
 
-public class ParsingClass {
+public class ParsingClass extends Activity{
 
     TextView textView;
     public ArrayList<pathListItem> pathListItems = new ArrayList<pathListItem>();
@@ -180,11 +187,17 @@ public class ParsingClass {
             int a=1;
 
         }catch(Exception e){
+            //Toast.makeText(NavigationActivity.this , "출력할 문자열", Toast.LENGTH_LONG).show();
+            backToTheDestinationActivity();
             System.out.print("11");
         }
         return destinationx;  // 입력된 배열값을 리턴
     }
-
+    public void backToTheDestinationActivity(){
+//        Toast.makeText(this , "출력할 문자열", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+    }
     public String getData3(String strURL){
         Source source;
         get_data = "";

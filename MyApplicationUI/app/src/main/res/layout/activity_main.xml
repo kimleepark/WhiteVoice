@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:background="#3b3838"
+    tools:context="com.example.myapplicationui.User_Interface.IntroActivity">
 
     <Button
         android:id="@+id/voice"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:text="Voice"
+        android:layout_width="320dp"
+        android:layout_height="220dp"
+        android:background="@xml/radius"
+        android:drawableTop="@drawable/speaker"
         android:onClick="onClickVoice"
-        android:layout_weight="0.45"/>
+        android:text="Voice"
+        android:textSize="30sp"
+        android:gravity="center_horizontal"
+        tools:layout_editor_absoluteY="16dp"
+        tools:layout_editor_absoluteX="32dp" />
 
     <Button
         android:id="@+id/touch"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_width="320dp"
+        android:layout_height="220dp"
+        android:background="@xml/radius"
+        android:drawableTop="@drawable/touch"
         android:onClick="onClickTouch"
         android:text="Touch"
-        android:layout_weight="0.45"/>
-</LinearLayout>
+        tools:layout_editor_absoluteY="263dp"
+        tools:layout_editor_absoluteX="34dp" />
+
+</android.support.constraint.ConstraintLayout>
+
 

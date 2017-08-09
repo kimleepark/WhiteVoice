@@ -96,6 +96,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     Vibrator vibrator;
     String tmpClock1;
 
+    int trash;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -350,6 +352,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             }
 
             if (index == 0) {
+                trash=1;
                 index++;
                 mentChange(index);
                 TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
@@ -474,10 +477,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }
     }
     public void mentChange(int index){
-
+        trash=0;
         String a = parsing.pathListItems.get(index).getMent();
         String b="";
         String c;
+        trash=1;
 
         if(a.indexOf(")")!=-1){
             if(a.indexOf(")")==a.length()-1){
