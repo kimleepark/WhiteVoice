@@ -51,9 +51,12 @@
         android:layout_height="90dp"
         android:text="재탐색"
         android:onClick="onClickResearch"
-        android:textSize="40sp"
+        android:textSize="50sp"
         android:gravity="center"
-        android:layout_weight="0.25"/>
+        android:layout_weight="0.25"
+        android:layout_margin="10dp"
+        android:background="@drawable/corner"
+        android:textColor="#ffff"/>
 
     <Button
         android:layout_width="match_parent"
@@ -62,8 +65,12 @@
         android:gravity="center"
         android:onClick="onClickTAP"
         android:text="TAP"
-        android:textSize="40sp"
-        android:layout_weight="0.25"/>
-
+        android:textSize="50sp"
+        android:layout_weight="0.25"
+        android:background="@drawable/corner"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#ffff"/>
 </LinearLayout>
 

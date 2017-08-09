@@ -1,36 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#3b3838"
-    tools:context="com.example.myapplicationui.User_Interface.IntroActivity">
+    android:weightSum="1"
+    android:background="#3b3838">
 
-    <Button
-        android:id="@+id/voice"
-        android:layout_width="320dp"
-        android:layout_height="220dp"
-        android:background="@xml/radius"
-        android:drawableTop="@drawable/speaker"
-        android:onClick="onClickVoice"
-        android:text="Voice"
-        android:textSize="30sp"
-        android:gravity="center_horizontal"
-        tools:layout_editor_absoluteY="16dp"
-        tools:layout_editor_absoluteX="32dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.495"
+        android:background="@drawable/corner"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="onClickVoice">
 
-    <Button
-        android:id="@+id/touch"
-        android:layout_width="320dp"
-        android:layout_height="220dp"
-        android:background="@xml/radius"
-        android:drawableTop="@drawable/touch"
-        android:onClick="onClickTouch"
-        android:text="Touch"
-        tools:layout_editor_absoluteY="263dp"
-        tools:layout_editor_absoluteX="34dp" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:layout_gravity="center"
+            android:src="@drawable/speaker" />
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.25"
+            android:gravity="center_horizontal"
+            android:text="음성메뉴"
+            android:textSize="40sp"
+            android:textColor="#ffff"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.495"
+        android:background="@drawable/corner"
+        android:orientation="vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="onClickTouch">
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="0.8"
+            android:src="@drawable/touch" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.2"
+            android:gravity="center_horizontal"
+            android:text="터치메뉴"
+            android:textSize="40sp"
+            android:textColor="#ffff"/>
+
+    </LinearLayout>
+</LinearLayout>
 
 

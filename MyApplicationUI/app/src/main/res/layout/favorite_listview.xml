@@ -7,14 +7,19 @@
     <TextView
         android:id="@+id/favoriteText"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="65dp"
         android:layout_weight="1"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textSize="35sp"
+        android:textColor="#ffff"
+        android:gravity="center_vertical"/>
 
     <Button
         android:id="@+id/delete"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.09"
-        android:text="삭제" />
+        android:layout_height="55dp"
+        android:background="@drawable/corner"
+        android:text="삭제"
+        android:textColor="#ffff"
+        android:textSize="25sp" />
 </LinearLayout>
