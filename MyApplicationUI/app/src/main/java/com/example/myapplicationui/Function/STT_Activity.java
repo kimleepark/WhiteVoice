@@ -85,16 +85,14 @@ public class STT_Activity extends Activity {
                 }
             }
             else if(((whiteVoice)getApplicationContext()).sttCode==2){ //즐겨찾기
-                intent = new Intent(this, FavoriteActivity.class);
-                intent.putExtra("value", replace_sst);
-                setResult(Activity.RESULT_OK, intent);
                 ((whiteVoice)getApplicationContext()).sttCode=0;
+                ((FavoriteActivity)FavoriteActivity.mContext).AddItem(replace_sst);
                 finish();
             }
         }
     }
 
-    public void onClickCancel(View view){
+    public void onClickClose(View view){
         finish();
     }
 }

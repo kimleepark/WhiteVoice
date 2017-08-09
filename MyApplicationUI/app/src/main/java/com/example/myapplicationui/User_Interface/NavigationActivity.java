@@ -375,8 +375,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 if (distanceAToB > 5.0) {
                     dLatitude = parsing.pathListItems.get(index).getX();
                     dLongtitude = parsing.pathListItems.get(index).getY();
-//                    MentView.setText("X : " + String.valueOf(parsing.pathListItems.get(index).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index).getY()));
-                    MentView.setText(parsing.mentCopy[index]);
+                    MentView.setText("X : " + String.valueOf(parsing.pathListItems.get(index).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index).getY()) + "\n" + parsing.mentCopy[index] + "\nindex : " + index + "\nsize : " + parsing.pathListItems.size());
+                    //MentView.setText(parsing.mentCopy[index]);
                     if(String.valueOf((int)(event.values[0]/30)).equals(tmpClock1)) {    //시계방향이 다음 경유지를 가리키면 진동
                         vibrator.vibrate(2000);
                         tmpClock1 = null;
