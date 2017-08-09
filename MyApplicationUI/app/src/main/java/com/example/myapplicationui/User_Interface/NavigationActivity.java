@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplicationui.CS.CSApi;
 import com.example.myapplicationui.CS.CSGetResult;
@@ -184,6 +185,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             super.onPostExecute(s);
             parsing.setData(((whiteVoice)getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
             parsing.onLoad();
+            if(parsing.destinationmap.equals("에러")){
+                backDestination(MentView);
+                Toast.makeText(getApplicationContext(), "검색값이 올바르지 않습니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
+            }
+
             dialog.dismiss();
         }
     }
@@ -555,13 +561,16 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
 
     }
-
+    public void backDestination(View view){
+        Intent intent = new Intent(NavigationActivity.this, DestinationActivity.class);
+        startActivity(intent);
+        //startActivityForResult(intent,303);
+    }
     public void onClickTAP(View view){
         Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
         startActivity(intent);
         //startActivityForResult(intent,303);
     }
-
     class ProcessCloudSight extends AsyncTask<File, Void, String> {
 
         ProgressDialog dialog;
