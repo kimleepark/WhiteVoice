@@ -18,6 +18,7 @@
         android:layout_gravity="bottom"
         android:textSize="40sp"
         android:layout_weight="0.25"
+        android:layout_margin="7dp"
         android:background="@drawable/corner"
         android:textColor="#ffff"/>
 </FrameLayout>
