@@ -45,6 +45,7 @@ public class MenuActivity extends Activity {
             Intent intentA = new Intent(getApplication(), STT_Activity.class);
             startActivity(intentA);
         }
+
     }
 
     public void onClickFavorite(View view) {
