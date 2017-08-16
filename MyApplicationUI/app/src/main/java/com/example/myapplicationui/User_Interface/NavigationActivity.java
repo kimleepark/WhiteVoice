@@ -380,7 +380,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     rotateNum++;
                 }else{
                     rotateNum++;
-                    if(rotateNum == 17){
+                    if(rotateNum == 10){
                         rotateNum = 0;
                     }
                 }

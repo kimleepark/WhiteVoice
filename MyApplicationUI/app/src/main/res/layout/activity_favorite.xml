@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#3b3838"
     tools:context="com.example.myapplicationui.Function.TripleTapActivity">
 
     <ListView
@@ -11,6 +12,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_weight="0.8"
+        android:layout_margin="5dp"
+        android:divider="#ffff"
+        android:dividerHeight="2dp"
         tools:layout_constraintTop_creator="1"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
@@ -27,6 +31,9 @@
         android:layout_height="100dp"
         android:text="목적지 추가"
         android:layout_weight="0.2"
+        android:textColor="#ffff"
+        android:textSize="40sp"
+        android:background="@drawable/corner"
         tools:layout_constraintRight_creator="1"
         tools:layout_constraintBottom_creator="1"
         android:layout_marginStart="8dp"

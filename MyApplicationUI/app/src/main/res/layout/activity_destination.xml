@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:background="#3b3838">
 
     <EditText
         android:id="@+id/editDA"
@@ -10,8 +11,9 @@
         android:layout_height="50dp"
         android:layout_weight="0.15"
         android:hint="목적지를 입력하세요."
-        android:text="asdfadsfadsfasdf"
-        android:textSize="30sp" />
+        android:textColorHint="#f0f0f0"
+        android:textSize="35sp"
+        android:textColor="#ffff"/>
 
     <Button
         android:id="@+id/btnOK"
@@ -19,6 +21,10 @@
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:text="확인"
-        android:layout_weight="0.15"/>
+        android:textSize="40sp"
+        android:background="@drawable/corner"
+        android:layout_weight="0.11"
+        android:textColor="#ffff"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>

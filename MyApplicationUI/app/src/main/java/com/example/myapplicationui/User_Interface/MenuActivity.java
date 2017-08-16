@@ -23,7 +23,7 @@ public class MenuActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
+/*
         btnSet = (Button) findViewById(R.id.setting);
         btnSet.setOnTouchListener(new OnTouchMultipleTapListener() {
             @Override
@@ -50,7 +50,7 @@ public class MenuActivity extends Activity {
             Intent intentA = new Intent(getApplication(), STT_Activity.class);
             startActivity(intentA);
         }
-
+*/
     }
 
     public void onClickFavorite(View view) {
@@ -63,15 +63,16 @@ public class MenuActivity extends Activity {
         intent.putExtra("request", 3);
         startActivity(intent);
     }
+
     public void parsingDestinationV() {
         Intent intent = new Intent(this,DestinationActivity.class);
         intent.putExtra("request", 3);
         startActivity(intent);
     }
-    /*public void onClickSetting(View view) {
+    public void onClickSetting(View view) {
         Intent intent = new Intent(this, SettingActivity.class);
         startActivity(intent);
-    }*/
+    }
 
     public void onClickDestinationT(View view){
         Intent intent = new Intent(this, DestinationActivity.class);
