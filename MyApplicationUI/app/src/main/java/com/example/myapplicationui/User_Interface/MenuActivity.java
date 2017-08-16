@@ -41,7 +41,12 @@ public class MenuActivity extends Activity {
             }
         });
         if(((whiteVoice)getApplicationContext()).WV==100) {
-            TTSClass.Init(getApplication(), "즐겨찾기, 목적지, 설정 중 원하는 메뉴를 말하세요.");
+            try {
+                TTSClass.Init(getApplication(), "즐겨찾기, 목적지, 설정 중 원하는 메뉴를 말하세요.");
+                Thread.sleep(3000);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             Intent intentA = new Intent(getApplication(), STT_Activity.class);
             startActivity(intentA);
         }

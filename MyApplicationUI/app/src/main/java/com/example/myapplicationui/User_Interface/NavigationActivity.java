@@ -124,10 +124,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         detectPointA.setLongitude(0);
         detectPointB.setLatitude(0);
         detectPointB.setLongitude(0);
-        /*for(int i = 0; i<= parsing.pathListItems.size();i++) {
-            dumDB.add(new pathListItem(i, parsing.pathListItems.get(i).getMent(), parsing.pathListItems.get(i).getX(), parsing.pathListItems.get(i).getY()));
-        }
-
+        /*
         dumDB.add(new pathListItem(1, "출발지",37.011285, 127.264672));
         dumDB.add(new pathListItem(2, "경유지1",37.011384, 127.264283));
         dumDB.add(new pathListItem(3, "경유지2",37.011270, 127.263430));
@@ -154,7 +151,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }catch (SecurityException ex){
 
         }
-        //vibrator.vibrate(1500);
         new ProcessLocation().execute();
 
         //TTSClass.Init(this, "경로안내를 시작합니다.");
