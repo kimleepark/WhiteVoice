@@ -1,8 +1,10 @@
 package com.example.myapplicationui.User_Interface;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 
 public class FavoriteActivity extends AppCompatActivity{
 
+    private final int RESULT_SPEECH = 101;
     public static Context mContext;
     private ListView listview;
     private FavoriteAdapter adapter;
@@ -83,11 +86,11 @@ public class FavoriteActivity extends AppCompatActivity{
             }
         });
 
-        if(getIntent().getStringExtra("value")!=null) {
+        if(getIntent().getStringExtra("value")!=null && getIntent().getStringExtra("addCode").equals("400")) {
             AddItem(getIntent().getStringExtra("value"));
         }
-        /*
 
+        /*
         String[] tempArray = new String[10];
         //읽어줄 즐겨찾기 리스트 하나의 스트링으로 만들기
         for(int i = 0; i < items.size(); i++) {
@@ -108,18 +111,42 @@ public class FavoriteActivity extends AppCompatActivity{
     }
 
     public void onClickAdd(View view){
-        TTSClass.Init(this, "목적지를 말하세요");
-        ((whiteVoice)getApplicationContext()).sttCode=2;
-        Intent intent = new Intent(this, STT_Activity.class);
-        startActivity(intent);
+        TTSClass.Init(this, "즐겨찾기에 추가하실 목적지를 말하세요");
+        doSTT();
+    }
+
+    private void doSTT(){
+        try {
+            Thread.sleep(1500);
+        }
+        catch (Exception e){
+
+        }
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "지금 말하세요");
+
+        try {
+            startActivityForResult(intent, RESULT_SPEECH);
+        }
+        catch (ActivityNotFoundException e){
+            Toast.makeText(getApplicationContext(), "오류입니다", Toast.LENGTH_SHORT).show();
+            e.getStackTrace();
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(resultCode == RESULT_OK && requestCode == 1){
-            String addData= data.getStringExtra("value");
-            AddItem(addData);
-        }
+        if(resultCode == RESULT_OK && requestCode == RESULT_SPEECH){
+            ArrayList<String> sstResult = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            String result_stt = sstResult.get(0);
+
+            String replace_sst = "";
+            replace_sst = result_stt.replace(" ", "");
+            TTSClass.Init(this, replace_sst);
+            AddItem(replace_sst);
+        }/*
         else if(resultCode == RESULT_OK && requestCode == 110){
             String fData= data.getStringExtra("value");
             for(int i = 0; i < items.size(); i++) {
@@ -135,16 +162,11 @@ public class FavoriteActivity extends AppCompatActivity{
                     Toast.makeText(getApplicationContext(), "문자열없음: "+ temp, Toast.LENGTH_SHORT).show();
                 }
             }
-        }
+        }*/
     }
 
     public void RemoveData(int nPosition){
         this.adapter.remove(this.items.get(nPosition));
     }
-
-    /*@Override
-    public void onListBtnClick(int position) {
-        Toast.makeText(this, Integer.toString(position+1) + " Item is selected..", Toast.LENGTH_SHORT).show() ;
-    }*/
 
 }

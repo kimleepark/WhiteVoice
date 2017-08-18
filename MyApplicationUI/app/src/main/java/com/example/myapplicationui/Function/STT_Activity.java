@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.example.myapplicationui.Conection.whiteVoice;
+import com.example.myapplicationui.R;
 import com.example.myapplicationui.User_Interface.FavoriteActivity;
 import com.example.myapplicationui.User_Interface.NavigationActivity;
 
@@ -25,9 +26,14 @@ public class STT_Activity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //setContentView(R.layout.activity_popup);
+        setContentView(R.layout.activity_stt);
         //resultView = (TextView)findViewById(R.id.txtText);
+        try {
+            Thread.sleep(1500);
+        }
+        catch (Exception e){
 
+        }
         doSTT();
     }
 
@@ -92,7 +98,9 @@ public class STT_Activity extends Activity {
         }
     }
 
-    public void onClickClose(View view){
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         finish();
     }
 }
