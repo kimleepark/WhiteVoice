@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class ParsingClass extends Activity{
 
-    MenuActivity ma = new MenuActivity();
+    DebugClass Debugs = new DebugClass();
 
     public ArrayList<pathListItem> pathListItems = new ArrayList<pathListItem>();
 
@@ -52,7 +52,6 @@ public class ParsingClass extends Activity{
     TextView textView1;  // 제목을 표시해줄 텍스트뷰
 
     public void onLoad(){
-
         //여기부터 추가한코드
         parsing_url = "https://apis.daum.net/local/geo/transcoord?apikey=1b9fd99de0b3b55cd8bfca913c787474&fromCoord=WGS84&y="+StartX+"&x="+StartY+"&toCoord=wtm&output=json";
         Runnable task = new Runnable(){
@@ -84,6 +83,7 @@ public class ParsingClass extends Activity{
         }
         //도착지설정
         parsing_url = "https://m.map.daum.net/actions/searchView?q="+destinationmap+"&wxEnc="+encryx+"&wyEnc="+encryy+"&lvl=4&rcode=B7218A141&sort=2&viewmap=false";
+        Debugs.logv(new Exception(),"something to print "+ parsing_url);
         task = new Runnable(){
             public void run(){
                 getData2(parsing_url);
@@ -103,6 +103,7 @@ public class ParsingClass extends Activity{
         encryy1 = encryy;
 
         parsing_url = "https://m.map.daum.net/actions/routeView?ex="+destinationx+"&ey="+destinationy+"&endLoc=ㅁㅁㅁ&ids=%2CP000";
+        Debugs.logv(new Exception(),"something to print "+ parsing_url);
         task = new Runnable(){
             public void run(){
                 getData3(parsing_url);
@@ -122,9 +123,11 @@ public class ParsingClass extends Activity{
         //여기 textView1 = (TextView)findViewById(R.id.textView1);
         //parsing_url = "http://map.daum.net/route/walkset.json?callback=jQuery1810369897711_1499578448313&sName=%EA%B2%BD%EA%B8%B0+%EB%B6%80%EC%B2%9C%EC%8B%9C+%EC%A4%91%EB%8F%99+982&sX=449528&sY=1108343&eName=%EA%B2%BD%EA%B8%B0+%EB%B6%80%EC%B2%9C%EC%8B%9C+%EC%8B%AC%EA%B3%A1%EB%8F%99+364-1&eX=449288&eY=1109118&ids=%2C";
         parsing_url = "https://m.map.daum.net/actions/walkRoute?startLoc="+"현위치"+"&sxEnc="+ encryx1 +"&syEnc="+encryy1+"&endLoc="+"목적지"+"&exEnc="+encryx+"&eyEnc="+encryy+"&ids=%2CP000&service=";
+        Debugs.logv(new Exception(),"something to print "+ parsing_url);
         task = new Runnable(){
             public void run(){
                 //getData(parsing_url);
+                Debugs.logv(new Exception(), parsing_url);
                 pathListItems = recallPathListItem(getData(parsing_url));
             }
         };
@@ -183,6 +186,7 @@ public class ParsingClass extends Activity{
 
         }catch(Exception e){
             destinationmap="에러";
+            Debugs.logv(new Exception(),"something to print 에러났셈");
             destinationy="975826";
             destinationx="558705";
             statingmap="안성시 안성2동";
@@ -216,8 +220,13 @@ public class ParsingClass extends Activity{
             int a=1;
 
         }catch(Exception e){
+            destinationmap="에러";
+            Debugs.logv(new Exception(),"something to print 에러났셈");
+            destinationy="975826";
+            destinationx="558705";
+            statingmap="안성시 안성2동";
+            e.getStackTrace();
             e.getMessage();
-            System.out.print("11");
         }
         return destinationx;  // 입력된 배열값을 리턴
     }
@@ -279,16 +288,28 @@ public class ParsingClass extends Activity{
                     array.add(pointy);
                     ment=sourcedata;
                 } else {
+                    if(String.valueOf("도보 길찾기 결과가 없습니다.").equals(ment.substring(ment.indexOf("tit_none")+10,ment.indexOf("tit_none")+26)))
+                    {
+                        destinationmap="에러";
+                        Debugs.logv(new Exception(),"something to print 에러났셈2");
+                        destinationy="975826";
+                        destinationx="558705";
+                        statingmap="안성시 안성2동";
+                        finish();
+                    }
                     sw=0;
                 }
 
             }
             //
-
-
-
         }catch(Exception e){
-            System.out.print(e.getMessage());
+            destinationmap="에러";
+            Debugs.logv(new Exception(),"something to print 에러났셈");
+            destinationy="975826";
+            destinationx="558705";
+            statingmap="안성시 안성2동";
+            e.getStackTrace();
+            e.getMessage();
         }
 
         String [] ment= new String [100];

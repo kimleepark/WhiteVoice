@@ -29,7 +29,6 @@ public class DestinationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_destination);
 
         Button BtnGuide = (Button)findViewById(R.id.btnStartG);
-        BtnGuide.setEnabled(false) ; // 초기 버튼 상태 비활성 상태로 지정.
 
         editText = (EditText) findViewById(R.id.editDA) ;
         editText.addTextChangedListener(new TextWatcher() {

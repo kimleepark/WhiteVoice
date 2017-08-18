@@ -36,6 +36,7 @@ import com.example.myapplicationui.CS.CSPostConfig;
 import com.example.myapplicationui.CS.CSPostResult;
 import com.example.myapplicationui.Conection.whiteVoice;
 import com.example.myapplicationui.Function.CameraActivity;
+import com.example.myapplicationui.Function.DebugClass;
 import com.example.myapplicationui.Function.ParsingClass;
 import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
@@ -94,6 +95,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     public static final String KEY_SIMPLE_DATA = "data";
 
     ParsingClass parsing = new ParsingClass();
+    DebugClass Debugs = new DebugClass();
 
     //double startX = 0.0;
     //double startY = 0.0;
@@ -102,14 +104,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     String tmpClock1;
 
     int trash;
-
     @Override
     protected void attachBaseContext(Context newBase) {
+        Debugs.logv(new Exception(), "Something to print");
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Debugs.logv(new Exception(), "Something to print");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
@@ -172,6 +175,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         @Override
         protected void onPreExecute() {
+            Debugs.logv(new Exception(), "Something to print");
             super.onPreExecute();
             dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
@@ -194,6 +198,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }
         @Override
         protected String doInBackground(Void... voids) {
+            Debugs.logv(new Exception(), "Something to print");
             while (true) {
                 if (mLatitude != 0.0 && mLongitude != 0.0) {
                     //Toast.makeText(getApplicationContext(), "좌표설정 완료", Toast.LENGTH_SHORT).show();
@@ -205,12 +210,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         @Override
         protected void onPostExecute(String s) {
+            Debugs.logv(new Exception(), "Something to print");
             super.onPostExecute(s);
             parsing.setData(((whiteVoice)getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
             parsing.onLoad();
             if(parsing.destinationmap.equals("에러")){
                 backDestination(MentView);
-                Toast.makeText(getApplicationContext(), "검색값이 올바르지 않습니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
+//                TTSClass.Init(this, "경유지까지 10미터 근방입니다.");
+                Toast.makeText(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
+                finish();
             }
 
             dialog.dismiss();
@@ -236,16 +244,19 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         }
         public void onProviderDisabled(String provider) {
+            Debugs.logv(new Exception(), "Something to print");
             // Disabled시
             Log.d("test", "onProviderDisabled, provider:" + provider);
         }
 
         public void onProviderEnabled(String provider) {
+            Debugs.logv(new Exception(), "Something to print");
             // Enabled시
             Log.d("test", "onProviderEnabled, provider:" + provider);
         }
 
         public void onStatusChanged(String provider, int status, Bundle extras) {
+            Debugs.logv(new Exception(), "Something to print");
             // 변경시
             Log.d("test", "onStatusChanged, provider:" + provider + ", status:" + status + " ,Bundle:" + extras);
         }
@@ -372,12 +383,17 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             if (dataUpdate && first == 1) {
                 detectedDistance = detectPointA.distanceTo(detectPointB);
             }
-
             if (index == 0) {
+                Debugs.logv(new Exception(), "Something to print");
                 trash=1;
-                index++;
-                mentChange(index);
-                TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
+                index=1;
+                try {
+                    mentChange(index);
+                    TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
+                }catch (Exception e) {
+                    parsing.setData(((whiteVoice)getApplicationContext()).target, mLatitude, mLongitude);
+                    parsing.onLoad();
+                }
             }
 
             if (degree < 0) {
@@ -489,8 +505,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             }
 
         if(detectedDistance < 50.0){
-            if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)){
-                //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+            Debugs.logv(new Exception(), "Something to print");
+            if(parsing.pathListItems.size()!=0){
+                if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)){
+                    //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         }
 
@@ -499,6 +518,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }
     }
     public void mentChange(int index){
+        Debugs.logv(new Exception(), "Something to print");
         trash=0;
         String a = parsing.pathListItems.get(index).getMent();
         String b="";
@@ -589,17 +609,20 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
 
     public void onClickResearch(View view){
+        Debugs.logv(new Exception(), "Something to print");
         index++;
         mentChange(index);
         TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
 
     }
     public void backDestination(View view){
+        Debugs.logv(new Exception(), "Something to print");
         Intent intent = new Intent(NavigationActivity.this, DestinationActivity.class);
         startActivity(intent);
         //startActivityForResult(intent,303);
     }
     public void onClickTAP(View view){
+        Debugs.logv(new Exception(), "Something to print");
         Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
         startActivity(intent);
         //startActivityForResult(intent,303);
@@ -696,9 +719,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
     }
 
-<<<<<<< HEAD
-=======
     public void onClickCheckingData(View view){
+        Debugs.logv(new Exception(), "Something to print");
         Context context = this;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         String dataMessage = "";
@@ -722,5 +744,5 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
->>>>>>> f7c0aa69a7585bde300af252fe4c3673480ec4fa
 }
+

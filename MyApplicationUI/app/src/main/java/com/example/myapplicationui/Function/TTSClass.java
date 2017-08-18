@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 
+import com.example.myapplicationui.User_Interface.NavigationActivity;
+
 import java.util.Locale;
 
 /**
@@ -47,7 +49,6 @@ public class TTSClass extends Activity{
             }
         });
     }
-
     public static void Init(Context main, String[] text) {
         mMain = main;
         mArray = text;
