@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -695,4 +696,31 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
     }
 
+<<<<<<< HEAD
+=======
+    public void onClickCheckingData(View view){
+        Context context = this;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        String dataMessage = "";
+        for(int num = 0; num < parsing.pathListItems.size(); num++){
+            dataMessage += "x : " + parsing.pathListItems.get(num).getX()
+                    + "\ny : " + parsing.pathListItems.get(num).getY()
+                    + "\nment : " + parsing.pathListItems.get(num).getMent()
+                    + "\nidx : " + parsing.pathListItems.get(num).getIdx()
+                    + "\n\n";
+        }
+        alertDialogBuilder.setTitle("Check Data");
+        alertDialogBuilder
+                .setMessage(dataMessage)
+                .setCancelable(false)
+                .setNegativeButton("close", new DialogInterface.OnClickListener() {
+                    //@Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                      dialogInterface.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+>>>>>>> f7c0aa69a7585bde300af252fe4c3673480ec4fa
 }
