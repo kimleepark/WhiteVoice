@@ -3,6 +3,7 @@ package com.example.myapplicationui.User_Interface;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -20,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -672,5 +674,30 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         matrix.postRotate(degree);
         // 이미지와 Matrix 를 셋팅해서 Bitmap 객체 생성
         return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
+    }
+
+    public void onClickCheckingData(View view){
+        Context context = this;
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+        String dataMessage = "";
+        for(int num = 0; num < parsing.pathListItems.size(); num++){
+            dataMessage += "x : " + parsing.pathListItems.get(num).getX()
+                    + "\ny : " + parsing.pathListItems.get(num).getY()
+                    + "\nment : " + parsing.pathListItems.get(num).getMent()
+                    + "\nidx : " + parsing.pathListItems.get(num).getIdx()
+                    + "\n\n";
+        }
+        alertDialogBuilder.setTitle("Check Data");
+        alertDialogBuilder
+                .setMessage(dataMessage)
+                .setCancelable(false)
+                .setNegativeButton("close", new DialogInterface.OnClickListener() {
+                    //@Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                      dialogInterface.cancel();
+                    }
+                });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
