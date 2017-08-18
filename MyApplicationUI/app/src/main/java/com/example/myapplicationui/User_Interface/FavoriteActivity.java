@@ -15,6 +15,7 @@ import com.example.myapplicationui.Function.SDClass;
 import com.example.myapplicationui.Function.STT_Activity;
 import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.ArrayList;
 
@@ -27,8 +28,12 @@ public class FavoriteActivity extends AppCompatActivity{
     ListViewItem item;
     String tempText = "";
 
-    public boolean loadItemsFromDB(ArrayList<ListViewItem> list) {
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 
+    public boolean loadItemsFromDB(ArrayList<ListViewItem> list) {
 
         if (list == null) {
             list = new ArrayList<ListViewItem>() ;
@@ -45,10 +50,6 @@ public class FavoriteActivity extends AppCompatActivity{
 
         item = new ListViewItem() ;
         item.setText("카페") ;
-        list.add(item) ;
-
-        item = new ListViewItem() ;
-        item.setText("식당") ;
         list.add(item) ;
 
         return true ;
@@ -82,22 +83,22 @@ public class FavoriteActivity extends AppCompatActivity{
             }
         });
 
+        if(getIntent().getStringExtra("value")!=null) {
+            AddItem(getIntent().getStringExtra("value"));
+        }
+        /*
+
         String[] tempArray = new String[10];
         //읽어줄 즐겨찾기 리스트 하나의 스트링으로 만들기
         for(int i = 0; i < items.size(); i++) {
             tempArray[i] = items.get(i).getText();
         }
-        if(((whiteVoice)getApplicationContext()).WV==100) {
-            ((whiteVoice)getApplicationContext()).sttCode = 2; //음성인식 구분
-            TTSClass.Init(this, tempArray);
-            Intent intentA = new Intent(this, STT_Activity.class);
-            startActivityForResult(intentA, 110);
-        }
-    }
 
-    @Override
-    protected void onResume(){
-        super.onResume();
+        ((whiteVoice)getApplicationContext()).sttCode = 2; //음성인식 구분
+        TTSClass.Init(this, tempArray);
+        Intent intentA = new Intent(this, STT_Activity.class);
+        startActivityForResult(intentA, 110);
+        */
     }
 
     public void AddItem(String text){
@@ -107,16 +108,10 @@ public class FavoriteActivity extends AppCompatActivity{
     }
 
     public void onClickAdd(View view){
-        if(((whiteVoice)getApplicationContext()).WV == 100) {
-            TTSClass.Init(getApplication(), "추가시킬 목적지를 말하세요");
-            Intent intentC = new Intent(getApplication(), STT_Activity.class);
-            ((whiteVoice) getApplicationContext()).sttCode = 2;
-            startActivity(intentC);
-        }else {
-            Intent intent = new Intent(this, DestinationActivity.class);
-            intent.putExtra("request", 1);
-            startActivityForResult(intent, 1);
-        }
+        TTSClass.Init(this, "목적지를 말하세요");
+        ((whiteVoice)getApplicationContext()).sttCode=2;
+        Intent intent = new Intent(this, STT_Activity.class);
+        startActivity(intent);
     }
 
     @Override

@@ -4,6 +4,7 @@ package com.example.myapplicationui.User_Interface;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,12 +12,17 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 
-import com.example.myapplicationui.Conection.whiteVoice;
 import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class MainActivity extends Activity {
     private final static int PERMISSIONS_REQUEST_CODE = 100;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +37,30 @@ public class MainActivity extends Activity {
         TTSClass.Init(this, "음성메뉴는 위쪽, 터치메뉴는 아래쪽을 터치하세요");
     }
 
-    public void onClickVoice(View view) {
-        ((whiteVoice)getApplicationContext()).WV = 100;
-        Intent intent = new Intent(this, MenuActivity.class);
+    public void onClickFavorite(View view) {
+        Intent intent = new Intent(this, FavoriteActivity.class);
         startActivity(intent);
     }
 
-    public void onClickTouch(View view) {
-        ((whiteVoice)getApplicationContext()).WV = 0;
-        Intent intent = new Intent(this, MenuActivity.class);
+    public void onClickDestinationV(View view) {
+        Intent intent = new Intent(this,DestinationActivity.class);
+        intent.putExtra("request", 3);
+        startActivity(intent);
+    }
+
+    public void parsingDestinationV() {
+        Intent intent = new Intent(this,DestinationActivity.class);
+        intent.putExtra("request", 3);
+        startActivity(intent);
+    }
+    public void onClickSetting(View view) {
+        Intent intent = new Intent(this, SettingActivity.class);
+        startActivity(intent);
+    }
+
+    public void onClickDestinationT(View view){
+        Intent intent = new Intent(this, DestinationActivity.class);
+        intent.putExtra("request", 2);
         startActivity(intent);
     }
 

@@ -8,18 +8,19 @@
         android:id="@+id/speedBarText"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="음성속도"
         android:gravity="center"
-        android:textSize="50sp"/>
+        android:text="음성속도"
+        android:textSize="50sp"
+        android:layout_marginTop="25sp"/>
 
     <SeekBar
         android:id="@+id/speedBar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="60dp"
-        android:layout_weight="0.04"
-        android:max="10"
-        android:progress="3" />
+        android:max="4"
+        android:progress="2"
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/voiceText"
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="여자"
-            android:textSize="40sp"/>
+            android:textSize="40sp" />
 
         <RadioButton
             android:id="@+id/voiceBtnM"

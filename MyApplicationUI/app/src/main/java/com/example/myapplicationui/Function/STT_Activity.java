@@ -9,11 +9,9 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
-import com.example.myapplicationui.User_Interface.DestinationActivity;
+import com.example.myapplicationui.Conection.whiteVoice;
 import com.example.myapplicationui.User_Interface.FavoriteActivity;
 import com.example.myapplicationui.User_Interface.NavigationActivity;
-import com.example.myapplicationui.User_Interface.SettingActivity;
-import com.example.myapplicationui.Conection.whiteVoice;
 
 import java.util.ArrayList;
 
@@ -65,8 +63,8 @@ public class STT_Activity extends Activity {
                 intent = new Intent(this, NavigationActivity.class);
                 startActivity(intent);
                 ((whiteVoice)getApplicationContext()).sttCode = 0;
-                finish();
-            }else if (((whiteVoice)getApplicationContext()).sttCode==0){ // 메뉴
+                //finish();
+            }/*else if (((whiteVoice)getApplicationContext()).sttCode==0){ // 메뉴
                 if (SDClass.distance(replace_sst,"목적지")<=1) {
                     intent = new Intent(this, DestinationActivity.class);
                     startActivity(intent);
@@ -83,10 +81,12 @@ public class STT_Activity extends Activity {
                     Toast.makeText(STT_Activity.this, "없는 메뉴입니다.", Toast.LENGTH_SHORT).show();
                     doSTT();
                 }
-            }
+            }*/
             else if(((whiteVoice)getApplicationContext()).sttCode==2){ //즐겨찾기
                 ((whiteVoice)getApplicationContext()).sttCode=0;
-                ((FavoriteActivity)FavoriteActivity.mContext).AddItem(replace_sst);
+                Intent intent = new Intent(this, FavoriteActivity.class);
+                intent.putExtra("value", replace_sst);
+                startActivity(intent);
                 finish();
             }
         }

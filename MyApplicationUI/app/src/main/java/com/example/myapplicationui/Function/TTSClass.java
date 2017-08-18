@@ -28,6 +28,8 @@ public class TTSClass extends Activity{
                     int result = mTTS.setLanguage(Locale.KOREA);
                     mTTS.setPitch(1);
                     mTTS.setSpeechRate(1);
+                    //mTTS.setVoice(mTTS.getVoices());
+                    //Log.e("voice",mTTS.getVoices().toString());
                     if (result == TextToSpeech.LANG_MISSING_DATA ||
                             result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         //Log.e(TAG, "Language is not available.");

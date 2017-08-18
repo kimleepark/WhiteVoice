@@ -40,6 +40,7 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,6 +99,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     String tmpClock1;
 
     int trash;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
