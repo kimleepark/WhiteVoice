@@ -304,7 +304,7 @@ public class CameraActivity extends AppCompatActivity {
             // Write to SD Card
             try {
                 File sdCard = Environment.getExternalStorageDirectory();
-                File dir = new File (sdCard.getAbsolutePath() + "/camtest");
+                File dir = new File (sdCard.getAbsolutePath() + "/whitevoice");
                 dir.mkdirs();
 
                 String fileName = String.format("%d.jpg", System.currentTimeMillis());

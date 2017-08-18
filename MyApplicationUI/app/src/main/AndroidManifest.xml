@@ -34,7 +34,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".User_Interface.MainActivity" />
         <activity android:name=".User_Interface.MenuActivity" />
         <activity android:name=".User_Interface.FavoriteActivity" />
         <activity android:name=".User_Interface.DestinationActivity" />
@@ -45,8 +44,6 @@
             android:name=".Function.CameraActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Function.STT_Activity" />
-        <activity android:name=".User_Interface.TestActivity"/>
     </application>
 
 </manifest>

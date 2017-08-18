@@ -3,6 +3,7 @@ package com.example.myapplicationui.User_Interface;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -170,13 +172,24 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog= new ProgressDialog(NavigationActivity.this); //ProgressDialog 객체 생성
+            dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
             dialog.setMessage("경로검색 중 입니다...");             //ProgressDialog 메세지
-            dialog.setCancelable(false);                      //종료금지
+
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
             //dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
             dialog.show(); //ProgressDialog 보여주기
+            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                public boolean onKey(DialogInterface dialog,
+                                     int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        dialog.dismiss();
+                        finish();
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
         @Override
         protected String doInBackground(Void... voids) {
@@ -597,13 +610,21 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog= new ProgressDialog(NavigationActivity.this); //ProgressDialog 객체 생성
+            dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
             dialog.setMessage("분석중입니다...");             //ProgressDialog 메세지
-            dialog.setCancelable(false);                      //종료금지
+            //dialog.setCancelable(false);                      //종료금지
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
-            //dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
+            dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
             dialog.show(); //ProgressDialog 보여주기
+
+            // Dialog Cancle시 Event 받기
+            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    finish();
+                }
+            });
         }
 
         @Override
@@ -673,4 +694,5 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         // 이미지와 Matrix 를 셋팅해서 Bitmap 객체 생성
         return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
     }
+
 }

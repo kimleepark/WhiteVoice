@@ -13,10 +13,10 @@ import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplicationui.Conection.whiteVoice;
-import com.example.myapplicationui.Function.STT_Activity;
 import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -28,6 +28,7 @@ public class MenuActivity extends Activity {
 
     private final static int PERMISSIONS_REQUEST_CODE = 100;
     private final int RESULT_SPEECH = 101;
+    DialogInterface mPopupDlg = null;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -82,7 +83,6 @@ public class MenuActivity extends Activity {
 
     public void onClickDestinationV(View view) {
         TTSClass.Init(this, "목적지를 말하세요");
-
         doSTT();
         /*Intent intent = new Intent(this, STT_Activity.class);
         startActivity(intent);*/
@@ -100,16 +100,22 @@ public class MenuActivity extends Activity {
 
     public void onClickDestinationT(View view){
         Intent intent = new Intent(this, DestinationActivity.class);
-        intent.putExtra("request", 2);
         startActivity(intent);
     }
 
     private void doSTT(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("안내");
+        builder.setMessage("목적지를 말하세요");
+        final AlertDialog dialog = builder.show();
+        TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+        textView.setTextSize(35);
+
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable()  {
             public void run() {
+                dialog.dismiss();
 
-                //#명령어
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
