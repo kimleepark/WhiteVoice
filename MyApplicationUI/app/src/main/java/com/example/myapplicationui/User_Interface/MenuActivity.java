@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
@@ -104,25 +105,25 @@ public class MenuActivity extends Activity {
     }
 
     private void doSTT(){
-        try {
-            Thread.sleep(1500);
-        }
-        catch (Exception e){
+        Handler mHandler = new Handler();
+        mHandler.postDelayed(new Runnable()  {
+            public void run() {
 
-        }
+                //#명령어
+                Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
+                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
+                intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "지금 말하세요");
 
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "지금 말하세요");
-
-        try {
-            startActivityForResult(intent, RESULT_SPEECH);
-        }
-        catch (ActivityNotFoundException e){
-            Toast.makeText(getApplicationContext(), "오류입니다", Toast.LENGTH_SHORT).show();
-            e.getStackTrace();
-        }
+                try {
+                    startActivityForResult(intent, RESULT_SPEECH);
+                }
+                catch (ActivityNotFoundException e){
+                    Toast.makeText(getApplicationContext(), "오류입니다", Toast.LENGTH_SHORT).show();
+                    e.getStackTrace();
+                }
+            }
+        }, 1500);
     }
 
     @Override

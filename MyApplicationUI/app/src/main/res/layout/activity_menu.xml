@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="#3b3838">
+    android:background="#e6e7e8">
 
     <LinearLayout
         android:layout_width="match_parent"
