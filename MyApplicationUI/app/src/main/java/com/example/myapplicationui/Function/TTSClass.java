@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.speech.tts.TextToSpeech;
 
-import com.example.myapplicationui.User_Interface.NavigationActivity;
-
 import java.util.Locale;
 
 /**
@@ -18,10 +16,13 @@ public class TTSClass extends Activity{
     private static Context mMain;
     private static String mText;
     private static String[] mArray;
+    private static SharedPrefManager mSharedPrefs;
 
     public static void Init(Context main, String text) {
         mMain = main;
+        mSharedPrefs = SharedPrefManager.getmInstance(mMain);
         mText = text;
+
         mTTS = new TextToSpeech(mMain, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -29,7 +30,7 @@ public class TTSClass extends Activity{
                 if (status == TextToSpeech.SUCCESS) {
                     int result = mTTS.setLanguage(Locale.KOREA);
                     mTTS.setPitch(1);
-                    mTTS.setSpeechRate(1);
+                    mTTS.setSpeechRate(mSharedPrefs.getVoiceSpeed());
                     //mTTS.setVoice(mTTS.getVoices());
                     //Log.e("voice",mTTS.getVoices().toString());
                     if (result == TextToSpeech.LANG_MISSING_DATA ||

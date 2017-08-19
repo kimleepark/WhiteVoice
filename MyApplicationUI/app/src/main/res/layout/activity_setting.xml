@@ -12,43 +12,45 @@
         android:gravity="center"
         android:text="음성속도"
         android:textSize="50sp"
-        android:layout_marginTop="25sp"/>
+        android:layout_marginTop="80sp"/>
 
     <SeekBar
         android:id="@+id/speedBar"
         style="@style/Widget.AppCompat.SeekBar.Discrete"
         android:layout_width="350dp"
         android:layout_height="60dp"
-        android:max="4"
-        android:progress="2"
-        android:layout_gravity="center"/>
-
-    <TextView
-        android:id="@+id/voiceText"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="목소리종류"
-        android:textSize="50sp"
-        android:gravity="center"/>
-
-    <RadioGroup
-        android:id="@+id/radioGroup1"
-        android:layout_width="match_parent"
-        android:layout_height="100dp">
-
-        <RadioButton
-            android:id="@+id/voiceBtnW"
+        android:layout_marginTop="10dp"
+        android:max="5"
+        android:layout_gravity="center"
+        android:thumb="@drawable/seekbar_thumb"
+        android:progressDrawable="@drawable/seekbar"/>
+    <!--
+        <TextView
+            android:id="@+id/voiceText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="여자"
-            android:textSize="40sp" />
+            android:layout_height="60dp"
+            android:text="목소리종류"
+            android:textSize="50sp"
+            android:gravity="center"/>
 
-        <RadioButton
-            android:id="@+id/voiceBtnM"
+        <RadioGroup
+            android:id="@+id/radioGroup1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="남자"
-            android:textSize="40sp" />
-    </RadioGroup>
+            android:layout_height="100dp">
 
-</LinearLayout>
+            <RadioButton
+                android:id="@+id/voiceBtnW"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="여자"
+                android:textSize="40sp" />
+
+            <RadioButton
+                android:id="@+id/voiceBtnM"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="남자"
+                android:textSize="40sp" />
+        </RadioGroup>
+    -->
+    </LinearLayout>
