@@ -1,5 +1,6 @@
 package com.example.myapplicationui.User_Interface;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,12 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.myapplicationui.Conection.whiteVoice;
+import com.example.myapplicationui.Function.DebugClass;
 import com.example.myapplicationui.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
 public class DestinationActivity extends AppCompatActivity {
 
     EditText editText;
+    public static Activity DesA;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -25,6 +28,8 @@ public class DestinationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        DesA = DestinationActivity.this;
+        DebugClass.logv(new Exception(), "Ssomething to print onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
 
@@ -104,5 +109,26 @@ public class DestinationActivity extends AppCompatActivity {
         intent.putExtra("value", editText.getText().toString().replace(" ", ""));
         editText.setText("");
         startActivity(intent);
+    }
+    @Override
+    public void onStop(){
+        DebugClass.logv(new Exception(), "Ssomething to print Stop");
+
+        super.onStop();
+    }
+    @Override
+    public void onPause(){
+        DebugClass.logv(new Exception(), "Ssomething to print Pause");
+        super.onPause();
+    }
+    @Override
+    public void onDestroy(){
+        DebugClass.logv(new Exception(), "Ssomething to print Destroy");
+        super.onDestroy();
+    }
+    @Override
+    public void onBackPressed(){
+        DebugClass.logv(new Exception(), "Ssomething to print Back");
+        super.onBackPressed();
     }
 }

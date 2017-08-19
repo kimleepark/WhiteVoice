@@ -54,6 +54,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     private static final String API_KEY = "vmCH8sw2l_2cXvsCx-wUKQ";
 
+    NavigationActivity NavA = (NavigationActivity)this.NavA;
+    DestinationActivity DesA = (DestinationActivity)DestinationActivity.DesA;
+
     static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
@@ -211,7 +214,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             parsing.onLoad();
             if(parsing.destinationmap.equals("에러")){
                 backDestination(MentView);
-                TTSClass.Init(getApplication(), "경유지까지 10미터 근방입니다.");
+                Debugs.logv(new Exception(), "sSomething to 걱정");
+                TTSClass.Init(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.");
                 Toast.makeText(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
                 finish();
             }
@@ -636,6 +640,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                             divFour2 = false;
                         }
 
+<<<<<<< HEAD
                         if ((A.distanceTo(B) / disIndex) * STACK_POINT > distanceAToB) {
                             divFour1 = true;
                         }
@@ -643,6 +648,14 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         if (STACK_POINT != 0 && divFour1) {
                             TTSClass.Init(this, parsing.pathListItems.get(index).getMent() + clockBasedDirection1 + "으로" + (int) (A.distanceTo(B)) + "미터 남았습니다.");
                             STACK_POINT--;
+=======
+                            if((distanceAToB <= (A.distanceTo(B)/4 *disIndex)) && divFour2 && divFour1 && parsing.destinationmap.equals("에러")==false){
+                                TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+(int)(A.distanceTo(B)/4*disIndex) + "미터 남았습니다.");
+                                disIndex--;
+                                divFour2 = false;
+                            }
+                            divFour2 = true;
+>>>>>>> 2f288d73e6d54f03b2d9b94474b310cf07c603e3
                             divFour1 = false;
                         }
                     }
@@ -794,6 +807,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
     public void backDestination(View view){
         Debugs.logv(new Exception(), "Something to print");
+        DesA.finish();
         Intent intent = new Intent(NavigationActivity.this, DestinationActivity.class);
         startActivity(intent);
         //startActivityForResult(intent,303);
