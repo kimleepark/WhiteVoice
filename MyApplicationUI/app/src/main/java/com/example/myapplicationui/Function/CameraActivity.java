@@ -34,8 +34,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.myapplicationui.Conection.whiteVoice;
 import com.example.myapplicationui.R;
-import com.example.myapplicationui.User_Interface.NavigationActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -286,11 +286,7 @@ public class CameraActivity extends AppCompatActivity {
             resetCam();
             Log.d(TAG, "onPictureTaken - jpeg");
 
-
-            Intent intent = new Intent(getApplication(), NavigationActivity.class);
-            intent.putExtra("path", camPath);
-            //Log.e("Thread", camPath);
-            startActivity(intent);
+            ((whiteVoice)getApplicationContext()).tapPath = camPath;
             finish();
         }
     };
@@ -304,7 +300,7 @@ public class CameraActivity extends AppCompatActivity {
             // Write to SD Card
             try {
                 File sdCard = Environment.getExternalStorageDirectory();
-                File dir = new File (sdCard.getAbsolutePath() + "/camtest");
+                File dir = new File (sdCard.getAbsolutePath() + "/whitevoice");
                 dir.mkdirs();
 
                 String fileName = String.format("%d.jpg", System.currentTimeMillis());

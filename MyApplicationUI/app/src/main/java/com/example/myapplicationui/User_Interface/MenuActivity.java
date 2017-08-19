@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -13,10 +12,10 @@ import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplicationui.Conection.whiteVoice;
-import com.example.myapplicationui.Function.STT_Activity;
 import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
@@ -82,7 +81,6 @@ public class MenuActivity extends Activity {
 
     public void onClickDestinationV(View view) {
         TTSClass.Init(this, "목적지를 말하세요");
-
         doSTT();
         /*Intent intent = new Intent(this, STT_Activity.class);
         startActivity(intent);*/
@@ -100,16 +98,22 @@ public class MenuActivity extends Activity {
 
     public void onClickDestinationT(View view){
         Intent intent = new Intent(this, DestinationActivity.class);
-        intent.putExtra("request", 2);
         startActivity(intent);
     }
 
     private void doSTT(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("안내");
+        builder.setMessage("목적지를 말하세요");
+        final AlertDialog dialog = builder.show();
+        TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+        textView.setTextSize(35);
+
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable()  {
             public void run() {
+                dialog.dismiss();
 
-                //#명령어
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
@@ -146,15 +150,15 @@ public class MenuActivity extends Activity {
     public void GpsPermissionCheckForMashMallo() {
         //마시멜로우 버전 이하면 if문에 걸리지 않습니다.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            /*AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             alertDialog.setTitle("GPS 사용 허가 요청");
             alertDialog.setMessage("경로안내를 위해서는 사용자의 GPS 허가가 필요합니다.\n('허가'를 누르면 GPS 허가 요청창이 뜹니다.)");
             // OK 를 누르게 되면 설정창으로 이동합니다.
             alertDialog.setPositiveButton("허가",
                     new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which) {*/
                             ActivityCompat.requestPermissions(MenuActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-                        }
+                        }/*
                     });
             // Cancle 하면 종료 합니다.
             alertDialog.setNegativeButton("거절",
@@ -164,7 +168,7 @@ public class MenuActivity extends Activity {
                         }
                     });
             alertDialog.show();
-        }
+        }*/
     }
 
 }

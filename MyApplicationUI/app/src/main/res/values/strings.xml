@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My ApplicationUI</string>
+    <string name="app_name">하얀목소리</string>
     <string name="title_activity_destination">DestinationActivity</string>
     <string name="title_activity_settings">Settings</string>
 

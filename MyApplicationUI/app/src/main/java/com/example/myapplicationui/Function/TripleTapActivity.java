@@ -1,9 +1,8 @@
 package com.example.myapplicationui.Function;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.MotionEvent;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +27,8 @@ public class TripleTapActivity extends Activity {
             public void onMultipleTapEvent(MotionEvent e, int numberOfTaps) {
                 if (numberOfTaps == 3) {
                     Toast.makeText(getApplicationContext(), "triple", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplication(), STT_Activity.class);
-                    startActivity(intent);
+                    //Intent intent = new Intent(getApplication(), STT_Activity.class);
+                    //startActivity(intent);
                 }
             }
         });

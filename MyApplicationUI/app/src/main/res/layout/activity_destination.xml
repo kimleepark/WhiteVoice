@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="1"
-    android:background="#3b3838">
+    android:background="#fff">
 
     <EditText
         android:id="@+id/editDA"
@@ -11,14 +13,15 @@
         android:layout_height="50dp"
         android:layout_weight="0.15"
         android:hint="목적지를 입력하세요."
-        android:textColorHint="#d9d9d9"
+        android:textColorHint="#bfbfbf"
         android:textSize="35sp"
-        android:textColor="#ffff"
+        android:textColor="#000"
         android:layout_marginTop="20dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        app:theme="@style/EditTextStyle"/>
 
     <Button
-        android:id="@+id/btnOK"
+        android:id="@+id/btnStartG"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -42,8 +45,4 @@
         android:textColor="#ffff"
         android:layout_marginTop="20dp"
         android:onClick="onClickAddF"/>
-
-
-
-
 </LinearLayout>

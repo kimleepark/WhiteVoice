@@ -24,6 +24,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ import com.example.myapplicationui.CS.CSPostConfig;
 import com.example.myapplicationui.CS.CSPostResult;
 import com.example.myapplicationui.Conection.whiteVoice;
 import com.example.myapplicationui.Function.CameraActivity;
+import com.example.myapplicationui.Function.DebugClass;
 import com.example.myapplicationui.Function.ParsingClass;
 import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
@@ -54,8 +56,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
-
-    String temp = null;
 
     private SensorManager sm;
     private Sensor s;
@@ -92,26 +92,24 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     //ArrayList<pathListItem> dumDB = new ArrayList<pathListItem>();
 
-    //public static final int REQUEST_CODE_MENU = 303;
     public static final String KEY_SIMPLE_DATA = "data";
 
     ParsingClass parsing = new ParsingClass();
+    DebugClass Debugs = new DebugClass();
 
-    //double startX = 0.0;
-    //double startY = 0.0;
-    String path;
     Vibrator vibrator;
     String tmpClock1;
 
     int trash;
-
     @Override
     protected void attachBaseContext(Context newBase) {
+        Debugs.logv(new Exception(), "Something to print");
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Debugs.logv(new Exception(), "Something to print");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
@@ -121,8 +119,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //LocationManager 객체를 얻어온다.
         ClockView = (TextView)findViewById(R.id.clockView);
 
-        Intent intent = new Intent(getIntent());
-        path = intent.getStringExtra("path");
        //Log.e("value", target);
         tView = (TextView)findViewById(R.id.targetView);
         tView.setText(((whiteVoice)getApplicationContext()).target);
@@ -174,17 +170,30 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         @Override
         protected void onPreExecute() {
+            Debugs.logv(new Exception(), "Something to print");
             super.onPreExecute();
-            dialog= new ProgressDialog(NavigationActivity.this); //ProgressDialog 객체 생성
+            dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
             dialog.setMessage("경로검색 중 입니다...");             //ProgressDialog 메세지
-            dialog.setCancelable(false);                      //종료금지
+
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
-            //dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
+            dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
             dialog.show(); //ProgressDialog 보여주기
+            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                public boolean onKey(DialogInterface dialog,
+                                     int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        dialog.dismiss();
+                        finish();
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
         @Override
         protected String doInBackground(Void... voids) {
+            Debugs.logv(new Exception(), "Something to print");
             while (true) {
                 if (mLatitude != 0.0 && mLongitude != 0.0) {
                     //Toast.makeText(getApplicationContext(), "좌표설정 완료", Toast.LENGTH_SHORT).show();
@@ -196,12 +205,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         @Override
         protected void onPostExecute(String s) {
+            Debugs.logv(new Exception(), "Something to print");
             super.onPostExecute(s);
             parsing.setData(((whiteVoice)getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
             parsing.onLoad();
             if(parsing.destinationmap.equals("에러")){
                 backDestination(MentView);
-                Toast.makeText(getApplicationContext(), "검색값이 올바르지 않습니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
+                TTSClass.Init(getApplication(), "경유지까지 10미터 근방입니다.");
+                Toast.makeText(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
+                finish();
             }
 
             dialog.dismiss();
@@ -227,16 +239,19 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         }
         public void onProviderDisabled(String provider) {
+            Debugs.logv(new Exception(), "Something to print");
             // Disabled시
             Log.d("test", "onProviderDisabled, provider:" + provider);
         }
 
         public void onProviderEnabled(String provider) {
+            Debugs.logv(new Exception(), "Something to print");
             // Enabled시
             Log.d("test", "onProviderEnabled, provider:" + provider);
         }
 
         public void onStatusChanged(String provider, int status, Bundle extras) {
+            Debugs.logv(new Exception(), "Something to print");
             // 변경시
             Log.d("test", "onStatusChanged, provider:" + provider + ", status:" + status + " ,Bundle:" + extras);
         }
@@ -302,9 +317,12 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     protected void onResume() { // 화면에 보이기 직전에 센서자원 획득
         super.onResume();
 
+         String path = ((whiteVoice)getApplicationContext()).tapPath;
+
         if(path!=null){
             File mFile = new File(path);
             new ProcessCloudSight().execute(mFile);
+
         }
 
         // 센서의 값이 변경되었을 때 콜백 받기위한 리스너를 등록한다
@@ -530,12 +548,17 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             if (dataUpdate && first != 1) {
                 detectedDistance = detectPointA.distanceTo(detectPointB);
             }
-
             if (index == 0) {
+                Debugs.logv(new Exception(), "Something to print");
                 trash=1;
-                index++;
-                mentChange(index);
-                TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
+                index=1;
+                try {
+                    mentChange(index);
+                    TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
+                }catch (Exception e) {
+                    parsing.setData(((whiteVoice)getApplicationContext()).target, mLatitude, mLongitude);
+                    parsing.onLoad();
+                }
             }
 
             if (degree < 0) {
@@ -563,6 +586,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     }
                 }
             }
+
             LocationView.setText("X : " + mLatitude + ", Y : " + mLongitude);
             tView.setText(parsing.destinationmap);
             ClockView.setText(clockBasedDirection1);
@@ -656,7 +680,13 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
             }
 
+<<<<<<< HEAD
             if(detectedDistance < 50.0){
+=======
+        if(detectedDistance < 50.0){
+            Debugs.logv(new Exception(), "Something to print");
+            if(parsing.pathListItems.size()!=0){
+>>>>>>> affe4dba188cccfeb8c5f19988fd86f28eb1f4cd
                 if(!pathDetect(parsing.pathListItems.get(index-1).getX(), parsing.pathListItems.get(index-1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)){
                     //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
                 }
@@ -665,6 +695,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
 
     public void mentChange(int index){
+        Debugs.logv(new Exception(), "Something to print");
         trash=0;
         String a = parsing.pathListItems.get(index).getMent();
         String b="";
@@ -755,17 +786,20 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
 
     public void onClickResearch(View view){
+        Debugs.logv(new Exception(), "Something to print");
         index++;
         mentChange(index);
         TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
 
     }
     public void backDestination(View view){
+        Debugs.logv(new Exception(), "Something to print");
         Intent intent = new Intent(NavigationActivity.this, DestinationActivity.class);
         startActivity(intent);
         //startActivityForResult(intent,303);
     }
     public void onClickTAP(View view){
+        Debugs.logv(new Exception(), "Something to print");
         Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
         startActivity(intent);
         //startActivityForResult(intent,303);
@@ -773,17 +807,33 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     class ProcessCloudSight extends AsyncTask<File, Void, String> {
 
         ProgressDialog dialog;
+        boolean flagCS = true;
+        String temp = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            dialog= new ProgressDialog(NavigationActivity.this); //ProgressDialog 객체 생성
+
+            dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
             dialog.setMessage("분석중입니다...");             //ProgressDialog 메세지
-            dialog.setCancelable(false);                      //종료금지
+            //dialog.setCancelable(false);                      //종료금지
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
-            //dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
+            dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
             dialog.show(); //ProgressDialog 보여주기
+
+            // Dialog Cancle시 Event 받기
+            dialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+                public boolean onKey(DialogInterface dialog,
+                                     int keyCode, KeyEvent event) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        dialog.dismiss();
+                        flagCS = false;
+                        return true;
+                    }
+                    return false;
+                }
+            });
         }
 
         @Override
@@ -808,7 +858,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     Log.e("scored", "Scored result: " + scoredResult);
 
                     int i = 0;
-                    while (true) {  //몇번이상 실패할경우 재캡쳐 코드 추가하기
+                    while (flagCS) {  //몇번이상 실패할경우 재캡쳐 코드 추가하기
                         i++;
                         if(i>=10) {
                             temp = "다시 캡쳐하세요";
@@ -839,9 +889,12 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         protected void onPostExecute(String name) {
             super.onPostExecute(name);
             dialog.dismiss();
-            TTSClass.Init(getApplication(), name);
+            if(name!=null)
+            {
+                TTSClass.Init(getApplication(), name);
+            }
             temp = null;
-            path = null;
+            ((whiteVoice)getApplicationContext()).tapPath = null;
         }
     }
 
@@ -855,6 +908,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
 
     public void onClickCheckingData(View view){
+        Debugs.logv(new Exception(), "Something to print");
         Context context = this;
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
         String dataMessage = "";
@@ -882,3 +936,4 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         alertDialog.show();
     }
 }
+

@@ -9,10 +9,9 @@ import com.tsengvn.typekit.Typekit;
 
 public class whiteVoice extends Application{
     //프로젝트 내에서 쓸 수 있는 변수
-    public int WV;
-    public int sttCode = 0;
     public String target;
     public float vSpeed;
+    public String tapPath;
 
     @Override
     public void onCreate() {

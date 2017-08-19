@@ -1,5 +1,6 @@
 package com.example.myapplicationui.User_Interface;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -10,16 +11,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.myapplicationui.Conection.ListViewItem;
 import com.example.myapplicationui.Conection.whiteVoice;
-import com.example.myapplicationui.Function.SDClass;
-import com.example.myapplicationui.Function.STT_Activity;
 import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
 import com.tsengvn.typekit.TypekitContextWrapper;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 
 public class FavoriteActivity extends AppCompatActivity{
@@ -28,15 +33,17 @@ public class FavoriteActivity extends AppCompatActivity{
     public static Context mContext;
     private ListView listview;
     private FavoriteAdapter adapter;
-    ArrayList<ListViewItem> items = new ArrayList<ListViewItem>() ;
+    private ArrayList<ListViewItem> items = new ArrayList<ListViewItem>() ;
     ListViewItem item;
-    String tempText = "";
+
+    private final String fileName = "items.list" ;
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
-
+    /*
     public boolean loadItemsFromDB(ArrayList<ListViewItem> list) {
 
         if (list == null) {
@@ -58,38 +65,60 @@ public class FavoriteActivity extends AppCompatActivity{
 
         return true ;
     }
-
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
+
+        listview = (ListView) findViewById(R.id.favoriteList);
+
 
         //TTSClass.Init(this);
 
         mContext = this;
 
         // items 로드.
-        loadItemsFromDB(items) ;
+        //loadItemsFromDB(items);
+
 
         // Adapter 생성
-        adapter = new FavoriteAdapter(this, R.layout.favorite_listview, items) ;
+        adapter = new FavoriteAdapter(this, R.layout.favorite_listview, items);
+        listview.setAdapter(adapter) ;
+
+        loadItemsFromFile();
+        adapter.notifyDataSetChanged();
+
+        String strNew = getIntent().getStringExtra("value");
+        if(strNew!=null) {
+            if (strNew.length() > 0) {
+                // 리스트에 문자열 추가.
+                item = new ListViewItem();
+                item.setText(strNew);
+                items.add(item);
+
+                // 에디트텍스트 내용 초기화.
+                //editTextNew.setText("") ;
+
+                // 리스트뷰 갱신
+                adapter.notifyDataSetChanged();
+
+                // 리스트뷰 아이템들을 파일에 저장.
+                saveItemsToFile();
+            }
+        }
+
 
         // 리스트뷰 참조 및 Adapter달기
-        listview = (ListView) findViewById(R.id.favoriteList);
-        listview.setAdapter(adapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-                ListViewItem item = (ListViewItem)parent.getItemAtPosition(position); //아이템 받아오기
-                ((whiteVoice)getApplicationContext()).target = item.getText();
+                ListViewItem itemStr = (ListViewItem)parent.getItemAtPosition(position); //아이템 받아오기
+                ((whiteVoice)getApplicationContext()).target = itemStr.getText();
                 Intent intent = new Intent(getApplication(), NavigationActivity.class);
                 startActivity(intent);
             }
         });
-
-        if(getIntent().getStringExtra("value")!=null && getIntent().getStringExtra("addCode").equals("400")) {
-            AddItem(getIntent().getStringExtra("value"));
-        }
 
         /*
         String[] tempArray = new String[10];
@@ -105,10 +134,67 @@ public class FavoriteActivity extends AppCompatActivity{
         */
     }
 
-    public void AddItem(String text){
-        item = new ListViewItem();
-        item.setText(text);
-        items.add(item);
+    private void saveItemsToFile() {
+        File file = new File(getFilesDir(), fileName) ;
+        FileWriter fw = null ;
+        BufferedWriter bufwr = null ;
+
+        try {
+            // open file.
+            fw = new FileWriter(file) ;
+            bufwr = new BufferedWriter(fw) ;
+            String str ="";
+            for (int i = 0; i<items.size(); i++ ) {
+                str = items.get(i).getText();
+                bufwr.write(str) ;
+                bufwr.newLine() ;
+            }
+
+            // write data to the file.
+            bufwr.flush() ;
+
+        } catch (Exception e) {
+            e.printStackTrace() ;
+        }
+
+        try {
+            // close file.
+            if (bufwr != null) {
+                bufwr.close();
+            }
+
+            if (fw != null) {
+                fw.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace() ;
+        }
+    }
+
+    private void loadItemsFromFile() {
+        File file = new File(getFilesDir(), fileName) ;
+        FileReader fr = null;
+        BufferedReader bufrd = null;
+        String str;
+
+        if (file.exists()) {
+            try {
+                // open file.
+                fr = new FileReader(file) ;
+                bufrd = new BufferedReader(fr) ;
+
+                while ((str = bufrd.readLine()) != null) {
+                    item = new ListViewItem();
+                    item.setText(str);
+                    items.add(item);
+                }
+
+                bufrd.close() ;
+                fr.close() ;
+            } catch (Exception e) {
+                e.printStackTrace() ;
+            }
+        }
     }
 
     public void onClickAdd(View view){
@@ -117,15 +203,22 @@ public class FavoriteActivity extends AppCompatActivity{
     }
 
     private void doSTT(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("안내");
+        builder.setMessage("추가할 목적지를 말하세요");
+        final AlertDialog dialog = builder.show();
+        TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+        textView.setTextSize(25);
+
         Handler mHandler = new Handler();
-        //mHandler.postDelayed(new Runnable()  {
-            //public void run() {
-                //#명령어
+        mHandler.postDelayed(new Runnable()  {
+            public void run() {
+                dialog.dismiss();
+
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"ko-KR");
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "지금 말하세요");
-                intent.putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 1500);
 
                 try {
                     startActivityForResult(intent, RESULT_SPEECH);
@@ -135,8 +228,8 @@ public class FavoriteActivity extends AppCompatActivity{
                     e.getStackTrace();
                 }
             }
-        //}, 1500);
-    //}
+        }, 2000);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -146,8 +239,23 @@ public class FavoriteActivity extends AppCompatActivity{
 
             String replace_sst = "";
             replace_sst = result_stt.replace(" ", "");
+
+            // 리스트에 문자열 추가.
+            item = new ListViewItem();
+            item.setText(replace_sst);
+            items.add(item);
+
+            // 에디트텍스트 내용 초기화.
+            //editTextNew.setText("") ;
+
+            // 리스트뷰 갱신
+            adapter.notifyDataSetChanged();
+
+            // 리스트뷰 아이템들을 파일에 저장.
+            saveItemsToFile();
+
             TTSClass.Init(this, replace_sst);
-            AddItem(replace_sst);
+
         }/*
         else if(resultCode == RESULT_OK && requestCode == 110){
             String fData= data.getStringExtra("value");
@@ -168,7 +276,13 @@ public class FavoriteActivity extends AppCompatActivity{
     }
 
     public void RemoveData(int nPosition){
-        this.adapter.remove(this.items.get(nPosition));
+        adapter.remove(items.get(nPosition));
+
+        listview.clearChoices();
+
+        adapter.notifyDataSetChanged();
+
+        saveItemsToFile();
     }
 
 }
