@@ -21,4 +21,9 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">#4885c3</item>
+        <item name="colorControlActivated">#4885c3</item>
+        <item name="android:textCursorDrawable">@drawable/curcor</item>
+    </style>
 </resources>

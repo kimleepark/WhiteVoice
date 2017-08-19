@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -28,7 +27,6 @@ public class MenuActivity extends Activity {
 
     private final static int PERMISSIONS_REQUEST_CODE = 100;
     private final int RESULT_SPEECH = 101;
-    DialogInterface mPopupDlg = null;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -152,15 +150,15 @@ public class MenuActivity extends Activity {
     public void GpsPermissionCheckForMashMallo() {
         //마시멜로우 버전 이하면 if문에 걸리지 않습니다.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+            /*AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             alertDialog.setTitle("GPS 사용 허가 요청");
             alertDialog.setMessage("경로안내를 위해서는 사용자의 GPS 허가가 필요합니다.\n('허가'를 누르면 GPS 허가 요청창이 뜹니다.)");
             // OK 를 누르게 되면 설정창으로 이동합니다.
             alertDialog.setPositiveButton("허가",
                     new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog, int which) {*/
                             ActivityCompat.requestPermissions(MenuActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-                        }
+                        }/*
                     });
             // Cancle 하면 종료 합니다.
             alertDialog.setNegativeButton("거절",
@@ -170,7 +168,7 @@ public class MenuActivity extends Activity {
                         }
                     });
             alertDialog.show();
-        }
+        }*/
     }
 
 }

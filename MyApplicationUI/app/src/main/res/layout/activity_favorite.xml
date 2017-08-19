@@ -29,7 +29,7 @@
         android:onClick="onClickAdd"
         android:layout_width="0dp"
         android:layout_height="100dp"
-        android:text="목적지 추가"
+        android:text="즐겨찾기 추가"
         android:layout_weight="0.2"
         android:textColor="#ffff"
         android:textSize="40sp"
