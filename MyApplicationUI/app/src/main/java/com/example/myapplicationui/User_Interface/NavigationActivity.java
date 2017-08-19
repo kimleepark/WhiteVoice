@@ -510,8 +510,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     if(parsing.pathListItems.size()-1 == index){ //모든 경유지를 경우했는가?
                         index = 0;
                         TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
-                        Intent intent2 = new Intent(this, MenuActivity.class);
-                        startActivity(intent2);
                         finish();
                     }
                 }
