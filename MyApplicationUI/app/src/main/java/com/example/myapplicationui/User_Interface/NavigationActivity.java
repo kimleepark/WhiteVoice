@@ -60,8 +60,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
-    String temp = null;
-
     private SensorManager sm;
     private Sensor s;
     TextView MentView;
@@ -632,10 +630,13 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     class ProcessCloudSight extends AsyncTask<File, Void, String> {
 
         ProgressDialog dialog;
+        boolean flagCS = true;
+        String temp = null;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
             dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
             dialog.setMessage("분석중입니다...");             //ProgressDialog 메세지
@@ -650,6 +651,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                      int keyCode, KeyEvent event) {
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
                         dialog.dismiss();
+                        flagCS = false;
                         return true;
                     }
                     return false;
@@ -679,7 +681,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     Log.e("scored", "Scored result: " + scoredResult);
 
                     int i = 0;
-                    while (true) {  //몇번이상 실패할경우 재캡쳐 코드 추가하기
+                    while (flagCS) {  //몇번이상 실패할경우 재캡쳐 코드 추가하기
                         i++;
                         if(i>=10) {
                             temp = "다시 캡쳐하세요";
@@ -693,7 +695,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 break;
                             } else {
                                 scoredResult = api.getImage(portResult);
-                                Thread.sleep(3000);
+                                Thread.sleep(3500);
                             }
                         }
                     }
@@ -710,7 +712,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         protected void onPostExecute(String name) {
             super.onPostExecute(name);
             dialog.dismiss();
-            TTSClass.Init(getApplication(), name);
+            if(name!=null)
+            {
+                TTSClass.Init(getApplication(), name);
+            }
             temp = null;
             ((whiteVoice)getApplicationContext()).tapPath = null;
         }
