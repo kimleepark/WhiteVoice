@@ -514,10 +514,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                             startActivity(intent2);
                             finish();
                         }
-<<<<<<< HEAD
                         divFour2 = false;
                     }
-                    if ( ( (A.distanceTo(B) + 5 ) / disIndex) * STACK_POINT > distanceAToB) {
+                    if ( ( (AdistanceToB + 5 ) / disIndex) * STACK_POINT > distanceAToB) {
                         divFour1 = true;
                     }
                     if (STACK_POINT != 0 && divFour1) {
@@ -541,8 +540,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         index = 0;
                         TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
                         finish();
-=======
->>>>>>> a94993645fc71f0ea8c84cca1ef5e39d7867100a
                     }
                 }
             }
