@@ -67,6 +67,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     TextView LocationView;
     TextView AtoBView;
     TextView tView;
+    boolean vibratorTF = true;
 
     double mLatitude = 0; //위도
     double mLongitude = 0; //경도
@@ -448,10 +449,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     if (distanceAToB > 5.0) {   //현재 위치와 다음 경유지까지의 거리가 5m 보다 큰가?
                         //목적지 근방 반경 5미터 바깥임.
                         //시계방향이 다음 경유지를 가리키면 진동
-                        if (String.valueOf((int) (event.values[0] / 30)).equals(tmpClock1)) {
-                            vibrator.vibrate(2000);
-                            tmpClock1 = null;
+                        if(event.values[0]<=15 && event.values[0]>=0 && vibratorTF){
+                            vibrator.vibrate(1500);
+                            vibratorTF = false;
                         }
+                        else if(event.values[0]>=345 && event.values[0]<=359.999 && vibratorTF) {
+                            vibrator.vibrate(1500);
+                            vibratorTF = false;
+                        }
+
                         if (distanceAToB <= 10.0) {    //경유지까지 10m 안쪽으로 들어왔는가?
                             near10m1 = true;
                             if (near10m1 && near10m2) {   //이 안내문을 한 번 이상 실행되었는가?
@@ -475,6 +481,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내
                         if (firstGuide2) {    //이번 안내가 최초인가?
                             TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                            //tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
                             firstGuide2 = false;
                         }
 
@@ -512,7 +519,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         } else if (degree > 0) {
                             degree = 360 - degree;
                         }
-                        tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
+                        vibratorTF = true;
                         index++;
                         firstGuide2 = true;
                         divFour2 = true;
@@ -623,15 +630,14 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         Debugs.logv(new Exception(), "Something to print");
         if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
             index++;
+            vibratorTF = true;
             mentChange(index);
             TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
         } else {
             TTSClass.Init(this, "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
         }
-
-
-
     }
+
     public void backDestination(View view){
         Debugs.logv(new Exception(), "Something to print");
         DesA.finish();
