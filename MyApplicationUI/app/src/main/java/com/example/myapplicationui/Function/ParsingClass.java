@@ -30,6 +30,7 @@ public class ParsingClass extends Activity{
     public double [] placex= new double[100];
     public double [] placey= new double [100];
     public int i;
+    public int complete=0;
 
     public String statingmap;       //시작하는곳의 이름(문자)
     public String destinationmap;
@@ -152,6 +153,7 @@ public class ParsingClass extends Activity{
             } catch (Exception e) {
             }
         }
+        complete=1;
     }
 
     public String getData2(String strURL){
