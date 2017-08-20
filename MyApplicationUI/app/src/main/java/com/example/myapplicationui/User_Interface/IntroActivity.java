@@ -24,6 +24,9 @@ public class IntroActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
+
+        this.setTitle("");
+
         init();
 
         handler.postDelayed(runnable, 2000);

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center"
-        android:text="음성속도"
+        android:text="음성안내 속도"
         android:textSize="50sp"
         android:layout_marginTop="80sp"/>
 

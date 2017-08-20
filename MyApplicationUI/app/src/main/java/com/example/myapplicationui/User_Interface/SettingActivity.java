@@ -24,6 +24,8 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+        this.setTitle("");
+
         mSharedPrefs = SharedPrefManager.getmInstance(this);
         int tmpS = changeProgress(mSharedPrefs.getVoiceSpeed());
 

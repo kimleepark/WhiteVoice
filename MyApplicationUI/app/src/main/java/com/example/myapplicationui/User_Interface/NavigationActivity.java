@@ -116,6 +116,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
+        this.setTitle("");
+
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);   //진동
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
@@ -326,7 +328,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         if(path!=null){
             File mFile = new File(path);
             new ProcessCloudSight().execute(mFile);
-
         }
 
         // 센서의 값이 변경되었을 때 콜백 받기위한 리스너를 등록한다
@@ -510,8 +511,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     if(parsing.pathListItems.size()-1 == index){ //모든 경유지를 경우했는가?
                         index = 0;
                         TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
-                        Intent intent2 = new Intent(this, MenuActivity.class);
-                        startActivity(intent2);
                         finish();
                     }
                 }

@@ -38,6 +38,8 @@ public class MenuActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        this.setTitle("");
+
         GpsPermissionCheckForMashMallo();
         ActivityCompat.requestPermissions( this,
                 new String[]{Manifest.permission.CAMERA,
@@ -103,7 +105,7 @@ public class MenuActivity extends Activity {
 
     private void doSTT(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("안내");
+        //builder.setTitle("안내");
         builder.setMessage("목적지를 말하세요");
         final AlertDialog dialog = builder.show();
         TextView textView = (TextView) dialog.findViewById(android.R.id.message);

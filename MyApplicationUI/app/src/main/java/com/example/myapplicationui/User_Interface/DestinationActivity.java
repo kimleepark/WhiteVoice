@@ -33,6 +33,8 @@ public class DestinationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);
 
+        this.setTitle("");
+
         Button BtnGuide = (Button)findViewById(R.id.btnStartG);
 
         editText = (EditText) findViewById(R.id.editDA) ;

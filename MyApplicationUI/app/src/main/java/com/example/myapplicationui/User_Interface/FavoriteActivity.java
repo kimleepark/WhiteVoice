@@ -71,9 +71,9 @@ public class FavoriteActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
+        this.setTitle("");
+
         listview = (ListView) findViewById(R.id.favoriteList);
-
-
         //TTSClass.Init(this);
 
         mContext = this;
@@ -204,7 +204,7 @@ public class FavoriteActivity extends AppCompatActivity{
 
     private void doSTT(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("안내");
+        //builder.setTitle("안내");
         builder.setMessage("추가할 목적지를 말하세요");
         final AlertDialog dialog = builder.show();
         TextView textView = (TextView) dialog.findViewById(android.R.id.message);
