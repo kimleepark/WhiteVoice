@@ -129,7 +129,7 @@ public class MenuActivity extends Activity {
                     e.getStackTrace();
                 }
             }
-        }, 1500);
+        }, 1450);
     }
 
     @Override
