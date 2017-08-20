@@ -2,7 +2,7 @@
     <string name="app_name">하얀목소리</string>
     <string name="title_activity_destination">DestinationActivity</string>
     <string name="title_activity_settings">Settings</string>
-
+    <string name="app_custom">하얀</string>
     <!-- Strings related to Settings -->
 
     <!-- Example General settings -->
