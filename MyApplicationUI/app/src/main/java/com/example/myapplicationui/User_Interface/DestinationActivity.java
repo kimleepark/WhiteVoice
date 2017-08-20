@@ -1,6 +1,5 @@
 package com.example.myapplicationui.User_Interface;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +18,7 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 public class DestinationActivity extends AppCompatActivity {
 
     EditText editText;
-    public static Activity DesA;
+    //public static Activity DesA;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -28,7 +27,7 @@ public class DestinationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        DesA = DestinationActivity.this;
+        //DesA = DestinationActivity.this;
         DebugClass.logv(new Exception(), "Ssomething to print onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_destination);

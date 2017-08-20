@@ -3,93 +3,83 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:id="@+id/layoutN">
 
     <Button
-        android:id="@+id/dataCheckButton"
-        android:text="Check Data"
-        android:onClick="onClickCheckingData"
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.1"
-        android:textColor="#ffff"
         android:background="@drawable/corner"
-        />
+        android:gravity="center"
+        android:onClick="onClickCheckingData"
+        android:text="CheckData"
+        android:textColor="#ffff"
+        android:textSize="20sp"/>
 
     <TextView
         android:id="@+id/targetView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:text="기본값"
         android:textSize="30sp"
-        android:gravity="center"
-        android:layout_weight="0.1"/>
-
-    <TextView
-        android:id="@+id/textL"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_weight="0.1"
-        android:gravity="center_vertical"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/mentView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:textSize="15sp"
-        android:layout_weight="0.1"/>
+        android:gravity="center" />
 
     <ImageView
         android:id="@+id/arrow"
-        android:layout_width="62dp"
-        android:layout_height="42dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
-        app:srcCompat="@drawable/arrow_2" />
-
-    <TextView
-        android:id="@+id/clockView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:textSize="30sp"
-        android:gravity="center_vertical"
-        android:layout_weight="0.1"/>
-
-    <TextView
-        android:id="@+id/textAtoB"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:gravity="center_vertical"
-        android:textSize="20sp"
-        android:layout_weight="0.1"/>
+        app:srcCompat="@drawable/arrow"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btnAgain"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:text="재탐색"
-        android:onClick="onClickResearch"
-        android:textSize="50sp"
-        android:gravity="center"
-        android:layout_weight="0.25"
+        android:layout_height="40dp"
         android:layout_margin="10dp"
         android:background="@drawable/corner"
-        android:textColor="#ffff"/>
+        android:gravity="center"
+        android:onClick="onClickResearch"
+        android:text="재탐색"
+        android:textColor="#ffff"
+        android:textSize="50sp"/>
 
     <Button
+        android:id="@+id/btnNext"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:id="@+id/BtnTap"
-        android:gravity="center"
-        android:onClick="onClickTAP"
-        android:text="TAP"
-        android:textSize="50sp"
-        android:layout_weight="0.25"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
         android:background="@drawable/corner"
+        android:gravity="center"
+        android:onClick="onClickNext"
+        android:text="다음 경유지"
+        android:textColor="#ffff"
+        android:textSize="50sp"/>
+
+    <Button
+        android:id="@+id/btnListen"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/corner"
+        android:gravity="center"
+        android:onClick="onClickListen"
+        android:text="다시듣기"
+        android:textColor="#ffff"
+        android:textSize="50sp"/>
+
+    <Button
+        android:id="@+id/BtnTap"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:textColor="#ffff"/>
+        android:background="@drawable/corner"
+        android:gravity="center"
+        android:onClick="onClickTAP"
+        android:text="TAP"
+        android:textColor="#ffff"
+        android:textSize="50sp"/>
 </LinearLayout>
 

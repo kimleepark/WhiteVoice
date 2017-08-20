@@ -1,6 +1,7 @@
 package com.example.myapplicationui.User_Interface;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +22,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -55,19 +55,20 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     private static final String API_KEY = "vmCH8sw2l_2cXvsCx-wUKQ";
 
     NavigationActivity NavA = (NavigationActivity)this.NavA;
-    DestinationActivity DesA = (DestinationActivity)DestinationActivity.DesA;
+    //DestinationActivity DesA = (DestinationActivity)DestinationActivity.DesA;
 
     static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
     private SensorManager sm;
     private Sensor s;
-    TextView MentView;
+    /*TextView MentView;
     TextView ClockView;
     TextView LocationView;
-    TextView AtoBView;
+    TextView AtoBView;*/
     TextView tView;
     boolean vibratorTF = true;
+    //LinearLayout layout;
 
     double mLatitude = 0; //위도
     double mLongitude = 0; //경도
@@ -102,7 +103,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     DebugClass Debugs = new DebugClass();
 
     Vibrator vibrator;
-    String tmpClock1;
 
     int trash;
     @Override
@@ -115,24 +115,24 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     protected void onCreate(Bundle savedInstanceState) {
         Debugs.logv(new Exception(), "Something to print");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
+        setContentView(R.layout.activity_navigation2);
 
         this.setTitle("");
-
+        //layout = (LinearLayout)findViewById(R.id.layoutN);
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);   //진동
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //LocationManager 객체를 얻어온다.
-        ClockView = (TextView)findViewById(R.id.clockView);
+        //ClockView = (TextView)findViewById(R.id.clockView);
 
        //Log.e("value", target);
         tView = (TextView)findViewById(R.id.targetView);
         tView.setText(((whiteVoice)getApplicationContext()).target);
-        tView.setText(parsing.destinationmap);
-        LocationView = (TextView)findViewById(R.id.textL);
-        MentView = (TextView)findViewById(R.id.mentView);
-        AtoBView = (TextView)findViewById(R.id.textAtoB);
+        //tView.setText(parsing.destinationmap);
+        //LocationView = (TextView)findViewById(R.id.textL);
+        //MentView = (TextView)findViewById(R.id.mentView);
+        //AtoBView = (TextView)findViewById(R.id.textAtoB);
         arrow = (ImageView)findViewById(R.id.arrow);
         detectPointA.setLatitude(0);
         detectPointA.setLongitude(0);
@@ -211,7 +211,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     }
                     else if (parsing.complete == 1){
                         if (parsing.destinationmap.equals("에러")) {
-                            backDestination(MentView);
                             Debugs.logv(new Exception(), "sSomething to 걱정");
                             TTSClass.Init(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.");
                             Toast.makeText(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
@@ -229,7 +228,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         protected void onPostExecute(String s) {
             Debugs.logv(new Exception(), "Something to print");
             super.onPostExecute(s);
-
+            tView.setText(parsing.destinationmap);
             dialog.dismiss();
         }
     }
@@ -440,10 +439,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         }
                     }
                     //데이터 표시 항목 설정
-                    LocationView.setText("현재 = X : " + mLatitude + ", Y : " + mLongitude);
-                    tView.setText(parsing.destinationmap);
-                    ClockView.setText(clockBasedDirection1);
-                    AtoBView.setText(String.valueOf(distanceAToB));
+                    //LocationView.setText("현재 = X : " + mLatitude + ", Y : " + mLongitude);
+                    //tView.setText(parsing.destinationmap);
+                    //ClockView.setText(clockBasedDirection1);
+                    //AtoBView.setText(String.valueOf(distanceAToB));
                     Location A = new Location("A");
                     Location B = new Location("B");
                     if (distanceAToB > 5.0) {   //현재 위치와 다음 경유지까지의 거리가 5m 보다 큰가?
@@ -469,7 +468,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                             near10m2 = true;
                         }
                         //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내맨트 업데이트
-                        MentView.setText("다음 = X : " + String.valueOf(parsing.pathListItems.get(index - 1).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index - 1).getY()) + "\n" + parsing.mentCopy[index - 1] + "\nindex : " + index + "\nsize : " + parsing.pathListItems.size());
+                        //MentView.setText("다음 = X : " + String.valueOf(parsing.pathListItems.get(index - 1).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index - 1).getY()) + "\n" + parsing.mentCopy[index - 1] + "\nindex : " + index + "\nsize : " + parsing.pathListItems.size());
                         //경유지간의 거리를 측정해서 안내음 분배
 
                         A.setLatitude(parsing.pathListItems.get(index - 1).getX());
@@ -626,7 +625,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         // 센서의 정확도가 변경되었을 때 호출되는 콜백 메서드
     }
 
-    public void onClickResearch(View view){
+    public void onClickNext(View view){
         Debugs.logv(new Exception(), "Something to print");
         if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
             index++;
@@ -638,13 +637,40 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }
     }
 
+    public void onClickListen(View view){
+        TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+    }
+
+    public void onClickResearch(View view){
+
+        TTSClass.Init(this, "경로를 재탐색합니다.");
+
+        parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+        parsing.onLoad();
+
+        index = 0;
+        disIndex = 0; rotateNum = 0;
+        STACK_POINT = 0;
+        parsing.complete=0;
+
+        startDataUpdate = false;
+        vibratorTF = true;
+        near10m1 = false; near10m2 = true;
+        divFour1 = false; divFour2 = true;
+        firstGuide2 = true;
+
+
+    }
+
+    /*
     public void backDestination(View view){
         Debugs.logv(new Exception(), "Something to print");
         DesA.finish();
         Intent intent = new Intent(NavigationActivity.this, DestinationActivity.class);
         startActivity(intent);
         //startActivityForResult(intent,303);
-    }
+    }*/
+
     public void onClickTAP(View view){
         Debugs.logv(new Exception(), "Something to print");
         Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
