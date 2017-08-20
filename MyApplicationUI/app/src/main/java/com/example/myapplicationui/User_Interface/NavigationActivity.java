@@ -67,6 +67,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     TextView LocationView;
     TextView AtoBView;
     TextView tView;
+    boolean vibratorTF = true;
 
     double mLatitude = 0; //위도
     double mLongitude = 0; //경도
@@ -441,7 +442,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                     }
                                 }
                             }
-
                             //데이터 표시 항목 설정
                             LocationView.setText("현재 = X : " + mLatitude + ", Y : " + mLongitude);
                             tView.setText(parsing.destinationmap);
@@ -632,15 +632,14 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         Debugs.logv(new Exception(), "Something to print");
         if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
             index++;
+            vibratorTF = true;
             mentChange(index);
             TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
         } else {
             TTSClass.Init(this, "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
         }
-
-
-
     }
+
     public void backDestination(View view){
         Debugs.logv(new Exception(), "Something to print");
         DesA.finish();

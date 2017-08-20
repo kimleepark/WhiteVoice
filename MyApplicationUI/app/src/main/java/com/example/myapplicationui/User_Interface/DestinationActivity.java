@@ -35,19 +35,20 @@ public class DestinationActivity extends AppCompatActivity {
 
         this.setTitle("");
 
-        Button BtnGuide = (Button)findViewById(R.id.btnStartG);
-
         editText = (EditText) findViewById(R.id.editDA) ;
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable edit) {
-                Button buttonAdd = (Button) findViewById(R.id.btnAddF) ;
+                Button btnAdd = (Button) findViewById(R.id.btnAddF);
+                Button btnGuide = (Button)findViewById(R.id.btnStartG);
                 if (edit.toString().length() > 0) {
                     // 버튼 상태 활성화.
-                    buttonAdd.setEnabled(true) ;
+                    btnAdd.setEnabled(true);
+                    btnGuide.setEnabled(true);
                 } else {
                     // 버튼 상태 비활성화.
-                    buttonAdd.setEnabled(false) ;
+                    btnAdd.setEnabled(false);
+                    btnGuide.setEnabled(false);
                 }
             }
 
