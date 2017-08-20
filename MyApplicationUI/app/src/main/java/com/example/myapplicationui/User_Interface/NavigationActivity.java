@@ -19,6 +19,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
@@ -383,7 +384,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     trash=1;
                     mentChange(index);
                     //TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
-                }else if(startDataUpdate) {  //지금 현재 받아온 좌표가 최초 현재좌표가 아닌가?
+                }else if(startDataUpdate && index != 0) {  //지금 현재 받아온 좌표가 최초 현재좌표가 아닌가?
                     //실시간 현재좌표의 이전 누적데이터 좌표가 쌓이기 시작했기때문에 본격적인 길안내 시작
                     //다음 경유지 좌표를 계속 업데이트
                     dLatitude = parsing.pathListItems.get(index).getX();
@@ -433,7 +434,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 //clockBasedDirection2 = tmp2 + "시 방향";
                                 //화살표 이미지 방향 설정을 위한 회전도 결정 (현재 10 사이클마다 갱신)
                                 if (rotateNum == 0) {
-                                    arrow.setImageBitmap(rotateImage(BitmapFactory.decodeResource(getResources(), R.drawable.arrow_2), (float) degree));
+                                    arrow.setImageBitmap(rotateImage(BitmapFactory.decodeResource(getResources(), R.drawable.arrow), (float) degree));
                                     rotateNum++;
                                 } else {
                                     rotateNum++;
@@ -524,7 +525,12 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 if (parsing.pathListItems.size() - 1 == index) { //모든 경유지를 경우했는가?
                                     index = 0;
                                     TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
-                                    finish();
+                                    Handler mHandler = new Handler();
+                                    mHandler.postDelayed(new Runnable()  {
+                                        public void run() {
+                                            finish();
+                                        }
+                                    }, 4000);
                                 }
                             }
                         }
