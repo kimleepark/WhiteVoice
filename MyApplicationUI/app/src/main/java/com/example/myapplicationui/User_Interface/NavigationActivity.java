@@ -208,7 +208,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
                         parsing.onLoad();
                     }
-                    else if (parsing.complete == 1){
+                    else if (parsing.complete == 1) {
                         if (parsing.destinationmap.equals("에러")) {
                             backDestination(MentView);
                             Debugs.logv(new Exception(), "sSomething to 걱정");
@@ -216,14 +216,13 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                             Toast.makeText(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
                             finish();
                         }
-                       break;
+                        break;
                     }
 
                 }
             }
             return null;
         }
-
         @Override
         protected void onPostExecute(String s) {
             Debugs.logv(new Exception(), "Something to print");
@@ -362,6 +361,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             clockBasedDirection1 = "";
 
             if(mLatitude != 0.0 && mLongitude !=0.0){   //현재 좌표를 받아오기 시작했는가?
+                while(parsing.complete!=1){
+
+                }
                 // 방위각 산출을 위한 value
                 // 실제 방위각 산출 및 적용은 현재 좌표 안정화 상태에서 실행
                 double trueBearing = 0, degree = 0;
@@ -371,7 +373,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     detectPointA.setLatitude(mLatitude);    //현재좌표
                     detectPointA.setLongitude(mLongitude);
                     //detectedX, detectedY = 실시간 현재좌표 이전좌표를 기억하기 위한 tmp 데이터
-                    detectedX = mLatitude;  //이전좌표에 현재좌표 업데이트
+                    detectedX = mLatitude;  //이전좌표에 현재좌표 업데이트 여기서 파싱 클래스 종료됨
                     detectedY = mLongitude;
                     //경로상의 최초 경유지 설정
                     //비교 item index number = 1 에 표시된 x, y 좌표가 되어야함.
