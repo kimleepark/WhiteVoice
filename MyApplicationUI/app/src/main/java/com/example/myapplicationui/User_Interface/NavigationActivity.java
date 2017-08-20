@@ -421,7 +421,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                             //clockBasedDirection2 = tmp2 + "시 방향";
                             //화살표 이미지 방향 설정을 위한 회전도 결정 (현재 10 사이클마다 갱신)
                             if (rotateNum == 0) {
-                                arrow.setImageBitmap(rotateImage(BitmapFactory.decodeResource(getResources(), R.drawable.arrow_2), (float) degree));
+                                arrow.setImageBitmap(rotateImage(BitmapFactory.decodeResource(getResources(), R.drawable.arrow), (float) degree));
                                 rotateNum++;
                             } else {
                                 rotateNum++;
@@ -614,7 +614,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     public void onClickResearch(View view){
         Debugs.logv(new Exception(), "Something to print");
-        if (parsing.pathListItems.size() - 1 > index) { //최대인덱스에 도달했는가?
+        if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
             index++;
             mentChange(index);
             TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
