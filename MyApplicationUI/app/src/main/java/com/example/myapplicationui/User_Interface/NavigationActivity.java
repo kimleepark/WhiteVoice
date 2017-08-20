@@ -67,6 +67,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     TextView LocationView;
     TextView AtoBView;
     TextView tView;
+    boolean vibratorTF = true;
 
     double mLatitude = 0; //위도
     double mLongitude = 0; //경도
@@ -74,7 +75,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double dLongtitude = 0; //더미 경도
     double distanceAToB = 0;
     double AdistanceToB = 0;
-    int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0;
+    int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0, checkFlowOver = 0;
     boolean dataUpdate = false;
     boolean startDataUpdate = false;
     boolean near10m1 = false, near10m2 = true;
@@ -403,126 +404,134 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     detectedY = mLongitude;
                     //detectedDistance = 좌표가 갑자기 튀는지를 검사하기 위한 value
                     detectedDistance = detectPointA.distanceTo(detectPointB);
+
                     if (detectedDistance < 50.0) { //실시간 좌표간 거리차이가 50.0m를 넘지 않는가? == 좌표가 튀지 않는가?
-                        //현재 위치와 다음 경유지까지의 거리
-                        distanceAToB = pointA.distanceTo(pointB);
-                        //경로이탈 감지
-                        if (!pathDetect(parsing.pathListItems.get(index - 1).getX(), parsing.pathListItems.get(index - 1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)) {
-                            //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
-                        }
-                        //방위각 설정
-                        trueBearing = bearingP1toP2(mLatitude, mLongitude, dLatitude, dLongtitude);
-                        degree = event.values[0] - trueBearing;
-                        if (degree < 0) {
-                            degree = Math.abs(degree);
-                        } else if (degree > 0) {
-                            degree = 360 - degree;
-                        }
-                        if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
-                            // 방향센서값이 변경된거라면
-                            int tmp1 = (int) (degree / 30);
-                            int tmp2 = (int) (event.values[0] / 30);
-                            if (tmp1 == 0)
-                                tmp1 = 12;
-                            if (tmp2 == 0)
-                                tmp2 = 12;
-                            clockBasedDirection1 = tmp1 + "시 방향";
-                            //clockBasedDirection2 = tmp2 + "시 방향";
-                            //화살표 이미지 방향 설정을 위한 회전도 결정 (현재 10 사이클마다 갱신)
-                            if (rotateNum == 0) {
-                                arrow.setImageBitmap(rotateImage(BitmapFactory.decodeResource(getResources(), R.drawable.arrow), (float) degree));
-                                rotateNum++;
-                            } else {
-                                rotateNum++;
-                                if (rotateNum == 10) {
-                                    rotateNum = 0;
+                        if(checkFlowOver <= 10){    //실시간 좌표간 거리차이가 50.0m를 넘지 않는 것이 10회이상 검출되는가?
+                            checkFlowOver++;
+                        }else if(checkFlowOver == 11){
+                            //현재 위치와 다음 경유지까지의 거리
+                            distanceAToB = pointA.distanceTo(pointB);
+                            //경로이탈 감지
+                            if (!pathDetect(parsing.pathListItems.get(index - 1).getX(), parsing.pathListItems.get(index - 1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)) {
+                                //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                            //방위각 설정
+                            trueBearing = bearingP1toP2(mLatitude, mLongitude, dLatitude, dLongtitude);
+                            degree = event.values[0] - trueBearing;
+                            if (degree < 0) {
+                                degree = Math.abs(degree);
+                            } else if (degree > 0) {
+                                degree = 360 - degree;
+                            }
+                            if (event.sensor.getType() == Sensor.TYPE_ORIENTATION) {
+                                // 방향센서값이 변경된거라면
+                                int tmp1 = (int) (degree / 30);
+                                int tmp2 = (int) (event.values[0] / 30);
+                                if (tmp1 == 0)
+                                    tmp1 = 12;
+                                if (tmp2 == 0)
+                                    tmp2 = 12;
+                                clockBasedDirection1 = tmp1 + "시 방향";
+                                //clockBasedDirection2 = tmp2 + "시 방향";
+                                //화살표 이미지 방향 설정을 위한 회전도 결정 (현재 10 사이클마다 갱신)
+                                if (rotateNum == 0) {
+                                    arrow.setImageBitmap(rotateImage(BitmapFactory.decodeResource(getResources(), R.drawable.arrow_2), (float) degree));
+                                    rotateNum++;
+                                } else {
+                                    rotateNum++;
+                                    if (rotateNum == 10) {
+                                        rotateNum = 0;
+                                    }
+                                }
+                            }
+                            //데이터 표시 항목 설정
+                            LocationView.setText("현재 = X : " + mLatitude + ", Y : " + mLongitude);
+                            tView.setText(parsing.destinationmap);
+                            ClockView.setText(clockBasedDirection1);
+                            AtoBView.setText(String.valueOf(distanceAToB));
+                            Location A = new Location("A");
+                            Location B = new Location("B");
+                            if (distanceAToB > 5.0) {   //현재 위치와 다음 경유지까지의 거리가 5m 보다 큰가?
+                                //목적지 근방 반경 5미터 바깥임.
+                                //시계방향이 다음 경유지를 가리키면 진동
+                                if (String.valueOf((int) (event.values[0] / 30)).equals(tmpClock1)) {
+                                    vibrator.vibrate(2000);
+                                    tmpClock1 = null;
+                                }
+
+                                if (distanceAToB <= 10.0) {    //경유지까지 10m 안쪽으로 들어왔는가?
+                                    near10m1 = true;
+                                    if (near10m1 && near10m2) {   //이 안내문을 한 번 이상 실행되었는가?
+                                        TTSClass.Init(this, "다음 목적지까지 ,10미터, 근방입니다.");
+                                        near10m2 = false;
+                                    }
+                                } else {      //경유지까지의 거리가 10m 이상인가?
+                                    near10m1 = false;
+                                    near10m2 = true;
+                                }
+                                //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내맨트 업데이트
+                                MentView.setText("다음 = X : " + String.valueOf(parsing.pathListItems.get(index - 1).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index - 1).getY()) + "\n" + parsing.mentCopy[index - 1] + "\nindex : " + index + "\nsize : " + parsing.pathListItems.size());
+                                //경유지간의 거리를 측정해서 안내음 분배
+
+                                A.setLatitude(parsing.pathListItems.get(index - 1).getX());
+                                A.setLongitude(parsing.pathListItems.get(index - 1).getY());
+                                B.setLatitude(parsing.pathListItems.get(index).getX());
+                                B.setLongitude(parsing.pathListItems.get(index).getY());
+                                AdistanceToB = A.distanceTo(B);
+
+                                //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내
+                                if (firstGuide2) {    //이번 안내가 최초인가?
+                                    TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    firstGuide2 = false;
+                                }
+
+
+                                //거리별 분배
+                                if (divFour2) {
+                                    if (A.distanceTo(B) < 200.0) {   //200m 미만은 반만 나눠서
+                                        disIndex = 2;
+                                        STACK_POINT = 2;
+                                    } else if (A.distanceTo(B) >= 200.0 && A.distanceTo(B) < 500.0) {     //300m 이상, 500m 미만은 3번 나눠서
+                                        disIndex = 3;
+                                        STACK_POINT = 3;
+                                    } else if (A.distanceTo(B) >= 500.0 && A.distanceTo(B) < 1000.0) {     //500m 이상, 1000m 미만은 4번 나눠서
+                                        disIndex = 4;
+                                        STACK_POINT = 4;
+                                    } else {         //1000m 이상은 5번 나눠서
+                                        disIndex = 5;
+                                        STACK_POINT = 5;
+                                    }
+                                    divFour2 = false;
+                                }
+                                if (((A.distanceTo(B) + 5) / disIndex) * STACK_POINT > distanceAToB) {
+                                    divFour1 = true;
+                                }
+                                if (STACK_POINT != 0 && divFour1) {
+                                    TTSClass.Init(this, parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    STACK_POINT--;
+                                    divFour1 = false;
+                                }
+                            } else if (distanceAToB <= 5.0) {  //현재 위치와 다음 경유지까지의 거리가 5m 안으로 들어왔는가?
+                                //목적지 근방 반경 5미터에 들어옴.
+                                //다음 경유지 좌표 새로 갱신.
+                                if (degree < 0) {
+                                    degree = Math.abs(degree);
+                                } else if (degree > 0) {
+                                    degree = 360 - degree;
+                                }
+                                tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
+                                index++;
+                                firstGuide2 = true;
+                                divFour2 = true;
+                                if (parsing.pathListItems.size() - 1 == index) { //모든 경유지를 경우했는가?
+                                    index = 0;
+                                    TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
+                                    finish();
                                 }
                             }
                         }
-                    }
-                    //데이터 표시 항목 설정
-                    LocationView.setText("현재 = X : " + mLatitude + ", Y : " + mLongitude);
-                    tView.setText(parsing.destinationmap);
-                    ClockView.setText(clockBasedDirection1);
-                    AtoBView.setText(String.valueOf(distanceAToB));
-                    Location A = new Location("A");
-                    Location B = new Location("B");
-                    if (distanceAToB > 5.0) {   //현재 위치와 다음 경유지까지의 거리가 5m 보다 큰가?
-                        //목적지 근방 반경 5미터 바깥임.
-                        //시계방향이 다음 경유지를 가리키면 진동
-                        if (String.valueOf((int) (event.values[0] / 30)).equals(tmpClock1)) {
-                            vibrator.vibrate(2000);
-                            tmpClock1 = null;
-                        }
-                        if (distanceAToB <= 10.0) {    //경유지까지 10m 안쪽으로 들어왔는가?
-                            near10m1 = true;
-                            if (near10m1 && near10m2) {   //이 안내문을 한 번 이상 실행되었는가?
-                                TTSClass.Init(this, "다음 목적지까지 ,10미터, 근방입니다.");
-                                near10m2 = false;
-                            }
-                        } else {      //경유지까지의 거리가 10m 이상인가?
-                            near10m1 = false;
-                            near10m2 = true;
-                        }
-                        //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내맨트 업데이트
-                        MentView.setText("다음 = X : " + String.valueOf(parsing.pathListItems.get(index - 1).getX()) + ", Y : " + String.valueOf(parsing.pathListItems.get(index - 1).getY()) + "\n" + parsing.mentCopy[index - 1] + "\nindex : " + index + "\nsize : " + parsing.pathListItems.size());
-                        //경유지간의 거리를 측정해서 안내음 분배
-
-                        A.setLatitude(parsing.pathListItems.get(index - 1).getX());
-                        A.setLongitude(parsing.pathListItems.get(index - 1).getY());
-                        B.setLatitude(parsing.pathListItems.get(index).getX());
-                        B.setLongitude(parsing.pathListItems.get(index).getY());
-                        AdistanceToB = A.distanceTo(B);
-
-                        //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내
-                        if (firstGuide2) {    //이번 안내가 최초인가?
-                            TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
-                            firstGuide2 = false;
-                        }
-
-
-                        //거리별 분배
-                        if (divFour2) {
-                            if (A.distanceTo(B) < 200.0) {   //200m 미만은 반만 나눠서
-                                disIndex = 2;
-                                STACK_POINT = 2;
-                            } else if (A.distanceTo(B) >= 200.0 && A.distanceTo(B) < 500.0) {     //300m 이상, 500m 미만은 3번 나눠서
-                                disIndex = 3;
-                                STACK_POINT = 3;
-                            } else if (A.distanceTo(B) >= 500.0 && A.distanceTo(B) < 1000.0) {     //500m 이상, 1000m 미만은 4번 나눠서
-                                disIndex = 4;
-                                STACK_POINT = 4;
-                            } else {         //1000m 이상은 5번 나눠서
-                                disIndex = 5;
-                                STACK_POINT = 5;
-                            }
-                            divFour2 = false;
-                        }
-                        if (((A.distanceTo(B) + 5) / disIndex) * STACK_POINT > distanceAToB) {
-                            divFour1 = true;
-                        }
-                        if (STACK_POINT != 0 && divFour1) {
-                            TTSClass.Init(this, parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
-                            STACK_POINT--;
-                            divFour1 = false;
-                        }
-                    } else if (distanceAToB <= 5.0) {  //현재 위치와 다음 경유지까지의 거리가 5m 안으로 들어왔는가?
-                        //목적지 근방 반경 5미터에 들어옴.
-                        //다음 경유지 좌표 새로 갱신.
-                        if (degree < 0) {
-                            degree = Math.abs(degree);
-                        } else if (degree > 0) {
-                            degree = 360 - degree;
-                        }
-                        tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
-                        index++;
-                        firstGuide2 = true;
-                        divFour2 = true;
-                        if (parsing.pathListItems.size() - 1 == index) { //모든 경유지를 경우했는가?
-                            index = 0;
-                            TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
-                            finish();
-                        }
+                    }else if(detectedDistance >= 50.0){
+                        checkFlowOver = 0;
                     }
                 }
             }
@@ -625,15 +634,14 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         Debugs.logv(new Exception(), "Something to print");
         if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
             index++;
+            vibratorTF = true;
             mentChange(index);
             TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
         } else {
             TTSClass.Init(this, "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
         }
-
-
-
     }
+
     public void backDestination(View view){
         Debugs.logv(new Exception(), "Something to print");
         DesA.finish();
