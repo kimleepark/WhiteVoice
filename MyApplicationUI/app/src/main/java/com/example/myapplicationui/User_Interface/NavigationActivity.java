@@ -118,6 +118,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         this.setTitle("");
 
+
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);   //진동
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
@@ -202,7 +203,22 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             while (true) {
                 if (mLatitude != 0.0 && mLongitude != 0.0) {
                     //Toast.makeText(getApplicationContext(), "좌표설정 완료", Toast.LENGTH_SHORT).show();
-                    break;
+                    if(parsing.complete==0) {
+                        parsing.complete = 2;
+                        parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+                        parsing.onLoad();
+                    }
+                    else if (parsing.complete == 1){
+                        if (parsing.destinationmap.equals("에러")) {
+                            backDestination(MentView);
+                            Debugs.logv(new Exception(), "sSomething to 걱정");
+                            TTSClass.Init(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.");
+                            Toast.makeText(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                       break;
+                    }
+
                 }
             }
             return null;
@@ -212,15 +228,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         protected void onPostExecute(String s) {
             Debugs.logv(new Exception(), "Something to print");
             super.onPostExecute(s);
-            parsing.setData(((whiteVoice)getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
-            parsing.onLoad();
-            if(parsing.destinationmap.equals("에러")){
-                backDestination(MentView);
-                Debugs.logv(new Exception(), "sSomething to 걱정");
-                TTSClass.Init(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.");
-                Toast.makeText(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
-                finish();
-            }
 
             dialog.dismiss();
         }
