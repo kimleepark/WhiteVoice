@@ -33,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.myapplicationui.CS.CSApi;
 import com.example.myapplicationui.CS.CSGetResult;
@@ -650,7 +649,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     public void onClickMenuN(View view){
         Debugs.logv(new Exception(), "Something to print");
-<<<<<<< HEAD
 
         View popupView = getLayoutInflater().inflate(R.layout.activity_navigation, null);
 
@@ -695,11 +693,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
+                if (parsing.pathListItems.size() - 2 >  index) { //최대인덱스에 도달했는가?
                     index++;
                     vibratorTF = true;
                     mentChange(index);
-                    TTSClass.Init(getApplication(), parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
+                    TTSClass.Init(getApplication(), index+"번째 경유지 입니다."+parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로,"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
                 } else {
                     TTSClass.Init(getApplication(), "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
                 }
@@ -713,16 +711,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 mPopupWindow.dismiss();
             }
         });
-=======
-        if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
-            index++;
-            vibratorTF = true;
-            mentChange(index);
-            TTSClass.Init(this,index+"번째 경유지 입니다."+parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로,"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
-        } else {
-            TTSClass.Init(this, "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
-        }
->>>>>>> bbf84b17c7e06f89b4cc9e3e97a1c4335259aa28
     }
 
     public void onClickListen(View view){
@@ -906,7 +894,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             P.setLongitude(parsing.pathListItems.get(d).getY());
             Q.setLatitude(parsing.pathListItems.get(d+1).getX());
             Q.setLongitude(parsing.pathListItems.get(d+1).getY());
-            fullDistance += P.distanceTo(Q);;
+            fullDistance += P.distanceTo(Q);
         }
         return fullDistance;
     }
