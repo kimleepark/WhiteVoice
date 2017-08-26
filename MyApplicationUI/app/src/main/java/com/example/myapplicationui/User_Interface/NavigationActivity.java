@@ -673,13 +673,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         near10m1 = false; near10m2 = true;
         divFour1 = false; divFour2 = true;
         firstGuide2 = true;
-<<<<<<< HEAD
         parsing.onLoad();
 
-=======
-
-        parsing.onLoad();
->>>>>>> e8db072fcf698ec88a92d91cafaa2d555a666404
     }
 
     /*
