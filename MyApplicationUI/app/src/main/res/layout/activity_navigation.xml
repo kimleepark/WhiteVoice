@@ -4,24 +4,79 @@
     android:layout_height="match_parent"
     android:id="@+id/layoutN">
 
-    <Button
-        android:id="@+id/button3"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/corner"
-        android:text="Button" />
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginBottom="160dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="15dp"
+            android:layout_weight="0.2"
+            android:gravity="center_vertical"
+            android:text="목적지"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/textTarget"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_weight="0.8"
+            android:gravity="center_vertical"
+            android:text="TextView"
+            android:textSize="30sp" />
+    </LinearLayout>
 
     <Button
-        android:id="@+id/button2"
+    android:id="@+id/btn4"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:background="@drawable/corner"
+    android:onClick="onClickListen"
+    android:text="안내멘트 다시듣기"
+    android:textSize="40sp"
+    android:textColor="#fff"/>
+
+    <Button
+        android:id="@+id/btn1"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="11dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@drawable/corner"
-        android:text="Button" />
+        android:text="경로재탐색"
+        android:textSize="40sp"
+        android:textColor="#fff"/>
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/corner"
+        android:text="다음경유지"
+        android:textSize="40sp"
+        android:textColor="#fff"/>
+
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/corner"
+        android:text="메뉴닫기"
+        android:textSize="40sp"
+        android:textColor="#fff"/>
 </LinearLayout>
 

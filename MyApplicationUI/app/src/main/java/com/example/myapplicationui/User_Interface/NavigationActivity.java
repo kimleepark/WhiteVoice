@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,6 +28,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -38,6 +40,7 @@ import com.example.myapplicationui.CS.CSGetResult;
 import com.example.myapplicationui.CS.CSPostConfig;
 import com.example.myapplicationui.CS.CSPostResult;
 import com.example.myapplicationui.Conection.whiteVoice;
+import com.example.myapplicationui.Function.CameraActivity;
 import com.example.myapplicationui.Function.DebugClass;
 import com.example.myapplicationui.Function.ParsingClass;
 import com.example.myapplicationui.Function.TTSClass;
@@ -68,7 +71,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     TextView ClockView;
     TextView LocationView;
     TextView AtoBView;*/
-    TextView tView;
+    //TextView tView;
     boolean vibratorTF = true;
     //LinearLayout layout;
 
@@ -105,6 +108,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     DebugClass Debugs = new DebugClass();
 
     Vibrator vibrator;
+    PopupWindow mPopupWindow;
 
     int trash;
     @Override
@@ -129,8 +133,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         //ClockView = (TextView)findViewById(R.id.clockView);
 
        //Log.e("value", target);
-        tView = (TextView)findViewById(R.id.targetView);
-        tView.setText(((whiteVoice)getApplicationContext()).target);
+
+        //tView.setText(((whiteVoice)getApplicationContext()).target);
         //tView.setText(parsing.destinationmap);
         //LocationView = (TextView)findViewById(R.id.textL);
         //MentView = (TextView)findViewById(R.id.mentView);
@@ -230,7 +234,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         protected void onPostExecute(String s) {
             Debugs.logv(new Exception(), "Something to print");
             super.onPostExecute(s);
-            tView.setText(parsing.destinationmap);
+            //tView.setText(parsing.destinationmap);
             dialog.dismiss();
         }
     }
@@ -450,7 +454,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                             //데이터 표시 항목 설정
                             //LocationView.setText("현재 = X : " + mLatitude + ", Y : " + mLongitude);
-                            //tView.setText(parsing.destinationmap);
                             //ClockView.setText(clockBasedDirection1);
                             //AtoBView.setText(String.valueOf(distanceAToB));
                             Location A = new Location("A");
@@ -641,22 +644,77 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         // 센서의 정확도가 변경되었을 때 호출되는 콜백 메서드
     }
 
-    public void onClickNext(View view){
+    public void onClickMenuN(View view){
         Debugs.logv(new Exception(), "Something to print");
-        if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
-            index++;
-            vibratorTF = true;
-            mentChange(index);
-            TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
-        } else {
-            TTSClass.Init(this, "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
-        }
+
+        View popupView = getLayoutInflater().inflate(R.layout.activity_navigation, null);
+
+        mPopupWindow = new PopupWindow(popupView,
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setAnimationStyle(0); // 애니메이션 설정(-1:설정안함, 0:설정)
+        mPopupWindow.setOutsideTouchable(true);
+        mPopupWindow.setFocusable(true);
+        //mPopupWindow.setTouchable(false);
+        //mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        ((TextView)mPopupWindow.getContentView().findViewById(R.id.textTarget)).setText(parsing.destinationmap);
+        mPopupWindow.showAtLocation(popupView, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+
+        Button btn1 = (Button) popupView.findViewById(R.id.btn1);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TTSClass.Init(getApplication(), "경로를 재탐색합니다.");
+
+                parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
+
+                index = 0;
+                disIndex = 0;
+                rotateNum = 0;
+                STACK_POINT = 0;
+                parsing.complete = 0;
+
+                startDataUpdate = false;
+                vibratorTF = true;
+                near10m1 = false;
+                near10m2 = true;
+                divFour1 = false;
+                divFour2 = true;
+                firstGuide2 = true;
+
+                parsing.onLoad();
+            }
+        });
+
+        Button btn2 = (Button) popupView.findViewById(R.id.btn2);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (parsing.pathListItems.size() - 1 >  index) { //최대인덱스에 도달했는가?
+                    index++;
+                    vibratorTF = true;
+                    mentChange(index);
+                    TTSClass.Init(getApplication(), parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
+                } else {
+                    TTSClass.Init(getApplication(), "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
+                }
+            }
+        });
+
+        Button cancel = (Button) popupView.findViewById(R.id.btn3);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopupWindow.dismiss();
+            }
+        });
     }
 
     public void onClickListen(View view){
         TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
     }
 
+    /*
     public void onClickResearch(View view){
 
         TTSClass.Init(this, "경로를 재탐색합니다.");
@@ -676,7 +734,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         parsing.onLoad();
     }
-
+    */
     /*
     public void backDestination(View view){
         Debugs.logv(new Exception(), "Something to print");
@@ -688,39 +746,12 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
  //   Button btn_Popup = (Button)findViewById(R.id.btnTap);
     public void onClickTAP(View view){
-        /*
         Debugs.logv(new Exception(), "Something to print");
-        Intent intent = new Intent(NavigationActivity.this, TestActivity.class);
-        startActivity(intent);*/
+        Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
+        startActivity(intent);
         //startActivityForResult(intent,303);
-        //클릭시 팝업 윈도우 생성
-
-        View popupView = getLayoutInflater().inflate(R.layout.activity_navigation, null);
-
-        PopupWindow mPopupWindow = new PopupWindow(popupView,
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        mPopupWindow.setAnimationStyle(0); // 애니메이션 설정(-1:설정안함, 0:설정)
-        mPopupWindow.showAtLocation(popupView, Gravity.CENTER_HORIZONTAL| Gravity.BOTTOM,0,0);
-
-        //팝업으로 띄울 커스텀뷰를 설정하고
-        /*View popupView = getLayoutInflater().inflate(R.layout.activity_navigation, null);
-        PopupWindow popup = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                /popup.setContentView(view);
-                //팝업의 크기 설정
-                //popup.setWindowLayoutMode(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                //팝업 뷰 터치 되도록
-                popup.setTouchable(true);
-                //팝업 뷰 포커스도 주고
-                popup.setFocusable(true);
-                //팝업 뷰 이외에도 터치되게 (터치시 팝업 닫기 위한 코드)
-                popup.setOutsideTouchable(true);
-                popup.setBackgroundDrawable(new BitmapDrawable());
-
-                //인자로 넘겨준 v 아래로 보여주기
-                popup.showAsDropDown(view);*/
-
     }
+
     class ProcessCloudSight extends AsyncTask<File, Void, String> {
 
         ProgressDialog dialog;

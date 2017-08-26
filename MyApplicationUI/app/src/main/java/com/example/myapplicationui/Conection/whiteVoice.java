@@ -18,6 +18,6 @@ public class whiteVoice extends Application{
         super.onCreate();
 
         Typekit.getInstance()
-                .addNormal(Typekit.createFromAsset(this, "BM-HANNA.ttf"));// "fonts/폰트.ttf"
+                .addNormal(Typekit.createFromAsset(this, "HANYGO230.ttf"));// "fonts/폰트.ttf"
     }
 }

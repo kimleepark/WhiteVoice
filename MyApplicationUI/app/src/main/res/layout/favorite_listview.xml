@@ -11,7 +11,8 @@
         android:layout_weight="1"
         android:text="TextView"
         android:textSize="35sp"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+        android:layout_marginLeft="5dp"/>
 
     <Button
         android:id="@+id/delete"
@@ -20,5 +21,7 @@
         android:background="@drawable/corner"
         android:text="삭제"
         android:textColor="#ffff"
-        android:textSize="25sp" />
+        android:textSize="25sp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"/>
 </LinearLayout>

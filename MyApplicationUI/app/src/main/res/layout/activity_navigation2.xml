@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.2"
+        android:layout_weight="0.05"
         android:orientation="vertical">
 
         <Button
@@ -21,98 +21,57 @@
             android:textColor="#ffff"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/targetView"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
-            android:text="기본값"
-            android:textSize="30sp" />
-
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="0.4">
+        android:layout_weight="0.65"
+        android:weightSum="1">
 
         <ImageView
             android:id="@+id/arrow"
-            android:layout_width="170dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:src="@drawable/arrow"/>
+            android:src="@drawable/arrow"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="0.4">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:orientation="horizontal"
-            android:layout_margin="10dp">
-
-            <Button
-                android:id="@+id/btnAgain"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:background="@drawable/corner"
-                android:gravity="center"
-                android:onClick="onClickResearch"
-                android:text="경로 재탐색"
-                android:layout_marginRight="5dp"
-                android:textColor="#ffff"
-                android:textSize="40sp" />
-
-            <Button
-                android:id="@+id/btnNext"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:background="@drawable/corner"
-                android:layout_marginLeft="5dp"
-                android:gravity="center"
-                android:onClick="onClickNext"
-                android:text="다음경유지로 이동"
-                android:textColor="#ffff"
-                android:textSize="40sp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnListen"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.33"
-            android:background="@drawable/corner"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:gravity="center"
-            android:onClick="onClickListen"
-            android:text="안내 다시듣기"
-            android:textColor="#ffff"
-            android:textSize="40sp"/>
+        android:layout_weight="0.3">
 
         <Button
             android:id="@+id/btnTap"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="0.34"
+            android:layout_weight="0.5"
+            android:background="@drawable/corner"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:gravity="center"
+            android:onClick="onClickTAP"
+            android:text="사진 분석"
+            android:textColor="#ffff"
+            android:textSize="40sp"/>
+
+        <Button
+            android:id="@+id/btnMenuN"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:background="@drawable/corner"
             android:gravity="center"
-            android:onClick="onClickTAP"
-            android:text="사진 분석"
+            android:onClick="onClickMenuN"
+            android:text="메뉴"
             android:textColor="#ffff"
             android:textSize="40sp"/>
     </LinearLayout>
