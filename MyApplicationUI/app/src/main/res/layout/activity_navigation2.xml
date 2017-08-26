@@ -7,8 +7,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="0.2">
+        android:layout_weight="0.2"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/button"
@@ -19,16 +19,16 @@
             android:onClick="onClickCheckingData"
             android:text="CheckData"
             android:textColor="#ffff"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/targetView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:text="기본값"
             android:layout_marginTop="10dp"
-            android:textSize="30sp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:text="기본값"
+            android:textSize="30sp" />
 
     </LinearLayout>
 
@@ -67,7 +67,7 @@
                 android:background="@drawable/corner"
                 android:gravity="center"
                 android:onClick="onClickResearch"
-                android:text="재탐색"
+                android:text="경로 재탐색"
                 android:layout_marginRight="5dp"
                 android:textColor="#ffff"
                 android:textSize="40sp" />
@@ -81,7 +81,7 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:onClick="onClickNext"
-                android:text="다음경유지"
+                android:text="다음경유지로 이동"
                 android:textColor="#ffff"
                 android:textSize="40sp" />
         </LinearLayout>
@@ -97,12 +97,12 @@
             android:layout_marginRight="10dp"
             android:gravity="center"
             android:onClick="onClickListen"
-            android:text="다시듣기"
+            android:text="안내 다시듣기"
             android:textColor="#ffff"
-            android:textSize="50sp"/>
+            android:textSize="40sp"/>
 
         <Button
-            android:id="@+id/BtnTap"
+            android:id="@+id/btnTap"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.34"
@@ -112,8 +112,8 @@
             android:background="@drawable/corner"
             android:gravity="center"
             android:onClick="onClickTAP"
-            android:text="TAP"
+            android:text="사진 분석"
             android:textColor="#ffff"
-            android:textSize="50sp"/>
+            android:textSize="40sp"/>
     </LinearLayout>
 </LinearLayout>

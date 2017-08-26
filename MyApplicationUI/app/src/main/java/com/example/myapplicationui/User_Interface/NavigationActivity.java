@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,9 +24,12 @@ import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +38,6 @@ import com.example.myapplicationui.CS.CSGetResult;
 import com.example.myapplicationui.CS.CSPostConfig;
 import com.example.myapplicationui.CS.CSPostResult;
 import com.example.myapplicationui.Conection.whiteVoice;
-import com.example.myapplicationui.Function.CameraActivity;
 import com.example.myapplicationui.Function.DebugClass;
 import com.example.myapplicationui.Function.ParsingClass;
 import com.example.myapplicationui.Function.TTSClass;
@@ -139,6 +140,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         detectPointA.setLongitude(0);
         detectPointB.setLatitude(0);
         detectPointB.setLongitude(0);
+
         /*
         dumDB.add(new pathListItem(1, "출발지",37.011285, 127.264672));
         dumDB.add(new pathListItem(2, "경유지1",37.011384, 127.264283));
@@ -684,11 +686,40 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         //startActivityForResult(intent,303);
     }*/
 
+ //   Button btn_Popup = (Button)findViewById(R.id.btnTap);
     public void onClickTAP(View view){
+        /*
         Debugs.logv(new Exception(), "Something to print");
-        Intent intent = new Intent(NavigationActivity.this, CameraActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(NavigationActivity.this, TestActivity.class);
+        startActivity(intent);*/
         //startActivityForResult(intent,303);
+        //클릭시 팝업 윈도우 생성
+
+        View popupView = getLayoutInflater().inflate(R.layout.activity_navigation, null);
+
+        PopupWindow mPopupWindow = new PopupWindow(popupView,
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        mPopupWindow.setAnimationStyle(0); // 애니메이션 설정(-1:설정안함, 0:설정)
+        mPopupWindow.showAtLocation(popupView, Gravity.CENTER_HORIZONTAL| Gravity.BOTTOM,0,0);
+
+        //팝업으로 띄울 커스텀뷰를 설정하고
+        /*View popupView = getLayoutInflater().inflate(R.layout.activity_navigation, null);
+        PopupWindow popup = new PopupWindow(popupView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                /popup.setContentView(view);
+                //팝업의 크기 설정
+                //popup.setWindowLayoutMode(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                //팝업 뷰 터치 되도록
+                popup.setTouchable(true);
+                //팝업 뷰 포커스도 주고
+                popup.setFocusable(true);
+                //팝업 뷰 이외에도 터치되게 (터치시 팝업 닫기 위한 코드)
+                popup.setOutsideTouchable(true);
+                popup.setBackgroundDrawable(new BitmapDrawable());
+
+                //인자로 넘겨준 v 아래로 보여주기
+                popup.showAsDropDown(view);*/
+
     }
     class ProcessCloudSight extends AsyncTask<File, Void, String> {
 
