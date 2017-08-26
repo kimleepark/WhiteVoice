@@ -217,7 +217,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         if (parsing.destinationmap.equals("에러")) {
                             Debugs.logv(new Exception(), "sSomething to 걱정");
                             TTSClass.Init(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.");
-                            Toast.makeText(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.", Toast.LENGTH_LONG).show();
                             finish();
                         }
                         break;
