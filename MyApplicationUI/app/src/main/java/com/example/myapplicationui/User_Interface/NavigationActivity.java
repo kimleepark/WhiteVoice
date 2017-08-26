@@ -660,7 +660,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         TTSClass.Init(this, "경로를 재탐색합니다.");
 
         parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
-        parsing.onLoad();
 
         index = 0;
         disIndex = 0; rotateNum = 0;
@@ -672,7 +671,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         near10m1 = false; near10m2 = true;
         divFour1 = false; divFour2 = true;
         firstGuide2 = true;
-
+        parsing.onLoad();
 
     }
 
