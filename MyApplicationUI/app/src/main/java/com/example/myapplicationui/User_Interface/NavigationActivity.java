@@ -78,6 +78,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double dLongtitude = 0; //더미 경도
     double distanceAToB = 0;
     double AdistanceToB = 0;
+    double fullDistance = 0;
     int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0, checkFlowOver = 0;
     boolean dataUpdate = false;
     boolean startDataUpdate = false;
@@ -386,8 +387,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     //멘트 필터링
                     trash = 1;
                     mentChange(index);
-                    TTSClass.Init(this,index+"번째 경유지 입니다.");
+                    TTSClass.Init(this,"경로안내를 시작합니다.");
                     //TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
+                    fullDistanceReturn();
                 } else if (startDataUpdate && index != 0) {  //지금 현재 받아온 좌표가 최초 현재좌표가 아닌가?
                     //실시간 현재좌표의 이전 누적데이터 좌표가 쌓이기 시작했기때문에 본격적인 길안내 시작
                     //다음 경유지 좌표를 계속 업데이트
@@ -516,7 +518,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
                                     //수정이 필요한 부분
-                                    TTSClass.Init(this,index+"번째 경유지 입니다."+"현재 위치에서"+parsing.destinationmap+"까지" +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this,index+"번째 경유지 입니다."+"현재 위치에서"+parsing.destinationmap+"까지" + (int)fullDistance +"미터, 거리입니다.'" +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     //
                                     STACK_POINT--;
                                     divFour1 = false;
@@ -677,10 +679,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         divFour1 = false; divFour2 = true;
         firstGuide2 = true;
         parsing.onLoad();
-<<<<<<< HEAD
-
-=======
->>>>>>> e5e77bce6af82495a2031631753a76df92a7728b
     }
 
     /*
@@ -857,6 +855,19 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    public double fullDistanceReturn(){
+        Location P = new Location("P");
+        Location Q = new Location("Q");
+        for(int d = 0; d+1 < parsing.pathListItems.size(); d++){
+            P.setLatitude(parsing.pathListItems.get(d).getX());
+            P.setLongitude(parsing.pathListItems.get(d).getY());
+            Q.setLatitude(parsing.pathListItems.get(d+1).getX());
+            Q.setLongitude(parsing.pathListItems.get(d+1).getY());
+            fullDistance += P.distanceTo(Q);;
+        }
+        return fullDistance;
     }
 }
 
