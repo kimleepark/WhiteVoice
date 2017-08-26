@@ -386,6 +386,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     //멘트 필터링
                     trash = 1;
                     mentChange(index);
+                    TTSClass.Init(this,index+"번째 경유지 입니다.");
                     //TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
                 } else if (startDataUpdate && index != 0) {  //지금 현재 받아온 좌표가 최초 현재좌표가 아닌가?
                     //실시간 현재좌표의 이전 누적데이터 좌표가 쌓이기 시작했기때문에 본격적인 길안내 시작
@@ -488,7 +489,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                                 //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내
                                 if (firstGuide2) {    //이번 안내가 최초인가?
-                                    TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this, index+"번째 경유지 입니다."+"현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     //tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
                                     firstGuide2 = false;
                                 }
@@ -514,7 +515,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                     divFour1 = true;
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
-                                    TTSClass.Init(this, parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this,index+"번째 경유지 입니다."+ parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     STACK_POINT--;
                                     divFour1 = false;
                                 }
@@ -647,7 +648,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             index++;
             vibratorTF = true;
             mentChange(index);
-            TTSClass.Init(this,parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
+            TTSClass.Init(this,index+"번째 경유지 입니다."+parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로,"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
         } else {
             TTSClass.Init(this, "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
         }
