@@ -518,7 +518,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
                                     //수정이 필요한 부분
-                                    TTSClass.Init(this,index+"번째 경유지 입니다."+"현재 위치에서"+parsing.destinationmap+"까지" + (int)fullDistance +"미터, 거리입니다.'" +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this,index+"번째 경유지 입니다."+"현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullDistance +"미터, 거리입니다.'" +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     //
                                     STACK_POINT--;
                                     divFour1 = false;
@@ -534,7 +534,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 index++;
                                 firstGuide2 = true;
                                 divFour2 = true;
-                                if (parsing.pathListItems.size() - 1 == index) { //모든 경유지를 경우했는가?
+                                if (parsing.pathListItems.size() - 2 == index) { //모든 경유지를 경우했는가?
                                     index = 0;
                                     TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
                                     Handler mHandler = new Handler();
@@ -860,7 +860,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     public double fullDistanceReturn(){
         Location P = new Location("P");
         Location Q = new Location("Q");
-        for(int d = 0; d+1 < parsing.pathListItems.size(); d++){
+        for(int d = 0; d+1 < parsing.pathListItems.size()-1; d++){
             P.setLatitude(parsing.pathListItems.get(d).getX());
             P.setLongitude(parsing.pathListItems.get(d).getY());
             Q.setLatitude(parsing.pathListItems.get(d+1).getX());
