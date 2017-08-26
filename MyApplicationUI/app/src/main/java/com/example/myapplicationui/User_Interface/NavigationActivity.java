@@ -515,7 +515,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                     divFour1 = true;
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
-                                    TTSClass.Init(this,index+"번째 경유지 입니다."+ parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    //수정이 필요한 부분
+                                    TTSClass.Init(this,index+"번째 경유지 입니다."+"현재 위치에서"+parsing.destinationmap+"까지" +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    //
                                     STACK_POINT--;
                                     divFour1 = false;
                                 }
@@ -674,13 +676,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         near10m1 = false; near10m2 = true;
         divFour1 = false; divFour2 = true;
         firstGuide2 = true;
-<<<<<<< HEAD
         parsing.onLoad();
-
-=======
-
-        parsing.onLoad();
->>>>>>> e8db072fcf698ec88a92d91cafaa2d555a666404
     }
 
     /*
