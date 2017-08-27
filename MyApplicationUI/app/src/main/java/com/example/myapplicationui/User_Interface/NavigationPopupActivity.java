@@ -24,23 +24,11 @@ public class NavigationPopupActivity extends Activity {
         setContentView(R.layout.activity_navigation_popup);
         TextView dataDisplay = (TextView)findViewById(R.id.popUp);
 
-        signiture.add(new String("한경대학교"));
-        signiture.add(new String("한경대학교"));
-        signiture.add(new String("한경대학교"));
-        signiture.add(new String("안성로"));
-        signiture.add(new String("석정로"));
-        signiture.add(new String("안성로"));
-        signiture.add(new String("주작동"));
-        signiture.add(new String("홍석천"));
-        signiture.add(new String("임요한"));
-        signiture.add(new String("홍진호"));
-        signiture.add(new String("홍진호"));
-
         ((whiteVoice) getApplicationContext()).dataExplain = false;
         Intent getData = getIntent();
         double Second = getData.getIntExtra("fullDistance",1) / 0.8;
         int hour = (int)Second / 3600, min = (int)Second % 3600 / 60;
-        signiture = arrayOverlapCatcher(signiture);
+        signiture = arrayOverlapCatcher(getData.getStringArrayListExtra("landMarkList"));
         String signitureList = "";
 
         for(int x = 0; x < signiture.size(); x++){
@@ -63,6 +51,11 @@ public class NavigationPopupActivity extends Activity {
             for(int z = i+1; z < list.size();){
                 TF = true;
                 if(list.get(i).equals(list.get(z))){
+                    if(list.get(z).equals("횡단보도")){
+                        break;
+                    }else if(list.get(z).equals("육교")){
+                        break;
+                    }
                     list.remove(z);
                     TF = false;
                 }

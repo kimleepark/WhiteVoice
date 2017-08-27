@@ -401,6 +401,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     data.putExtra("destinationmap", parsing.destinationmap);
                     data.putExtra("getVoiceString",((whiteVoice) getApplicationContext()).target);
                     data.putExtra("fullDistance", (int)fullDistance);
+                    data.putStringArrayListExtra("landMarkList",parsing.landMarkList);
                     try{
                         startActivity(data);
                     }catch (Exception e){
