@@ -16,5 +16,5 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:text="TEST_VIEW"
-        android:textSize="35dp"/>
+        android:textSize="10dp"/>
 </RelativeLayout>
