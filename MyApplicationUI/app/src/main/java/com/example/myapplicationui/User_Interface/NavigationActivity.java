@@ -96,6 +96,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double detectedY = 0;
     double detectedDistance = 0;
     LocationManager lm;
+    String resound = "";
 
     String clockBasedDirection1;
 
@@ -689,6 +690,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 rotateNum = 0;
                 STACK_POINT = 0;
                 parsing.complete = 0;
+                fullDistance = 0;
 
                 startDataUpdate = false;
                 vibratorTF = true;
@@ -727,7 +729,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
 
     public void onClickListen(View view){
-        TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+        TTSClass.Init(this, "현재 위치에서, " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "m, 남았습니다.");
     }
 
     /*
@@ -857,6 +859,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 TTSClass.Init(getApplication(), name);
             }
             temp = null;
+            resound = name;
             ((whiteVoice)getApplicationContext()).tapPath = null;
         }
     }
