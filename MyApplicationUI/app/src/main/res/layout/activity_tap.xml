@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.3">
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:text="분석결과"
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight="0.1"/>
+
+        <TextView
+            android:id="@+id/textMentTap"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:text="TextView"
+            android:gravity="center_vertical"
+            android:textSize="25sp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="#000"
+            android:layout_weight="0.4"/>
+
+        <Button
+            android:id="@+id/btnAgainTap"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/corner"
+            android:gravity="center"
+            android:onClick="onClickCheckingData"
+            android:text="분석내용 다시듣기"
+            android:textColor="#ffff"
+            android:textSize="30sp"
+            android:layout_weight="0.5"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.5">
+
+        <ImageView
+            android:id="@+id/imageViewTap"
+            android:layout_width="340dp"
+            android:layout_height="280dp"
+            android:layout_gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.2">
+
+        <Button
+            android:id="@+id/btnCloseTap"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/corner"
+            android:gravity="center"
+            android:onClick="onClickCheckingData"
+            android:text="닫기"
+            android:textColor="#ffff"
+            android:textSize="30sp"
+            android:layout_margin="10dp"/>
+    </LinearLayout>
+</LinearLayout>

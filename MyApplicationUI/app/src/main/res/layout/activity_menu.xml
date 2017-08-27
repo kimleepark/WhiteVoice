@@ -37,8 +37,9 @@
             android:layout_weight="0.1"
             android:gravity="center"
             android:text="즐겨찾기"
-            android:textSize="35sp"
-            android:textColor="#ffff"/>
+            android:textSize="30sp"
+            android:textColor="#ffff"
+            android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -49,7 +50,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:background="@drawable/corner"
-            android:onClick="onClickDestinationT">
+            android:onClick="onClickMenuTap">
 
             <ImageView
                 android:id="@+id/Btn_DA_Touch"
@@ -57,7 +58,7 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="0.35"
-                android:src="@drawable/keyboard" />
+                android:src="@drawable/capture" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -65,9 +66,10 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.1"
                 android:gravity="center"
-                android:text="키보드검색"
-                android:textSize="35sp"
-                android:textColor="#ffff"/>
+                android:text="사진분석"
+                android:textSize="30sp"
+                android:textColor="#ffff"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -95,7 +97,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.35"
                 android:background="@drawable/corner"
-                android:src="@drawable/mic"
+                android:src="@drawable/search"
                 android:layout_gravity="center"/>
 
             <TextView
@@ -104,9 +106,10 @@
                 android:layout_height="0dp"
                 android:layout_weight="0.1"
                 android:gravity="center"
-                android:text="음성검색"
-                android:textSize="35sp"
-                android:textColor="#ffff"/>
+                android:text="목적지검색"
+                android:textSize="30sp"
+                android:textColor="#ffff"
+                android:layout_marginBottom="10dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -135,8 +138,9 @@
             android:layout_weight="0.1"
             android:gravity="center"
             android:text="설정"
-            android:textSize="35sp"
-            android:textColor="#ffff"/>
+            android:textSize="30sp"
+            android:textColor="#ffff"
+            android:layout_marginBottom="10dp"/>
         </LinearLayout>
     </LinearLayout>
 
