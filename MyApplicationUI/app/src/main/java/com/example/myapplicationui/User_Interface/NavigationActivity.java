@@ -63,6 +63,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
+    final Context context = this;
 
     private SensorManager sm;
     private Sensor s;
@@ -95,6 +96,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double detectedY = 0;
     double detectedDistance = 0;
     LocationManager lm;
+    String resound = "";
 
     String clockBasedDirection1;
 
@@ -173,7 +175,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         }
         new ProcessLocation().execute();
-
         //TTSClass.Init(this, "경로안내를 시작합니다.");
     }
 
@@ -362,6 +363,10 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         lm.removeUpdates(mLocationListener);
     }
 
+    public void onDialogListener(){
+
+    }
+
     public void onSensorChanged(SensorEvent event) {
         if (parsing.pathListItems.size() != 0) {
             clockBasedDirection1 = "";
@@ -389,9 +394,19 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     //멘트 필터링
                     trash = 1;
                     mentChange(index);
-                    TTSClass.Init(this,"경로안내를 시작합니다.");
-                    //TTSClass.Init(this, parsing.pathListItems.get(index).getMent());
                     fullDistanceReturn();
+                    TTSClass.Init(this,"경로안내를 시작합니다.");
+
+                    Intent data = new Intent(this, NavigationPopupActivity.class);
+                    data.putExtra("destinationmap", parsing.destinationmap);
+                    data.putExtra("getVoiceString",((whiteVoice) getApplicationContext()).target);
+                    data.putExtra("fullDistance", (int)fullDistance);
+                    data.putStringArrayListExtra("landMarkList",parsing.landMarkList);
+                    try{
+                        startActivity(data);
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 } else if (startDataUpdate && index != 0) {  //지금 현재 받아온 좌표가 최초 현재좌표가 아닌가?
                     //실시간 현재좌표의 이전 누적데이터 좌표가 쌓이기 시작했기때문에 본격적인 길안내 시작
                     //다음 경유지 좌표를 계속 업데이트
@@ -473,7 +488,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 if (distanceAToB <= 10.0) {    //경유지까지 10m 안쪽으로 들어왔는가?
                                     near10m1 = true;
                                     if (near10m1 && near10m2) {   //이 안내문을 한 번 이상 실행되었는가?
-                                        TTSClass.Init(this, "다음 목적지까지 ,10미터, 근방입니다.");
+                                        TTSClass.Init(this, "다음 목적지까지 ,10미터, 근방입니다.                   ");
                                         near10m2 = false;
                                     }
                                 } else {      //경유지까지의 거리가 10m 이상인가?
@@ -492,7 +507,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                                 //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내
                                 if (firstGuide2) {    //이번 안내가 최초인가?
-                                    TTSClass.Init(this, index+"번째 경유지 입니다."+"현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this, index + "번째 경유지 입니다.                          현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
                                     //tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
                                     firstGuide2 = false;
                                 }
@@ -519,7 +534,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
                                     //수정이 필요한 부분
-                                    TTSClass.Init(this,index+"번째 경유지 입니다."+"현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullDistance +"미터, 거리입니다.'" +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this,index+"번째 경유지 입니다.                          현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullDistance +"미터, 거리입니다.                          " +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     //
                                     STACK_POINT--;
                                     divFour1 = false;
@@ -676,6 +691,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 rotateNum = 0;
                 STACK_POINT = 0;
                 parsing.complete = 0;
+                fullDistance = 0;
 
                 startDataUpdate = false;
                 vibratorTF = true;
@@ -714,7 +730,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
 
     public void onClickListen(View view){
-        TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+        TTSClass.Init(this, "현재 위치에서, " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "m, 남았습니다.");
     }
 
     /*
@@ -844,6 +860,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 TTSClass.Init(getApplication(), name);
             }
             temp = null;
+            resound = name;
             ((whiteVoice)getApplicationContext()).tapPath = null;
         }
     }

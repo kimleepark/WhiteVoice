@@ -12,6 +12,7 @@ public class whiteVoice extends Application{
     public String target;
     public float vSpeed;
     public String tapPath;
+    public boolean dataExplain = true;
 
     @Override
     public void onCreate() {

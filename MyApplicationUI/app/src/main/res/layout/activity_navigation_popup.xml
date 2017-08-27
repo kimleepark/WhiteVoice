@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="340dip"
+    android:layout_height="600dip"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:layout_centerInParent="true"
+    tools:context="com.example.myapplicationui.User_Interface.NavigationPopupActivity">
+
+    <TextView
+        android:id="@+id/popUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="TEST_VIEW"
+        android:textSize="10dp"/>
+</RelativeLayout>

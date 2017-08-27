@@ -3,6 +3,9 @@ package com.example.myapplicationui.Function;
 import android.app.Activity;
 import android.util.Log;
 import android.widget.TextView;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 import com.example.myapplicationui.Conection.pathListItem;
 import com.example.myapplicationui.User_Interface.MenuActivity;
@@ -13,6 +16,7 @@ import net.htmlparser.jericho.Source;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 /**
  * Created by 박지찬 on 2017-08-03.
@@ -44,6 +48,8 @@ public class ParsingClass extends Activity{
     public String encryx1;           //파싱으로 가져온 암호화된 시작 좌표
     public String encryy1;
     public String mentCopy[] = new String[100];
+    public ArrayList<String> landMarkList = new ArrayList();
+    int addindex=0;
     
 
     private static Thread thread = null;
@@ -52,49 +58,49 @@ public class ParsingClass extends Activity{
     ArrayList<String> array;  // get_data 변수의 값을 순차적으로 저장할 배열
     TextView textView1;  // 제목을 표시해줄 텍스트뷰
 
-    public void onLoad(){
+    public void onLoad() {
         //여기부터 추가한코드
-        parsing_url = "https://apis.daum.net/local/geo/transcoord?apikey=1b9fd99de0b3b55cd8bfca913c787474&fromCoord=WGS84&y="+StartX+"&x="+StartY+"&toCoord=wtm&output=json";
-        Runnable task = new Runnable(){
-            public void run(){
+        parsing_url = "https://apis.daum.net/local/geo/transcoord?apikey=1b9fd99de0b3b55cd8bfca913c787474&fromCoord=WGS84&y=" + StartX + "&x=" + StartY + "&toCoord=wtm&output=json";
+        Runnable task = new Runnable() {
+            public void run() {
                 getTmLocation(parsing_url);  //getData2는 출발지와 도착지의 각 x,y값을 찾는 메소드임
             }
         };
         thread = new Thread(task);
         thread.start();  // 반드시 쓰레드를 해줘야함 그 이유는 아래에서 설명
-        try{
+        try {
             thread.join();  // 쓰레드 작업 끝날때까지 다른 작업들은 대기
-        }catch(Exception e){
+        } catch (Exception e) {
         }
         startingx = destinationx;
         startingy = destinationy;
 
 
-        parsing_url = "https://m.map.daum.net/actions/routeView?ex="+encryx+"&ey="+encryy+"&endLoc=ㅁㅁㅁ&ids=%2CP000";
-        task = new Runnable(){
-            public void run(){
+        parsing_url = "https://m.map.daum.net/actions/routeView?ex=" + encryx + "&ey=" + encryy + "&endLoc=ㅁㅁㅁ&ids=%2CP000";
+        task = new Runnable() {
+            public void run() {
                 getData3(parsing_url);
             }
         };
         thread = new Thread(task);
         thread.start();  // 반드시 쓰레드를 해줘야함 그 이유는 아래에서 설명
-        try{
+        try {
             thread.join();  // 쓰레드 작업 끝날때까지 다른 작업들은 대기
-        }catch(Exception e){
+        } catch (Exception e) {
         }
         //도착지설정
-        parsing_url = "https://m.map.daum.net/actions/searchView?q="+destinationmap+"&wxEnc="+encryx+"&wyEnc="+encryy+"&lvl=4&rcode=B7218A141&sort=2&viewmap=false";
-        Debugs.logv(new Exception(),"something to print "+ parsing_url);
-        task = new Runnable(){
-            public void run(){
+        parsing_url = "https://m.map.daum.net/actions/searchView?q=" + destinationmap + "&wxEnc=" + encryx + "&wyEnc=" + encryy + "&lvl=4&rcode=B7218A141&sort=2&viewmap=false";
+        Debugs.logv(new Exception(), "something to print " + parsing_url);
+        task = new Runnable() {
+            public void run() {
                 getData2(parsing_url);
             }
         };
         thread = new Thread(task);
         thread.start();  // 반드시 쓰레드를 해줘야함 그 이유는 아래에서 설명
-        try{
+        try {
             thread.join();  // 쓰레드 작업 끝날때까지 다른 작업들은 대기
-        }catch(Exception e){
+        } catch (Exception e) {
         }
 
         //여기까지 추가한 코드
@@ -103,30 +109,29 @@ public class ParsingClass extends Activity{
         encryx1 = encryx;
         encryy1 = encryy;
 
-        parsing_url = "https://m.map.daum.net/actions/routeView?ex="+destinationx+"&ey="+destinationy+"&endLoc=ㅁㅁㅁ&ids=%2CP000";
-        Debugs.logv(new Exception(),"something to print "+ parsing_url);
-        task = new Runnable(){
-            public void run(){
+        parsing_url = "https://m.map.daum.net/actions/routeView?ex=" + destinationx + "&ey=" + destinationy + "&endLoc=ㅁㅁㅁ&ids=%2CP000";
+        Debugs.logv(new Exception(), "something to print " + parsing_url);
+        task = new Runnable() {
+            public void run() {
                 getData3(parsing_url);
             }
         };
         thread = new Thread(task);
         thread.start();  // 반드시 쓰레드를 해줘야함 그 이유는 아래에서 설명
-        try{
+        try {
             thread.join();  // 쓰레드 작업 끝날때까지 다른 작업들은 대기
-        }catch(Exception e){
+        } catch (Exception e) {
         }
 
         //여기까지 새로 추가한 코드
 
 
-
         //여기 textView1 = (TextView)findViewById(R.id.textView1);
         //parsing_url = "http://map.daum.net/route/walkset.json?callback=jQuery1810369897711_1499578448313&sName=%EA%B2%BD%EA%B8%B0+%EB%B6%80%EC%B2%9C%EC%8B%9C+%EC%A4%91%EB%8F%99+982&sX=449528&sY=1108343&eName=%EA%B2%BD%EA%B8%B0+%EB%B6%80%EC%B2%9C%EC%8B%9C+%EC%8B%AC%EA%B3%A1%EB%8F%99+364-1&eX=449288&eY=1109118&ids=%2C";
-        parsing_url = "https://m.map.daum.net/actions/walkRoute?startLoc="+"현위치"+"&sxEnc="+ encryx1 +"&syEnc="+encryy1+"&endLoc="+"목적지"+"&exEnc="+encryx+"&eyEnc="+encryy+"&ids=%2CP000&service=";
-        Debugs.logv(new Exception(),"something to print "+ parsing_url);
-        task = new Runnable(){
-            public void run(){
+        parsing_url = "https://m.map.daum.net/actions/walkRoute?startLoc=" + "현위치" + "&sxEnc=" + encryx1 + "&syEnc=" + encryy1 + "&endLoc=" + "목적지" + "&exEnc=" + encryx + "&eyEnc=" + encryy + "&ids=%2CP000&service=";
+        Debugs.logv(new Exception(), "something to print " + parsing_url);
+        task = new Runnable() {
+            public void run() {
                 //getData(parsing_url);
                 Debugs.logv(new Exception(), parsing_url);
                 pathListItems = recallPathListItem(getData(parsing_url));
@@ -134,12 +139,12 @@ public class ParsingClass extends Activity{
         };
         thread = new Thread(task);
         thread.start();  // 반드시 쓰레드를 해줘야함 그 이유는 아래에서 설명
-        try{
+        try {
             thread.join();  // 쓰레드 작업 끝날때까지 다른 작업들은 대기
-        }catch(Exception e){
+        } catch (Exception e) {
         }
 
-        for(i=0;i<pathListItems.size();i++) {
+        for (i = 0; i < pathListItems.size(); i++) {
             parsing_url = "https://apis.daum.net/local/geo/transcoord?apikey=1b9fd99de0b3b55cd8bfca913c787474&fromCoord=wtm&y=" + placey[i] * 0.4 + "&x=" + placex[i] * 0.4 + "&toCoord=WGS84&output=json";
             task = new Runnable() {
                 public void run() {
@@ -153,9 +158,61 @@ public class ParsingClass extends Activity{
             } catch (Exception e) {
             }
         }
+
+        for (i = 0; i < pathListItems.size()-1; i++) {
+            String landMark;
+
+            Pattern p = Pattern.compile("^[0-9]+m+$");
+//            Pattern s = Pattern.compile("(^[0-9]*$)");
+            if (mentCopy[i].indexOf(" ") != -1) {
+                landMark = mentCopy[i].substring(0, mentCopy[i].indexOf(" "));
+                if(landMark.equals("횡단보도") || landMark.equals("육교")|| landMark.equals("육교를") ){
+                    if(landMark.equals("육교를"))
+                        landMarkList.add("육교");
+                    else
+                        landMarkList.add(landMark);
+                }
+                else if (!(p.matcher(landMark).find() || landMark.equals("오른쪽길로") || landMark.equals("왼쪽길로") || landMark.equals("오른쪽길") || landMark.equals("왼쪽길") || landMark.equals("현위치") || landMark.equals("[목적지]"))) {
+                    parsing_url = "https://m.map.daum.net/actions/searchView?q=" + landMark + "&wxEnc=" + encryx + "&wyEnc=" + encryy + "&lvl=4&rcode=B7218A141&sort=0&viewmap=false";
+                    task = new Runnable() {
+                        public void run() {
+                            getLandmark(parsing_url);  //getData2는 출발지와 도착지의 각 x,y값을 찾는 메소드임
+                        }
+                    };
+                    thread = new Thread(task);
+                    thread.start();  // 반드시 쓰레드를 해줘야함 그 이유는 아래에서 설명
+                    try {
+                        thread.join();  // 쓰레드 작업 끝날때까지 다른 작업들은 대기
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }
         complete=1;
     }
+    public void getLandmark(String strURL) {
+        Source source;
+        String landMark;
+        get_data = "";
+        try {
+            URL url = new URL(strURL);
+            source = new Source(url);  // 쓰레드를 사용 안하면 여기에서 예외 발생함 그 이유는 아래에서 설명
+            Element element = null;
+//            List<Element> list = source.getAllElements(HTMLElementName.SCRIPT); // title 태그의 엘리먼트 가져옴
+            //   array.add(source.toString());
+            element = source.getAllElements(HTMLElementName.SCRIPT).get(1);
+            element.toString();
+            landMark = element.toString();
+            landMark = landMark.substring(landMark.indexOf("name : ")+8 , landMark.length());
+            landMark = landMark.substring(0,landMark.indexOf(",")-1);
+            landMark+="";
 
+            landMarkList.add(landMark);
+        } catch (Exception e) {
+            e.getStackTrace();
+            e.getMessage();
+        }
+    }
     public String getData2(String strURL){
         Source source;
         get_data = "";
