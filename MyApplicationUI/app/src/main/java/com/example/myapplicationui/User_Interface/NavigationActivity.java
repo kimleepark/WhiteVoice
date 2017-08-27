@@ -95,6 +95,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double detectedY = 0;
     double detectedDistance = 0;
     LocationManager lm;
+    String resound = "";
 
     String clockBasedDirection1;
 
@@ -519,7 +520,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
                                     //수정이 필요한 부분
-                                    TTSClass.Init(this,index+"번째 경유지 입니다."+"현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullDistance +"미터, 거리입니다.'" +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this,index+"번째 경유지 입니다."+"현재 위치에서, 최종 목적지인, "+parsing.destinationmap+"까지," + (int)fullDistance +"m, 남았습니다.'" +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     //
                                     STACK_POINT--;
                                     divFour1 = false;
@@ -676,6 +677,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 rotateNum = 0;
                 STACK_POINT = 0;
                 parsing.complete = 0;
+                fullDistance = 0;
 
                 startDataUpdate = false;
                 vibratorTF = true;
@@ -714,7 +716,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     }
 
     public void onClickListen(View view){
-        TTSClass.Init(this, "현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+        TTSClass.Init(this, "현재 위치에서, " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "m, 남았습니다.");
     }
 
     /*
@@ -844,6 +846,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 TTSClass.Init(getApplication(), name);
             }
             temp = null;
+            resound = name;
             ((whiteVoice)getApplicationContext()).tapPath = null;
         }
     }
