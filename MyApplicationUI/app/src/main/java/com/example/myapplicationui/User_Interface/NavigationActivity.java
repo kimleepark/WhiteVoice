@@ -887,8 +887,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     + "\nidx : " + parsing.pathListItems.get(num).getIdx()
                     + "\n\n";
         }
-        dataMessage += "\nSTACK_POINT : " + STACK_POINT
-                    + "\ndisIndex : " + disIndex
+        dataMessage += "\ndisIndex : " + disIndex
                     + "\nAtoB : " + (int)AdistanceToB + "m";
         alertDialogBuilder.setTitle("Check Data");
         alertDialogBuilder
