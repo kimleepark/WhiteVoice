@@ -236,6 +236,18 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             super.onPostExecute(s);
             //tView.setText(parsing.destinationmap);
             dialog.dismiss();
+            fullDistanceReturn();
+            Intent data = new Intent(getApplication(), NavigationPopupActivity.class);
+            data.putExtra("destinationmap", parsing.destinationmap);
+            data.putExtra("getVoiceString",((whiteVoice) getApplicationContext()).target);
+            data.putExtra("fullDistance", (int)fullDistance);
+            data.putStringArrayListExtra("landMarkList",parsing.landMarkList);
+            try{
+                startActivity(data);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            firstGuide1 = true;
         }
     }
 
@@ -372,8 +384,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             clockBasedDirection1 = "";
 
             if (mLatitude != 0.0 && mLongitude != 0.0) {   //현재 좌표를 받아오기 시작했는가?
-                while (parsing.complete != 1) {
-
+                while (true) {
+                    if(parsing.complete == 1)
+                        break;
                 }
                 // 방위각 산출을 위한 value
                 // 실제 방위각 산출 및 적용은 현재 좌표 안정화 상태에서 실행
@@ -394,20 +407,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     //멘트 필터링
                     trash = 1;
                     mentChange(index);
-                    fullDistanceReturn();
-                    TTSClass.Init(this,"경로안내를 시작합니다.");
 
-                    Intent data = new Intent(this, NavigationPopupActivity.class);
-                    data.putExtra("destinationmap", parsing.destinationmap);
-                    data.putExtra("getVoiceString",((whiteVoice) getApplicationContext()).target);
-                    data.putExtra("fullDistance", (int)fullDistance);
-                    data.putStringArrayListExtra("landMarkList",parsing.landMarkList);
-                    try{
-                        startActivity(data);
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                } else if (startDataUpdate && index != 0) {  //지금 현재 받아온 좌표가 최초 현재좌표가 아닌가?
+                } else if (startDataUpdate && index != 0 && firstGuide1) {  //지금 현재 받아온 좌표가 최초 현재좌표가 아닌가?
                     //실시간 현재좌표의 이전 누적데이터 좌표가 쌓이기 시작했기때문에 본격적인 길안내 시작
                     //다음 경유지 좌표를 계속 업데이트
                     dLatitude = parsing.pathListItems.get(index).getX();
