@@ -38,15 +38,12 @@ public class DestinationActivity extends AppCompatActivity {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable edit) {
-                Button btnAdd = (Button) findViewById(R.id.btnAddF);
                 Button btnGuide = (Button)findViewById(R.id.btnStartG);
                 if (edit.toString().length() > 0) {
                     // 버튼 상태 활성화.
-                    btnAdd.setEnabled(true);
                     btnGuide.setEnabled(true);
                 } else {
                     // 버튼 상태 비활성화.
-                    btnAdd.setEnabled(false);
                     btnGuide.setEnabled(false);
                 }
             }
@@ -106,12 +103,6 @@ public class DestinationActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void onClickAddF(View view){
-        Intent intent = new Intent(this, FavoriteActivity.class);
-        intent.putExtra("value", editText.getText().toString().replace(" ", ""));
-        editText.setText("");
-        startActivity(intent);
-    }
     @Override
     public void onStop(){
         DebugClass.logv(new Exception(), "Ssomething to print Stop");
