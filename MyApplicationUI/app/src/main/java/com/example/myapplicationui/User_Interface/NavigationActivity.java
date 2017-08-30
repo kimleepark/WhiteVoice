@@ -248,6 +248,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 e.printStackTrace();
             }
             firstGuide1 = true;
+
         }
     }
 
@@ -384,9 +385,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             clockBasedDirection1 = "";
 
             if (mLatitude != 0.0 && mLongitude != 0.0) {   //현재 좌표를 받아오기 시작했는가?
-                while (true) {
-                    if(parsing.complete == 1)
-                        break;
+                while (parsing.complete != 1) {
+
                 }
                 // 방위각 산출을 위한 value
                 // 실제 방위각 산출 및 적용은 현재 좌표 안정화 상태에서 실행
@@ -887,7 +887,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     + "\nidx : " + parsing.pathListItems.get(num).getIdx()
                     + "\n\n";
         }
-        dataMessage += "\ndisIndex : " + disIndex
+        dataMessage += "\nSTACK_POINT : " + STACK_POINT
+                    + "\ndisIndex : " + disIndex
                     + "\nAtoB : " + (int)AdistanceToB + "m";
         alertDialogBuilder.setTitle("Check Data");
         alertDialogBuilder

@@ -44,9 +44,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity android:name=".User_Interface.TestActivity" />
+        <activity android:name=".User_Interface.SearchDialog" />
+        <activity android:name=".User_Interface.TapActivity"></activity>
         <activity
             android:name=".User_Interface.NavigationPopupActivity"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"></activity>
+
     </application>
 
 </manifest>

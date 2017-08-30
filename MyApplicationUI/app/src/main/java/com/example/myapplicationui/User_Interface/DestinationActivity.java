@@ -97,6 +97,7 @@ public class DestinationActivity extends AppCompatActivity {
     }
 
 
+<<<<<<< HEAD
     public void onClickOK(View view){
         Intent intent = getIntent();
         if(intent.getStringExtra("ABC").equals("1")) {  //즐겨찾기
@@ -112,6 +113,12 @@ public class DestinationActivity extends AppCompatActivity {
             finish();
         }
         editText.setText("");
+=======
+    public void onClickGuide(View view){
+        ((whiteVoice)getApplicationContext()).target = editText.getText().toString().replace(" ","");
+        Intent intent = new Intent(getApplication(), NavigationActivity.class);
+        startActivity(intent);
+>>>>>>> bfee0a8473d5f20b4ae48ee4218857b11fc473fc
     }
 
     @Override

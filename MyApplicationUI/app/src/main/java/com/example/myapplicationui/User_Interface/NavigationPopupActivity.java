@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class NavigationPopupActivity extends Activity {
 
     ArrayList<String> signiture = new ArrayList<String>();
+    public boolean popupcomplete=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +32,11 @@ public class NavigationPopupActivity extends Activity {
         signiture = arrayOverlapCatcher(getData.getStringArrayListExtra("landMarkList"));
         String signitureList = "";
 
+
         for(int x = 0; x < signiture.size(); x++){
             signitureList += "\n" + signiture.get(x) + ",";
         }
+
 
         dataDisplay.setText("[입력]\n"
                 + getData.getStringExtra("getVoiceString")
@@ -45,19 +48,21 @@ public class NavigationPopupActivity extends Activity {
                 + hour + "시간 "
                 + min +"분 예정\n"
                 + signitureList);
-        
+
         TTSClass.Init(getApplication(), "현재 입력된, 목적지는,"
                 + getData.getStringExtra("getVoiceString")
                 + " ,이며, 가장 근접하게, 검색된, 목적지는, "
                 + getData.getStringExtra("destinationmap")
-                + ", 입니다. 총 "
+                + ", 입니다.                                                   총 "
                 + getData.getIntExtra("fullDistance",1)
-                + ",미터, 거리이며, 약,  "
-                + hour + ",시간," + min + ",분, 소요될 예정입니다. ");
+                + "미터,                                            떨어져 있으며, 약,  "
+                + hour + "시간, " + min + "분, 소요될 예정입니다.                                        ");
+
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
                 finish();
+                popupcomplete = true;
             }
         }, 16000);
     }
