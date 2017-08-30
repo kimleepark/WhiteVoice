@@ -40,7 +40,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
             android:weightSum="1"
-            android:id="@+id/btnSearch_voice">
+            android:id="@+id/btnAdd_voice">
 
             <ImageView
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
             android:layout_weight="0.5"
             android:orientation="vertical"
             android:background="@drawable/corner"
-            android:id="@+id/btnSearch_touch"
+            android:id="@+id/btnAdd_touch"
             android:weightSum="1"
             android:layout_margin="10dp">
 
@@ -90,31 +90,31 @@
 
         </LinearLayout>
     </LinearLayout>
-<!--
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:background="@drawable/corner"
-        android:onClick="onClickDestinationV"
-        android:layout_weight="0.50"
-        android:src="@drawable/mic"
-        android:text="음성검색"
-        android:textColor="#fff"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:id="@+id/btnSearch_voice"/>
+    <!--
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:background="@drawable/corner"
+            android:onClick="onClickDestinationV"
+            android:layout_weight="0.50"
+            android:src="@drawable/mic"
+            android:text="음성검색"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:id="@+id/btnSearch_voice"/>
 
-    <Button
-        android:layout_width="0dp"
-        android:layout_height="200dp"
-        android:text="터치검색"
-        android:textColor="#fff"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
-        android:layout_weight="0.50"
-        android:background="@drawable/corner"
-        android:drawableStart="@drawable/keyboard"
-        android:onClick="onClickDestinationV"
-        android:id="@+id/btnSearch_touch"/>
--->
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:text="터치검색"
+            android:textColor="#fff"
+            android:textSize="20sp"
+            android:layout_margin="10dp"
+            android:layout_weight="0.50"
+            android:background="@drawable/corner"
+            android:drawableStart="@drawable/keyboard"
+            android:onClick="onClickDestinationV"
+            android:id="@+id/btnSearch_touch"/>
+    -->
 </LinearLayout>

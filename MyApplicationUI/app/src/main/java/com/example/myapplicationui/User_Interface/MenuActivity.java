@@ -140,7 +140,7 @@ public class MenuActivity extends Activity {
         buider.setView(dialogView); //위에서 inflater가 만든 dialogView 객체 세팅 (Customize)
 
         //설정한 값으로 AlertDialog 객체 생성
-        AlertDialog dialog=buider.create();
+        final AlertDialog dialog=buider.create();
         //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
         dialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
         //Dialog 보이기
@@ -152,6 +152,7 @@ public class MenuActivity extends Activity {
             public void onClick(View view) {
                 TTSClass.Init(getApplication(), "목적지를 말하세요");
                 doSTT();
+                dialog.dismiss();
             }
         });
 
@@ -160,7 +161,9 @@ public class MenuActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplication(), DestinationActivity.class);
+                intent.putExtra("ABC", "2");
                 startActivity(intent);
+                dialog.dismiss();
             }
         });
     }
@@ -324,7 +327,6 @@ public class MenuActivity extends Activity {
 
             LayoutInflater inflater=getLayoutInflater();
 
-            //res폴더>>layout폴더>>dialog_addmember.xml 레이아웃 리소스 파일로 View 객체 생성
             //Dialog의 listener에서 사용하기 위해 final로 참조변수 선언
             final View dialogView= inflater.inflate(R.layout.activity_tap, null);
 
@@ -334,7 +336,7 @@ public class MenuActivity extends Activity {
             buider.setView(dialogView); //위에서 inflater가 만든 dialogView 객체 세팅 (Customize)
 
             //설정한 값으로 AlertDialog 객체 생성
-            final AlertDialog mDialog =buider.create();
+            final AlertDialog mDialog = buider.create();
             //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
             mDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
             //Dialog 보이기

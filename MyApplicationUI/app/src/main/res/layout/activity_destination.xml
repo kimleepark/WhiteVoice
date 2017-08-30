@@ -25,24 +25,11 @@
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:text="안내시작"
+        android:text="확인"
         android:textSize="40sp"
         android:background="@drawable/corner"
         android:layout_weight="0.11"
         android:textColor="#ffff"
         android:layout_marginTop="20dp"
-        android:onClick="onClickGuide"/>
-
-    <Button
-        android:id="@+id/btnAddF"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:text="즐겨찾기에 추가"
-        android:textSize="40sp"
-        android:background="@drawable/corner"
-        android:layout_weight="0.11"
-        android:textColor="#ffff"
-        android:layout_marginTop="20dp"
-        android:onClick="onClickAddF"/>
+        android:onClick="onClickOK"/>
 </LinearLayout>

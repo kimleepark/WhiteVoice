@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -198,8 +200,45 @@ public class FavoriteActivity extends AppCompatActivity{
     }
 
     public void onClickAdd(View view){
-        TTSClass.Init(this, "추가할 목적지를 말하세요");
-        doSTT();
+
+        LayoutInflater inflater=getLayoutInflater();
+
+        //res폴더>>layout폴더>>dialog_addmember.xml 레이아웃 리소스 파일로 View 객체 생성
+        //Dialog의 listener에서 사용하기 위해 final로 참조변수 선언
+        final View dialogView= inflater.inflate(R.layout.activity_search_dialog, null);
+
+        //멤버의 세부내역 입력 Dialog 생성 및 보이기
+        AlertDialog.Builder buider= new AlertDialog.Builder(this); //AlertDialog.Builder 객체 생성
+        //buider.setTitle("Member Information"); //Dialog 제목
+        buider.setView(dialogView); //위에서 inflater가 만든 dialogView 객체 세팅 (Customize)
+
+        //설정한 값으로 AlertDialog 객체 생성
+        final AlertDialog dialog=buider.create();
+        //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
+        dialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+        //Dialog 보이기
+        dialog.show();
+
+        LinearLayout btnV = (LinearLayout)dialogView.findViewById(R.id.btnSearch_voice);
+        btnV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TTSClass.Init(getApplication(), "추가할 목적지를 말하세요");
+                doSTT();
+                dialog.dismiss();
+            }
+        });
+
+        LinearLayout btnT = (LinearLayout)dialogView.findViewById(R.id.btnSearch_touch);
+        btnT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), DestinationActivity.class);
+                intent.putExtra("ABC", "1");
+                startActivityForResult(intent, 501);
+                dialog.dismiss();
+            }
+        });
     }
 
     private void doSTT(){
@@ -245,9 +284,6 @@ public class FavoriteActivity extends AppCompatActivity{
             item.setText(replace_sst);
             items.add(item);
 
-            // 에디트텍스트 내용 초기화.
-            //editTextNew.setText("") ;
-
             // 리스트뷰 갱신
             adapter.notifyDataSetChanged();
 
@@ -256,23 +292,20 @@ public class FavoriteActivity extends AppCompatActivity{
 
             TTSClass.Init(this, replace_sst);
 
-        }/*
-        else if(resultCode == RESULT_OK && requestCode == 110){
-            String fData= data.getStringExtra("value");
-            for(int i = 0; i < items.size(); i++) {
-                tempText = items.get(i).getText();
-                int temp = SDClass.distance(tempText,fData);
-                if(temp<=1){
-                    Toast.makeText(getApplicationContext(), "문자열있음 : "+ temp, Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplication(), NavigationActivity.class);
-                    intent.putExtra("value", tempText);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "문자열없음: "+ temp, Toast.LENGTH_SHORT).show();
-                }
-            }
-        }*/
+        }
+        else if(resultCode == RESULT_OK && requestCode == 501){
+
+            // 리스트에 문자열 추가.
+            item = new ListViewItem();
+            item.setText(data.getStringExtra("value"));
+            items.add(item);
+
+            // 리스트뷰 갱신
+            adapter.notifyDataSetChanged();
+
+            // 리스트뷰 아이템들을 파일에 저장.
+            saveItemsToFile();
+        }
     }
 
     public void RemoveData(int nPosition){
