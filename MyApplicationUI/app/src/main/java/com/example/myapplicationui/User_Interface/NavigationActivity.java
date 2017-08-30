@@ -83,7 +83,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double AdistanceToB = 0;
     double fullDistance = 0;
     int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0, checkFlowOver = 0;
-    boolean dataUpdate = false;
+    boolean dataUpdate = true;
     boolean startDataUpdate = false;
     boolean near10m1 = false, near10m2 = true;
     boolean divFour1 = false, divFour2 = true;
@@ -200,6 +200,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     if (keyCode == KeyEvent.KEYCODE_BACK) {
                         dialog.dismiss();
                         finish();
+                        dataUpdate = false;
                         return true;
                     }
                     return false;
@@ -216,6 +217,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         parsing.complete = 2;
                         parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
                         parsing.onLoad();
+                        break;
                     }
                     else if (parsing.complete == 1) {
                         if (parsing.destinationmap.equals("에러")) {
@@ -237,15 +239,17 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             //tView.setText(parsing.destinationmap);
             dialog.dismiss();
             fullDistanceReturn();
-            Intent data = new Intent(getApplication(), NavigationPopupActivity.class);
-            data.putExtra("destinationmap", parsing.destinationmap);
-            data.putExtra("getVoiceString",((whiteVoice) getApplicationContext()).target);
-            data.putExtra("fullDistance", (int)fullDistance);
-            data.putStringArrayListExtra("landMarkList",parsing.landMarkList);
-            try{
-                startActivity(data);
-            }catch (Exception e){
-                e.printStackTrace();
+            if(dataUpdate) {
+                Intent data = new Intent(getApplication(), NavigationPopupActivity.class);
+                data.putExtra("destinationmap", parsing.destinationmap);
+                data.putExtra("getVoiceString", ((whiteVoice) getApplicationContext()).target);
+                data.putExtra("fullDistance", (int) fullDistance);
+                data.putStringArrayListExtra("landMarkList", parsing.landMarkList);
+                try {
+                    startActivity(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
             firstGuide1 = true;
 
