@@ -31,9 +31,6 @@
         android:layout_weight="0.11"
         android:textColor="#ffff"
         android:layout_marginTop="20dp"
-<<<<<<< HEAD
         android:onClick="onClickOK"/>
-=======
-        android:onClick="onClickGuide"/>
->>>>>>> bfee0a8473d5f20b4ae48ee4218857b11fc473fc
+
 </LinearLayout>
