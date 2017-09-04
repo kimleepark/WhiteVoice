@@ -71,10 +71,17 @@ public class NavigationPopupActivity extends Activity {
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TTSClass.speechStop();
                 finish();
                 popupcomplete = true;
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        TTSClass.speechStop();
     }
 
     public ArrayList<String> arrayOverlapCatcher(ArrayList<String> list){
