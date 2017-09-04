@@ -3,8 +3,9 @@ package com.example.myapplicationui.User_Interface;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
+import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.myapplicationui.Conection.whiteVoice;
@@ -57,7 +58,7 @@ public class NavigationPopupActivity extends Activity {
                 + getData.getIntExtra("fullDistance",1)
                 + "미터,                                            떨어져 있으며, 약,  "
                 + hour + "시간, " + min + "분, 소요될 예정입니다.                                        ");
-
+        /*
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
             public void run() {
@@ -65,6 +66,15 @@ public class NavigationPopupActivity extends Activity {
                 popupcomplete = true;
             }
         }, 16000);
+        */
+        Button btnClose = (Button)findViewById(R.id.btnPopupClose);
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                popupcomplete = true;
+            }
+        });
     }
 
     public ArrayList<String> arrayOverlapCatcher(ArrayList<String> list){

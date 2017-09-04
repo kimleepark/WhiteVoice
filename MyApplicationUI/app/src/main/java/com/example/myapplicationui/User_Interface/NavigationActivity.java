@@ -27,6 +27,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -217,11 +218,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         parsing.complete = 2;
                         parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
                         parsing.onLoad();
-                        break;
                     }
                     else if (parsing.complete == 1) {
                         if (parsing.destinationmap.equals("에러")) {
                             Debugs.logv(new Exception(), "sSomething to 걱정");
+                            dataUpdate = false;
                             TTSClass.Init(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.");
                             finish();
                         }
@@ -780,6 +781,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         ProgressDialog dialog;
         boolean flagCS = true;
         String temp = null;
+        String ment;
 
         @Override
         protected void onPreExecute() {
@@ -859,14 +861,62 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         @Override
         protected void onPostExecute(String name) {
             super.onPostExecute(name);
+
             dialog.dismiss();
             if(name!=null)
             {
                 TTSClass.Init(getApplication(), name);
+                ment = name;
             }
-            temp = null;
-            resound = name;
+
+            LayoutInflater inflater=getLayoutInflater();
+
+            //Dialog의 listener에서 사용하기 위해 final로 참조변수 선언
+            final View dialogView= inflater.inflate(R.layout.activity_tap, null);
+
+            //멤버의 세부내역 입력 Dialog 생성 및 보이기
+            AlertDialog.Builder buider= new AlertDialog.Builder(NavigationActivity.this); //AlertDialog.Builder 객체 생성
+            //buider.setTitle("Member Information"); //Dialog 제목
+            buider.setView(dialogView); //위에서 inflater가 만든 dialogView 객체 세팅 (Customize)
+
+            //설정한 값으로 AlertDialog 객체 생성
+            final AlertDialog mDialog = buider.create();
+            //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
+            mDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+            //Dialog 보이기
+            mDialog.show();
+
+            File imgFile = new File(((whiteVoice)getApplicationContext()).tapPath);
             ((whiteVoice)getApplicationContext()).tapPath = null;
+
+            if(imgFile.exists()){
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+                ImageView imageView = (ImageView)dialogView.findViewById(R.id.imageViewTap);
+
+                imageView.setImageBitmap(myBitmap);
+            }
+
+            TextView viewMent = (TextView)dialogView.findViewById(R.id.textMentTap);
+            viewMent.setText(ment);
+
+            ImageView btnA = (ImageView) dialogView.findViewById(R.id.btnAgainTap);
+            btnA.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    TTSClass.Init(getApplication(), ment);
+                }
+            });
+
+            Button btnC = (Button)dialogView.findViewById(R.id.btnCloseTap);
+            btnC.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDialog.dismiss();
+                    temp = null;
+                }
+            });
         }
     }
 

@@ -3,42 +3,43 @@ package com.example.myapplicationui.User_Interface;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.v4.app.ActivityCompat;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.myapplicationui.Conection.whiteVoice;
-import com.example.myapplicationui.Function.TTSClass;
-import com.example.myapplicationui.R;
-import com.tsengvn.typekit.TypekitContextWrapper;
-
-import java.util.ArrayList;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.myapplicationui.CS.CSApi;
 import com.example.myapplicationui.CS.CSGetResult;
 import com.example.myapplicationui.CS.CSPostConfig;
 import com.example.myapplicationui.CS.CSPostResult;
+import com.example.myapplicationui.Conection.whiteVoice;
 import com.example.myapplicationui.Function.CameraActivity;
+import com.example.myapplicationui.Function.TTSClass;
+import com.example.myapplicationui.R;
+import com.tsengvn.typekit.TypekitContextWrapper;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+
 import static com.example.myapplicationui.User_Interface.NavigationActivity.HTTP_TRANSPORT;
 import static com.example.myapplicationui.User_Interface.NavigationActivity.JSON_FACTORY;
 
@@ -356,7 +357,7 @@ public class MenuActivity extends Activity {
             TextView viewMent = (TextView)dialogView.findViewById(R.id.textMentTap);
             viewMent.setText(ment);
 
-            Button btnA = (Button)dialogView.findViewById(R.id.btnAgainTap);
+            ImageView btnA = (ImageView) dialogView.findViewById(R.id.btnAgainTap);
             btnA.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

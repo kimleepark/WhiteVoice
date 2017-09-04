@@ -1,20 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="340dip"
-    android:layout_height="600dip"
-    android:orientation="vertical"
-    android:background="#FFFFFF"
-    android:layout_centerInParent="true"
-    tools:context="com.example.myapplicationui.User_Interface.NavigationPopupActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="300dp"
+    android:layout_height="550dp"
+    android:weightSum="1">
 
-    <TextView
-        android:id="@+id/popUp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="TEST_VIEW"
-        android:textSize="10dp"/>
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="0.1">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="경로요약"
+            android:textSize="35sp"
+            android:gravity="center"
+            android:textColor="#000"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.75"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/popUp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TEST_VIEW"
+            android:textSize="25sp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btnPopupClose"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="닫기"
+            android:background="@drawable/corner"
+            android:textColor="#fff"
+            android:layout_margin="10dp"
+            android:textSize="30sp"/>
+    </LinearLayout>
+
+</LinearLayout>
