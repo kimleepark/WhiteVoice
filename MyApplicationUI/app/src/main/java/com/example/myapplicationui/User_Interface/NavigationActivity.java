@@ -590,7 +590,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         Y.setLatitude(parsing.pathListItems.get(x+1).getY());
                         tmpDistance = tmpDistance + X.distanceTo(Y);
                     }
-                    whatsLeft = fullDistanceAndTime(AA, BB, tmpDistance);
+                    leftView.setText(fullDistanceAndTime(AA, BB, tmpDistance));
                 }
             }
             // 센서값이 변경되었을 때 호출되는 콜백 메서드d
@@ -972,7 +972,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         double Second = fullCalDistance / 0.8;
         int hour = (int)Second / 3600, min = (int)Second % 3600 / 60;
-        String textReturn = "총거리 : " + (int)fullCalDistance + "m, 최종예상시간 : " + hour + "시간 " + min +"분";
+        String textReturn = "총거리 : " + (int)fullCalDistance + "m \n총소요시간 : " + hour + "시간 " + min +"분";
         return textReturn;
     }
 }

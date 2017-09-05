@@ -50,7 +50,7 @@ public class NavigationPopupActivity extends Activity {
                 + min +"분 예정\n"
                 + signitureList);
 
-        TTSClass.Init(getApplication(), "검색하신, 목적지는"
+        TTSClass.Init(getApplication(), "검색하신, 목적지는, "
                 + getData.getStringExtra("getVoiceString")
                 + " ,이며, 가장 가까운, 검색결과는, "
                 + getData.getStringExtra("destinationmap")
