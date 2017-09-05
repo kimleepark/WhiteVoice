@@ -39,7 +39,7 @@ public class NavigationPopupActivity extends Activity {
         }
 
 
-        dataDisplay.setText("[입력]\n"
+        dataDisplay.setText("[입력된 목적지]\n"
                 + getData.getStringExtra("getVoiceString")
                 + "\n\n[검색된 목적지]\n"
                 + getData.getStringExtra("destinationmap")
@@ -50,14 +50,14 @@ public class NavigationPopupActivity extends Activity {
                 + min +"분 예정\n"
                 + signitureList);
 
-        TTSClass.Init(getApplication(), "현재 입력된, 목적지는,"
+        TTSClass.Init(getApplication(), "검색하신, 목적지는"
                 + getData.getStringExtra("getVoiceString")
-                + " ,이며, 가장 근접하게, 검색된, 목적지는, "
+                + " ,이며, 가장 가까운, 검색결과는, "
                 + getData.getStringExtra("destinationmap")
-                + ", 입니다.                                                   총 "
+                + ",  입니다.                                                   총 "
                 + getData.getIntExtra("fullDistance",1)
-                + "미터,                                            떨어져 있으며, 약,  "
-                + hour + "시간, " + min + "분, 소요될 예정입니다.                                        ");
+                + "미터,                                            거리이며, 약,  "
+                + hour + "시간, " + min + "분, 소요될 예정입니다.");
         /*
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable() {
