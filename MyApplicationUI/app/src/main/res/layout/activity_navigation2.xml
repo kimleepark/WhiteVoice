@@ -9,18 +9,6 @@
         android:layout_height="0dp"
         android:layout_weight="0.05"
         android:orientation="vertical">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/corner"
-            android:gravity="center"
-            android:onClick="onClickCheckingData"
-            android:text="CheckData"
-            android:textColor="#ffff"
-            android:textSize="20sp" />
-
     </LinearLayout>
 
     <LinearLayout
