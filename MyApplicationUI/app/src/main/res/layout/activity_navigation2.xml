@@ -4,39 +4,40 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <!--
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.05"
         android:orientation="vertical">
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/corner"
-            android:gravity="center"
-            android:onClick="onClickCheckingData"
-            android:text="CheckData"
-            android:textColor="#ffff"
-            android:textSize="20sp" />
-
     </LinearLayout>
+    -->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="0.65"
+        android:layout_weight="0.7"
         android:weightSum="1">
 
         <ImageView
             android:id="@+id/arrow"
+            android:layout_marginTop="15dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_gravity="center"
             android:src="@drawable/arrow"
-            android:layout_weight="1" />
+            android:layout_weight="0.85" />
+
+        <TextView
+            android:id="@+id/txtLeft"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.15"
+            android:text="남은거리, 시간"
+            android:textSize="25sp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="20dp"/>
     </LinearLayout>
 
     <LinearLayout
