@@ -72,7 +72,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     TextView ClockView;
     TextView LocationView;
     TextView AtoBView;*/
-    //TextView tView;
+    TextView leftView;
     boolean vibratorTF = true;
     //LinearLayout layout;
 
@@ -133,7 +133,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         sm = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         s = sm.getDefaultSensor(Sensor.TYPE_ORIENTATION); // 방향센서
         lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE); //LocationManager 객체를 얻어온다.
-        //ClockView = (TextView)findViewById(R.id.clockView);
+        leftView = (TextView)findViewById(R.id.txtLeft);
 
        //Log.e("value", target);
 
