@@ -83,6 +83,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double distanceAToB = 0;
     double AdistanceToB = 0;
     double fullDistance = 0;
+    double fullCalDistance = 0;
     int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0, checkFlowOver = 0;
     boolean dataUpdate = true;
     boolean startDataUpdate = false;
@@ -98,6 +99,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double detectedDistance = 0;
     LocationManager lm;
     String resound = "";
+    String whatsLeft = "";
 
     String clockBasedDirection1;
 
@@ -253,6 +255,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 }
             }
             firstGuide1 = true;
+            fullCalDistance = fullDistance;
 
         }
     }
@@ -571,6 +574,23 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     } else if (detectedDistance >= 50.0) {
                         checkFlowOver = 0;
                     }
+                    double tmpDistance = 0;
+                    Location AA = new Location("AA");
+                    Location BB = new Location("BB");
+                    AA.setLatitude(parsing.pathListItems.get(index-1).getX());
+                    AA.setLongitude(parsing.pathListItems.get(index-1).getY());
+                    BB.setLatitude(mLatitude);
+                    BB.setLongitude(mLongitude);
+                    for(int x = 0;x < index;x++){
+                        Location X = new Location("x");
+                        Location Y = new Location("y");
+                        X.setLatitude(parsing.pathListItems.get(x).getX());
+                        X.setLatitude(parsing.pathListItems.get(x).getY());
+                        Y.setLatitude(parsing.pathListItems.get(x+1).getX());
+                        Y.setLatitude(parsing.pathListItems.get(x+1).getY());
+                        tmpDistance = tmpDistance + X.distanceTo(Y);
+                    }
+                    whatsLeft = fullDistanceAndTime(AA, BB, tmpDistance);
                 }
             }
             // 센서값이 변경되었을 때 호출되는 콜백 메서드d
@@ -969,6 +989,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             fullDistance += P.distanceTo(Q);
         }
         return fullDistance;
+    }
+
+    public String fullDistanceAndTime(Location A, Location B, double left){
+        fullCalDistance = fullDistance - A.distanceTo(B) - left;
+
+        double Second = fullCalDistance / 0.8;
+        int hour = (int)Second / 3600, min = (int)Second % 3600 / 60;
+        String textReturn = "총거리 : " + (int)fullCalDistance + "m, 최종예상시간 : " + hour + "시간 " + min +"분";
+        return textReturn;
     }
 }
 
