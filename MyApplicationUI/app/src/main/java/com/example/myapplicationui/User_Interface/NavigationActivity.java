@@ -920,6 +920,12 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        TTSClass.speechStop();
+    }
+
     public Bitmap rotateImage(Bitmap src, float degree){
         // Matrix 객체 생성
         Matrix matrix = new Matrix();
