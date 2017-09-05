@@ -934,36 +934,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         // 이미지와 Matrix 를 셋팅해서 Bitmap 객체 생성
         return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), matrix, true);
     }
-
-    public void onClickCheckingData(View view){
-        Debugs.logv(new Exception(), "Something to print");
-        Context context = this;
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        String dataMessage = "";
-        for(int num = 0; num < parsing.pathListItems.size(); num++){
-            dataMessage += "x : " + parsing.pathListItems.get(num).getX()
-                    + "\ny : " + parsing.pathListItems.get(num).getY()
-                    + "\nment : " + parsing.pathListItems.get(num).getMent()
-                    + "\nidx : " + parsing.pathListItems.get(num).getIdx()
-                    + "\n\n";
-        }
-        dataMessage += "\nSTACK_POINT : " + STACK_POINT
-                    + "\ndisIndex : " + disIndex
-                    + "\nAtoB : " + (int)AdistanceToB + "m";
-        alertDialogBuilder.setTitle("Check Data");
-        alertDialogBuilder
-                .setMessage(dataMessage)
-                .setCancelable(false)
-                .setNegativeButton("close", new DialogInterface.OnClickListener() {
-                    //@Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                      dialogInterface.cancel();
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }
-
     public double fullDistanceReturn(){
         Location P = new Location("P");
         Location Q = new Location("Q");
