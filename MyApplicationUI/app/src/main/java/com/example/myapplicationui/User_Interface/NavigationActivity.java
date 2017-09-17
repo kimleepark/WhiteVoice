@@ -949,6 +949,45 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        //TTSClass.speechStop();
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // 제목셋팅
+        alertDialogBuilder.setTitle("안내 종료");
+
+        // AlertDialog 셋팅
+        alertDialogBuilder
+                .setMessage("안내를 종료하시겠습니까?")
+                .setCancelable(false)
+                .setPositiveButton("종료",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 프로그램을 종료한다
+                                NavigationActivity.this.finish();
+                            }
+                        })
+                .setNegativeButton("취소",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(
+                                    DialogInterface dialog, int id) {
+                                // 다이얼로그를 취소한다
+                                dialog.cancel();
+                            }
+                        });
+
+        // 다이얼로그 생성
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // 다이얼로그 보여주기
+        alertDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         TTSClass.speechStop();
     }
 
