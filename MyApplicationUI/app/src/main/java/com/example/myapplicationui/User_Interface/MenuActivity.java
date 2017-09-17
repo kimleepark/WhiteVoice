@@ -401,6 +401,7 @@ public class MenuActivity extends Activity {
         final AlertDialog dialog=buider.create();
         //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
         dialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+        dialog.setCancelable(false);
         //Dialog 보이기
         dialog.show();
 

@@ -943,41 +943,41 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        //TTSClass.speechStop();
+        LayoutInflater inflater=getLayoutInflater();
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
+        //res폴더>>layout폴더>>dialog_addmember.xml 레이아웃 리소스 파일로 View 객체 생성
+        //Dialog의 listener에서 사용하기 위해 final로 참조변수 선언
+        final View dialogView= inflater.inflate(R.layout.activity_guide_end, null);
 
-        // 제목셋팅
-        alertDialogBuilder.setTitle("안내 종료");
+        //멤버의 세부내역 입력 Dialog 생성 및 보이기
+        AlertDialog.Builder buider= new AlertDialog.Builder(this); //AlertDialog.Builder 객체 생성
+        //buider.setTitle("Member Information"); //Dialog 제목
+        buider.setView(dialogView); //위에서 inflater가 만든 dialogView 객체 세팅 (Customize)
 
-        // AlertDialog 셋팅
-        alertDialogBuilder
-                .setMessage("안내를 종료하시겠습니까?")
-                .setCancelable(false)
-                .setPositiveButton("종료",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(
-                                    DialogInterface dialog, int id) {
-                                // 프로그램을 종료한다
-                                NavigationActivity.this.finish();
-                            }
-                        })
-                .setNegativeButton("취소",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(
-                                    DialogInterface dialog, int id) {
-                                // 다이얼로그를 취소한다
-                                dialog.cancel();
-                            }
-                        });
+        //설정한 값으로 AlertDialog 객체 생성
+        final AlertDialog dialog=buider.create();
+        //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
+        dialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+        dialog.setCancelable(false);
+        //Dialog 보이기
+        dialog.show();
 
-        // 다이얼로그 생성
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        Button btnE = (Button)dialogView.findViewById(R.id.btnEndG);
+        btnE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                NavigationActivity.this.finish();
+            }
+        });
 
-        // 다이얼로그 보여주기
-        alertDialog.show();
+        Button btnC = (Button)dialogView.findViewById(R.id.btnCancelG);
+        btnC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
