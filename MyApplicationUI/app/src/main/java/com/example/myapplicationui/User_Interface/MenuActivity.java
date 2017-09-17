@@ -377,6 +377,51 @@ public class MenuActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        TTSClass.speechStop();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        LayoutInflater inflater=getLayoutInflater();
+
+        //res폴더>>layout폴더>>dialog_addmember.xml 레이아웃 리소스 파일로 View 객체 생성
+        //Dialog의 listener에서 사용하기 위해 final로 참조변수 선언
+        final View dialogView= inflater.inflate(R.layout.activity_end, null);
+
+        //멤버의 세부내역 입력 Dialog 생성 및 보이기
+        AlertDialog.Builder buider= new AlertDialog.Builder(this); //AlertDialog.Builder 객체 생성
+        //buider.setTitle("Member Information"); //Dialog 제목
+        buider.setView(dialogView); //위에서 inflater가 만든 dialogView 객체 세팅 (Customize)
+
+        //설정한 값으로 AlertDialog 객체 생성
+        final AlertDialog dialog=buider.create();
+        //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
+        dialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+        //Dialog 보이기
+        dialog.show();
+
+        Button btnE = (Button)dialogView.findViewById(R.id.btnEnd);
+        btnE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MenuActivity.this.finish();
+                dialog.dismiss();
+            }
+        });
+
+        Button btnC = (Button)dialogView.findViewById(R.id.btnCancel);
+        btnC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
     public void GpsPermissionCheckForMashMallo() {
         //마시멜로우 버전 이하면 if문에 걸리지 않습니다.
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
