@@ -223,7 +223,7 @@ public class FavoriteActivity extends AppCompatActivity{
         btnV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TTSClass.Init(getApplication(), "추가할 목적지를 말하세요");
+                //TTSClass.Init(getApplication(), "추가할 목적지를 말하세요");
                 doSTT();
                 dialog.dismiss();
             }
@@ -247,7 +247,7 @@ public class FavoriteActivity extends AppCompatActivity{
         builder.setMessage("추가할 목적지를 말하세요");
         final AlertDialog dialog = builder.show();
         TextView textView = (TextView) dialog.findViewById(android.R.id.message);
-        textView.setTextSize(25);
+        textView.setTextSize(30);
 
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable()  {

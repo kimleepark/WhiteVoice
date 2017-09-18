@@ -83,8 +83,10 @@ public class TTSClass extends Activity{
     }
 
     public static void speechStop(){
-        mTTS.stop();
-        mTTS.shutdown();
+        if (mTTS != null) {
+            mTTS.stop();
+            mTTS.shutdown();
+        }
     }
 
     @Override

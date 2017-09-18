@@ -35,6 +35,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.myapplicationui.CS.CSApi;
@@ -78,6 +79,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     boolean vibratorTF = true;
     //LinearLayout layout;
 
+    int research = 0;
     double mLatitude = 0; //위도
     double mLongitude = 0; //경도
     double dLatitude = 0;   //더미 위도
@@ -185,6 +187,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         }
         new ProcessLocation().execute();
+
         //TTSClass.Init(this, "경로안내를 시작합니다.");
     }
 
@@ -192,11 +195,11 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     class ProcessLocation extends AsyncTask<Void, Void, String> {
 
         ProgressDialog dialog;
-
         @Override
         protected void onPreExecute() {
             Debugs.logv(new Exception(), "Something to print");
             super.onPreExecute();
+            //TTSClass.speechStop();
             dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
             dialog.setMessage("경로검색 중 입니다...");             //ProgressDialog 메세지
@@ -244,13 +247,14 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         }
         @Override
         protected void onPostExecute(String s) {
-            Debugs.logv(new Exception(), "Something to print");
+            Debugs.logv(new Exception(), "Something to print2222222222222222");
             super.onPostExecute(s);
             //tView.setText(parsing.destinationmap);
             dialog.dismiss();
             fullDistanceReturn();
-            if(dataUpdate) {
+            if(dataUpdate && research == 0) {
                 Intent data = new Intent(getApplication(), NavigationPopupActivity.class);
+                data.putExtra("statingmap",parsing.statingmap);
                 data.putExtra("destinationmap", parsing.destinationmap);
                 data.putExtra("getVoiceString", ((whiteVoice) getApplicationContext()).target);
                 data.putExtra("fullDistance", (int) fullDistance);
@@ -260,6 +264,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }else {
+                TTSClass.Init(getApplicationContext(), "경로를 재탐색합니다.,             현재 위치는, "+parsing.statingmap+", 입니다.               현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullCalDistance +"미터, 거리입니다.              ," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
             }
             firstGuide1 = true;
             fullCalDistance = fullDistance;
@@ -555,7 +561,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                                 //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내
                                 if (firstGuide2) {    //이번 안내가 최초인가?
-                                    TTSClass.Init(this, index + "번째 경유지 입니다.                          현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
+                                    TTSClass.Init(this, index + "번째 경유지 입니다.           현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullCalDistance +"미터, 거리입니다.               현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
                                     //tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
                                     firstGuide2 = false;
                                 }
@@ -582,7 +588,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
                                     //수정이 필요한 부분
-                                    TTSClass.Init(this,index+"번째 경유지 입니다.                          현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullDistance +"미터, 거리입니다.                          " +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this,index+"번째 경유지 입니다.                          " +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     //
                                     STACK_POINT--;
                                     divFour1 = false;
@@ -749,9 +755,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TTSClass.Init(getApplication(), "경로를 재탐색합니다.");
-
-                parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
 
                 index = 0;
                 disIndex = 0;
@@ -768,7 +771,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 divFour2 = true;
                 firstGuide2 = true;
 
-                parsing.onLoad();
+                research = 1;
+                TTSClass.Init(NavigationActivity.this, "경로를 재탐색합니다.");
+                new ProcessLocation().execute();//와드
             }
         });
 
@@ -780,9 +785,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     index++;
                     vibratorTF = true;
                     mentChange(index);
-                    TTSClass.Init(getApplication(), index+"번째 경유지 입니다."+parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로,"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
+                    TTSClass.Init(NavigationActivity.this, index+"번째 경유지 입니다."+parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로,"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
                 } else {
-                    TTSClass.Init(getApplication(), "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
+                    TTSClass.Init(NavigationActivity.this, "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
                 }
             }
         });
@@ -850,7 +855,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
             dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
-            dialog.setMessage("분석중입니다...");             //ProgressDialog 메세지
+            dialog.setMessage("사진분석 중 입니다...");             //ProgressDialog 메세지
             //dialog.setCancelable(false);                      //종료금지
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
             dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
@@ -962,7 +967,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             TextView viewMent = (TextView)dialogView.findViewById(R.id.textMentTap);
             viewMent.setText(ment);
 
-            ImageView btnA = (ImageView) dialogView.findViewById(R.id.btnAgainTap);
+            RelativeLayout btnA = (RelativeLayout) dialogView.findViewById(R.id.btnAgainTap);
             btnA.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -983,7 +988,46 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        LayoutInflater inflater=getLayoutInflater();
+
+        //res폴더>>layout폴더>>dialog_addmember.xml 레이아웃 리소스 파일로 View 객체 생성
+        //Dialog의 listener에서 사용하기 위해 final로 참조변수 선언
+        final View dialogView= inflater.inflate(R.layout.activity_guide_end, null);
+
+        //멤버의 세부내역 입력 Dialog 생성 및 보이기
+        AlertDialog.Builder buider= new AlertDialog.Builder(this); //AlertDialog.Builder 객체 생성
+        //buider.setTitle("Member Information"); //Dialog 제목
+        buider.setView(dialogView); //위에서 inflater가 만든 dialogView 객체 세팅 (Customize)
+
+        //설정한 값으로 AlertDialog 객체 생성
+        final AlertDialog dialog=buider.create();
+        //Dialog의 바깥쪽을 터치했을 때 Dialog를 없앨지 설정
+        dialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+        dialog.setCancelable(false);
+        //Dialog 보이기
+        dialog.show();
+
+        Button btnE = (Button)dialogView.findViewById(R.id.btnEndG);
+        btnE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+                NavigationActivity.this.finish();
+            }
+        });
+
+        Button btnC = (Button)dialogView.findViewById(R.id.btnCancelG);
+        btnC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         TTSClass.speechStop();
     }
 
@@ -1013,7 +1057,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         double Second = fullCalDistance / 0.8;
         int hour = (int)Second / 3600, min = (int)Second % 3600 / 60;
-        String textReturn = "총거리 : " + (int)fullCalDistance + "m \n총소요시간 : " + hour + "시간 " + min +"분";
+        String textReturn = "총거리 : " + (int)fullCalDistance + "m \n다음 경유지까지의 거리 : "+(int)distanceAToB+ "\n총소요시간 : " + hour + "시간 " + min +"분";
         return textReturn;
     }
 }
