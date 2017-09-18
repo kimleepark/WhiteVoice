@@ -18,6 +18,8 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -86,16 +88,19 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double AdistanceToB = 0;
     double fullDistance = 0;
     double fullCalDistance = 0;
-    int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0, checkFlowOver = 0;
+    int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0, checkFlowOver = 0, dook = 0;
     boolean dataUpdate = true;
     boolean startDataUpdate = false;
     boolean near10m1 = false, near10m2 = true;
     boolean divFour1 = false, divFour2 = true;
     boolean firstGuide1 = false, firstGuide2 = true;
+    boolean outOfRoad1 = false, outOfRoad2 = true, outOfRoad3 = true;
     Location pointA = new Location("A");
     Location pointB = new Location("B");
     Location detectPointA = new Location("dectedA");
     Location detectPointB = new Location("dectedB");
+    Location areaPoint = new Location("area");
+
     double detectedX = 0;
     double detectedY = 0;
     double detectedDistance = 0;
@@ -106,6 +111,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     String clockBasedDirection1;
 
     ImageView arrow;
+
+    SoundPool soundPool;
 
     //ArrayList<pathListItem> dumDB = new ArrayList<pathListItem>();
 
@@ -448,10 +455,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                         } else if (checkFlowOver == 11) {
                             //현재 위치와 다음 경유지까지의 거리
                             distanceAToB = pointA.distanceTo(pointB);
-                            //경로이탈 감지
-                            if (!pathDetect(parsing.pathListItems.get(index - 1).getX(), parsing.pathListItems.get(index - 1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)) {
-                                //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
-                            }
+
                             //방위각 설정
                             trueBearing = bearingP1toP2(mLatitude, mLongitude, dLatitude, dLongtitude);
                             degree = event.values[0] - trueBearing;
@@ -480,6 +484,41 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                         rotateNum = 0;
                                     }
                                 }
+                            }
+
+                            //경로이탈 감지
+                            if (!pathDetect(parsing.pathListItems.get(index - 1).getX(), parsing.pathListItems.get(index - 1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)) {
+                                //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
+                                if(outOfRoad2){
+                                    outOfRoad1 = true;
+                                    if(outOfRoad1 && outOfRoad2){
+                                        TTSClass.Init(this, "경로를 벗어났습니다. 현재 위치에서, 다음 경유지까지, 방향 보정을, 시작하겠습니다. 스마트폰의 머리 방향을, 정면으로 고정하고, 알림음과, 진동이 느껴질때 까지, 몸을 회전하세요.");
+                                        outOfRoad2 = false;
+                                    }
+                                }
+
+                                if(outOfRoad1){
+                                    if(event.values[0] <= 15 && event.values[0] >= 0){
+                                        vibrator.vibrate(1500);
+                                        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+                                        dook = soundPool.load(this, R.raw.dingdong, 1);
+                                        soundPool.play(dook, 3, 3, 0, 0, 1.0f);
+                                        outOfRoad1 = false;
+                                    }else if(event.values[0] >= 345 && event.values[0] <= 359.999){
+                                        vibrator.vibrate(1500);
+                                        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+                                        dook = soundPool.load(this, R.raw.dingdong, 1);
+                                        soundPool.play(dook, 3, 3, 0, 0, 1.0f);
+                                        outOfRoad1 = false;
+                                    }
+                                }else if(!outOfRoad1 && !outOfRoad2 && outOfRoad3){
+                                    TTSClass.Init(this, "방향 보정이 완료되었습니다. 현재, 정면에 위치한 방향이, 다음 경유지, 방향입니다.");
+                                    outOfRoad3 = false;
+                                }
+                            }else{
+                                outOfRoad1 = false;
+                                outOfRoad2 = true;
+                                outOfRoad3 = true;
                             }
 
 
@@ -678,15 +717,17 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         nextPoint.setLongitude(nextY);
         myPoint.setLatitude(myX);
         myPoint.setLongitude(myY);
-        double pToNext = previousPoint.distanceTo(nextPoint);
-        double pToMy = previousPoint.distanceTo(myPoint);
-        double myToNext = myPoint.distanceTo(nextPoint);
-        double HarronS = (pToNext + pToMy + myToNext) / 2;
-        double area = Math.abs(Math.sqrt(HarronS*(HarronS - pToNext)*(HarronS - pToMy)*(HarronS - myToNext)));
-        if((baseValue * pToNext) / 2 > area){
-            return true;
+        double pToNext = previousPoint.distanceTo(nextPoint);       //이전 위치부터 다음 위치까지의 거리
+        double pToMy = previousPoint.distanceTo(myPoint);       //이전 위치부터 현재 위치까지의 거리
+        double myToNext = myPoint.distanceTo(nextPoint);        //현재 위치부터 다음 위치까지의 거리
+        double HarronS = (pToNext + pToMy + myToNext) / 2;      //이전위치, 현재위치, 다음위치를 꼭지점으로하는 삼각형의 넓이를 구하기 위한 해론변수
+        double area = Math.abs(Math.sqrt(HarronS*(HarronS - pToNext)*(HarronS - pToMy)*(HarronS - myToNext)));  //구해진 삼각형의 넓이
+
+        if((baseValue * pToNext) / 2 > area){   //이탈 최대 반경으로 계산된 삼각형의 넓이 > 지금 구해진 삼각형의 넓이 비교
+            this.areaPoint = myPoint;   //해당 위치의 현재좌표를 기억함.
+            return true;        //이탈하지 않았음
         }else{
-            return false;
+            return false;       //경로를 이탈함
         }
     }
 
