@@ -12,11 +12,20 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textView15"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:text="종료하시겠습니까?"
+            android:layout_marginLeft="20dp"
+            android:textSize="0sp"
+            android:gravity="center_vertical"/>
+
+        <TextView
             android:id="@+id/textView12"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.32"
-            android:text="종료"
+            android:text="하얀목소리 종료"
             android:layout_marginLeft="20dp"
             android:textSize="30sp"
             android:gravity="center_vertical"/>
