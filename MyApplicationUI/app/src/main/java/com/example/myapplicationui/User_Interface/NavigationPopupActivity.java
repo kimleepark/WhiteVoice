@@ -24,6 +24,7 @@ public class NavigationPopupActivity extends Activity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_navigation_popup);
+        this.setTitle("");
         TextView dataDisplay = (TextView)findViewById(R.id.popUp);
 
         ((whiteVoice) getApplicationContext()).dataExplain = false;

@@ -153,6 +153,7 @@ public class CameraActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.setTitle("");
         ctx = this;
         mActivity = this;
 

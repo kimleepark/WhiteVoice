@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -150,7 +151,7 @@ public class MenuActivity extends Activity {
         btnV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TTSClass.Init(getApplication(), "목적지를 말하세요");
+                //TTSClass.Init(getApplication(), "목적지를 말하세요");
                 doSTT();
                 dialog.dismiss();
             }
@@ -192,7 +193,7 @@ public class MenuActivity extends Activity {
         builder.setMessage("목적지를 말하세요");
         final AlertDialog dialog = builder.show();
         TextView textView = (TextView) dialog.findViewById(android.R.id.message);
-        textView.setTextSize(35);
+        textView.setTextSize(30);
 
         Handler mHandler = new Handler();
         mHandler.postDelayed(new Runnable()  {
@@ -225,7 +226,7 @@ public class MenuActivity extends Activity {
             String replace_sst = "";
             replace_sst = result_stt.replace(" ", "");
 
-            TTSClass.Init(this, replace_sst);
+            //TTSClass.Init(this, replace_sst);
             ((whiteVoice)getApplicationContext()).target = replace_sst;
             Intent intent = new Intent(this, NavigationActivity.class);
             startActivity(intent);
@@ -245,7 +246,7 @@ public class MenuActivity extends Activity {
 
             dialog= new ProgressDialog(MenuActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
-            dialog.setMessage("분석중입니다...");             //ProgressDialog 메세지
+            dialog.setMessage("사진분석 중 입니다...");             //ProgressDialog 메세지
             //dialog.setCancelable(false);                      //종료금지
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
             dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
@@ -357,7 +358,7 @@ public class MenuActivity extends Activity {
             TextView viewMent = (TextView)dialogView.findViewById(R.id.textMentTap);
             viewMent.setText(ment);
 
-            ImageView btnA = (ImageView) dialogView.findViewById(R.id.btnAgainTap);
+            RelativeLayout btnA = (RelativeLayout) dialogView.findViewById(R.id.btnAgainTap);
             btnA.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.myapplicationui.CS.CSApi;
@@ -713,7 +714,6 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
 
                 index = 0;
                 disIndex = 0;
@@ -730,9 +730,8 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                 divFour2 = true;
                 firstGuide2 = true;
 
-                parsing.onLoad();
                 research = 1;
-                TTSClass.Init(getApplication(), "경로를 재탐색합니다.");
+                TTSClass.Init(NavigationActivity.this, "경로를 재탐색합니다.");
                 new ProcessLocation().execute();//와드
             }
         });
@@ -745,9 +744,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     index++;
                     vibratorTF = true;
                     mentChange(index);
-                    TTSClass.Init(getApplication(), index+"번째 경유지 입니다."+parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로,"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
+                    TTSClass.Init(NavigationActivity.this, index+"번째 경유지 입니다."+parsing.pathListItems.get(index).getMent()+clockBasedDirection1+"으로,"+ (int)distanceAToB+"미터 남았습니다."); //이부분을
                 } else {
-                    TTSClass.Init(getApplication(), "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
+                    TTSClass.Init(NavigationActivity.this, "목적지 근방입니다, 다음 경유지가 존재하지 않습니다.");
                 }
             }
         });
@@ -815,7 +814,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
             dialog= new ProgressDialog(NavigationActivity.this, R.style.DialogCustom); //ProgressDialog 객체 생성
             //dialog.setTitle("Progress");                   //ProgressDialog 제목
-            dialog.setMessage("분석중입니다...");             //ProgressDialog 메세지
+            dialog.setMessage("사진분석 중 입니다...");             //ProgressDialog 메세지
             //dialog.setCancelable(false);                      //종료금지
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //스피너형태의 ProgressDialog 스타일 설정
             dialog.setCanceledOnTouchOutside(false); //ProgressDialog가 진행되는 동안 dialog의 바깥쪽을 눌러 종료하는 것을 금지
@@ -927,7 +926,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
             TextView viewMent = (TextView)dialogView.findViewById(R.id.textMentTap);
             viewMent.setText(ment);
 
-            ImageView btnA = (ImageView) dialogView.findViewById(R.id.btnAgainTap);
+            RelativeLayout btnA = (RelativeLayout) dialogView.findViewById(R.id.btnAgainTap);
             btnA.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
