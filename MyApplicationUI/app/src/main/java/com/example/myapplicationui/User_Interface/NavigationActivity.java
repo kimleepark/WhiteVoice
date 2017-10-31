@@ -460,9 +460,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                     detectedDistance = detectPointA.distanceTo(detectPointB);
 
                     if (detectedDistance < 50.0) { //실시간 좌표간 거리차이가 50.0m를 넘지 않는가? == 좌표가 튀지 않는가?
-                        if (checkFlowOver <= 10) {    //실시간 좌표간 거리차이가 50.0m를 넘지 않는 것이 10회이상 검출되는가?
+                        if (checkFlowOver <= 30) {    //실시간 좌표간 거리차이가 50.0m를 넘지 않는 것이 10회이상 검출되는가?
                             checkFlowOver++;
-                        } else if (checkFlowOver == 11) {
+                        } else if (checkFlowOver == 31) {
                             //현재 위치와 다음 경유지까지의 거리
                             distanceAToB = pointA.distanceTo(pointB);
 
@@ -619,15 +619,15 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 index++;
                                 firstGuide2 = true;
                                 divFour2 = true;
-                                if (parsing.pathListItems.size() == index) { //모든 경유지를 경우했는가?
-                                    index = 0;
-                                    TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
+                                if (parsing.pathListItems.size() - 1 == index) { //모든 경유지를 경우했는가?
+                                    //index = 0;
+                                    TTSClass.Init(this, "목적지 근방, 안내를 종료합니다.");
                                     Handler mHandler = new Handler();
                                     mHandler.postDelayed(new Runnable() {
                                         public void run() {
-                                            finish();
+                                            NavigationActivity.this.finish();
                                         }
-                                    }, 4000);
+                                    }, 1500);
                                 }
                             }
                         }
