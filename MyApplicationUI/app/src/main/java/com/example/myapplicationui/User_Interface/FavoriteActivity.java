@@ -267,7 +267,7 @@ public class FavoriteActivity extends AppCompatActivity{
                     e.getStackTrace();
                 }
             }
-        }, 1750);
+        }, 2000);
     }
 
     @Override

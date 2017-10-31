@@ -213,7 +213,7 @@ public class MenuActivity extends Activity {
                     e.getStackTrace();
                 }
             }
-        }, 1450);
+        }, 1900);
     }
 
     @Override

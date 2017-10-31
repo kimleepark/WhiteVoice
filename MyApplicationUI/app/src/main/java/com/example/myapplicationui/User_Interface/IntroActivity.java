@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.myapplicationui.Function.TTSClass;
 import com.example.myapplicationui.R;
 
 public class IntroActivity extends Activity {
@@ -30,6 +31,8 @@ public class IntroActivity extends Activity {
         init();
 
         handler.postDelayed(runnable, 2000);
+
+        TTSClass.speechStop();
     }
 
     public void init() {
