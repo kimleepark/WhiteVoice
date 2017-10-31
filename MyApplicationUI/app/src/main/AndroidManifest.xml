@@ -26,29 +26,37 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".User_Interface.IntroActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".User_Interface.MenuActivity" />
-        <activity android:name=".User_Interface.FavoriteActivity" />
-        <activity android:name=".User_Interface.DestinationActivity" />
-        <activity android:name=".User_Interface.SettingActivity" />
-        <activity android:name=".User_Interface.NavigationActivity" />
-        <activity android:name=".Function.TripleTapActivity" />
+        <activity android:name=".User_Interface.MenuActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".User_Interface.FavoriteActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".User_Interface.DestinationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".User_Interface.SettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".User_Interface.NavigationActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Function.TripleTapActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Function.CameraActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity android:name=".User_Interface.TestActivity" />
-        <activity android:name=".User_Interface.SearchDialog" />
-        <activity android:name=".User_Interface.TapActivity"></activity>
+        <activity android:name=".User_Interface.TapActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".User_Interface.NavigationPopupActivity"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"></activity>
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"
+            android:screenOrientation="portrait"></activity>
 
     </application>
 

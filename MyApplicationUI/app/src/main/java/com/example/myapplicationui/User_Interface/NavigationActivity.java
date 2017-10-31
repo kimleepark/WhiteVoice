@@ -572,6 +572,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 if (firstGuide2) {    //이번 안내가 최초인가?
                                     TTSClass.Init(this,  "첫번째 경유지 입니다.           현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullCalDistance +"미터, 거리입니다.               현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
                                     //tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
+                                    vibratorTF = true;
                                     firstGuide2 = false;
                                 }
 
@@ -597,7 +598,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
                                     //수정이 필요한 부분
-                                    TTSClass.Init(this,index+"번째 경유지 입니다.                          " +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    TTSClass.Init(this,"두번째"+index+"번째 경유지 입니다.                          " +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     //
                                     STACK_POINT--;
                                     divFour1 = false;
