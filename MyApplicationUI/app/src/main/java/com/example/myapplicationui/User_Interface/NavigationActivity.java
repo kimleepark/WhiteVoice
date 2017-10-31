@@ -223,24 +223,33 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         @Override
         protected String doInBackground(Void... voids) {
             Debugs.logv(new Exception(), "Something to print");
+            int a = 0;
             while (true) {
+                if(a<15) {
+                    a++;
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else {
+                    finish();
+                    TTSClass.Init(getApplication(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.");
+                }
                 if (mLatitude != 0.0 && mLongitude != 0.0) {
                     //Toast.makeText(getApplicationContext(), "좌표설정 완료", Toast.LENGTH_SHORT).show();
-                    if(parsing.complete==0) {
+                    if (parsing.complete == 0) {
                         parsing.complete = 2;
                         parsing.setData(((whiteVoice) getApplicationContext()).target, mLatitude, mLongitude);        //단어 사이에 공백이 있으면 제대로 값이 표시되지 않는 버그 있음.
                         parsing.onLoad();
-                    }
-                    else if (parsing.complete == 1) {
+                    } else if (parsing.complete == 1) {
                         if (parsing.destinationmap.equals("에러")) {
                             Debugs.logv(new Exception(), "sSomething to 걱정");
                             dataUpdate = false;
-                            TTSClass.Init(getApplicationContext(), "입력값이 잘못되었거나 GPS오류입니다. 다시 입력해주세요.");
-                            finish();
                         }
                         break;
                     }
-
                 }
             }
             return null;
@@ -561,7 +570,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                                 //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내
                                 if (firstGuide2) {    //이번 안내가 최초인가?
-                                    TTSClass.Init(this, index + "번째 경유지 입니다.           현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullCalDistance +"미터, 거리입니다.               현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
+                                    TTSClass.Init(this,  "첫번째 경유지 입니다.           현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullCalDistance +"미터, 거리입니다.               현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
                                     //tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
                                     firstGuide2 = false;
                                 }
