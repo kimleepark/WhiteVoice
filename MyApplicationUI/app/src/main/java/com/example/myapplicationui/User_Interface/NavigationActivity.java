@@ -37,6 +37,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplicationui.CS.CSApi;
 import com.example.myapplicationui.CS.CSGetResult;
@@ -88,7 +89,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
     double AdistanceToB = 0;
     double fullDistance = 0;
     double fullCalDistance = 0;
-    int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0, checkFlowOver = 0, dook = 0;
+    int index = 0, first = 0, disIndex = 0, rotateNum = 0, STACK_POINT = 0, checkFlowOver = 0, dook = 0, outofRoadCount= 0;
     boolean dataUpdate = true;
     boolean startDataUpdate = false;
     boolean near10m1 = false, near10m2 = true;
@@ -487,31 +488,30 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                             }
 
                             //경로이탈 감지
-                            if (!pathDetect(parsing.pathListItems.get(index - 1).getX(), parsing.pathListItems.get(index - 1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)) {
-                                //Toast.makeText(getApplicationContext(), "경로를 이탈했습니다.", Toast.LENGTH_SHORT).show();
-                                if(outOfRoad2){
-                                    outOfRoad1 = true;
-                                    if(outOfRoad1 && outOfRoad2){
+                            if (!pathDetect(parsing.pathListItems.get(index - 1).getX(), parsing.pathListItems.get (index - 1).getY(), dLatitude, dLongtitude, mLatitude, mLongitude, 20.0)) {
+                                if(!outOfRoad1){
+                                    if(!outOfRoad1&&outOfRoad2){
+                                        Toast.makeText(getApplicationContext(), "경로를 이탈했습니다." + (++outofRoadCount), Toast.LENGTH_SHORT).show();
                                         TTSClass.Init(this, "경로를 벗어났습니다. 현재 위치에서, 다음 경유지까지, 방향 보정을, 시작하겠습니다. 스마트폰의 머리 방향을, 정면으로 고정하고, 알림음과, 진동이 느껴질때 까지, 몸을 회전하세요.");
-                                        outOfRoad2 = false;
                                     }
+                                    outOfRoad1 = true;
                                 }
 
-                                if(outOfRoad1){
+                                if(outOfRoad1&&outOfRoad2){
                                     if(event.values[0] <= 15 && event.values[0] >= 0){
                                         vibrator.vibrate(1500);
                                         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
                                         dook = soundPool.load(this, R.raw.dingdong, 1);
                                         soundPool.play(dook, 3, 3, 0, 0, 1.0f);
-                                        outOfRoad1 = false;
+                                        outOfRoad2 = false;
                                     }else if(event.values[0] >= 345 && event.values[0] <= 359.999){
                                         vibrator.vibrate(1500);
                                         soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
                                         dook = soundPool.load(this, R.raw.dingdong, 1);
                                         soundPool.play(dook, 3, 3, 0, 0, 1.0f);
-                                        outOfRoad1 = false;
+                                        outOfRoad2 = false;
                                     }
-                                }else if(!outOfRoad1 && !outOfRoad2 && outOfRoad3){
+                                }else if(outOfRoad1 && !outOfRoad2 && outOfRoad3){
                                     TTSClass.Init(this, "방향 보정이 완료되었습니다. 현재, 정면에 위치한 방향이, 다음 경유지, 방향입니다.");
                                     outOfRoad3 = false;
                                 }
@@ -1057,7 +1057,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         double Second = fullCalDistance / 0.8;
         int hour = (int)Second / 3600, min = (int)Second % 3600 / 60;
-        String textReturn = "총거리 : " + (int)fullCalDistance + "m \n다음 경유지까지의 거리 : "+(int)distanceAToB+ "\n총소요시간 : " + hour + "시간 " + min +"분";
+        String textReturn = "다음 경유지까지 거리 : "+(int)distanceAToB + "m"+ "\n총소요시간 : " + hour + "시간 " + min +"분";
         return textReturn;
     }
 }
