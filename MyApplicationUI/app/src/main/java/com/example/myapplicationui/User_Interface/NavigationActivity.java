@@ -551,7 +551,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 if (distanceAToB <= 10.0) {    //경유지까지 10m 안쪽으로 들어왔는가?
                                     near10m1 = true;
                                     if (near10m1 && near10m2) {   //이 안내문을 한 번 이상 실행되었는가?
-                                        TTSClass.Init(this, "다음 목적지까지 ,10미터, 근방입니다.                   ");
+                                        TTSClass.Init(this, "다음 경유지 10미터, 근방입니다.                   ");
                                         near10m2 = false;
                                     }
                                 } else {      //경유지까지의 거리가 10m 이상인가?
@@ -619,7 +619,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 index++;
                                 firstGuide2 = true;
                                 divFour2 = true;
-                                if (parsing.pathListItems.size() - 1 == index) { //모든 경유지를 경우했는가?
+                                if (parsing.pathListItems.size() == index) { //모든 경유지를 경우했는가?
                                     index = 0;
                                     TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
                                     Handler mHandler = new Handler();
