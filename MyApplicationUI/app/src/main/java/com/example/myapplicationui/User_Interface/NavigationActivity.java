@@ -1072,7 +1072,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
         double Second = fullCalDistance / 0.8;
         int hour = (int)Second / 3600, min = (int)Second % 3600 / 60;
-        String textReturn = "다음 경유지까지 거리 : "+(int)distanceAToB + "m"+ "\n총소요시간 : " + hour + "시간 " + min +"분";
+        String textReturn = "다음 경유지까지 거리 : "+(int)distanceAToB + "m"+ "\n남은시간 : " + hour + "시간 " + min +"분";
         return textReturn;
     }
 }
