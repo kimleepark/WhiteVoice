@@ -501,7 +501,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 if(!outOfRoad1){
                                     if(!outOfRoad1&&outOfRoad2){
                                         Toast.makeText(getApplicationContext(), "경로를 이탈했습니다." + (++outofRoadCount), Toast.LENGTH_SHORT).show();
-                                        TTSClass.Init(this, "경로를 벗어났습니다. 현재 위치에서, 다음 경유지까지, 방향 보정을, 시작하겠습니다. 스마트폰의 머리 방향을, 정면으로 고정하고, 알림음과, 진동이 느껴질때 까지, 몸을 회전하세요.");
+                                        TTSClass.Init(this, "경로를 벗어났습니다. 현재 위치에서, 다음 경유지까지, 방향 보정을, 시작하겠습니다. 스마트폰의 머리 방향을, 정면으로 고정하고, 진동이 느껴질때 까지, 몸을 회전하세요.");
                                     }
                                     outOfRoad1 = true;
                                 }
@@ -570,9 +570,9 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
 
                                 //다음 경유지까지 몇시방향으로 얼마나 남았는지 안내
                                 if (firstGuide2) {    //이번 안내가 최초인가?
-                                    TTSClass.Init(this,  "첫번째 경유지 입니다.           현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullCalDistance +"미터, 거리입니다.               현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
-                                    //tmpClock1 = String.valueOf((int) degree / 30); //다음경유지 시계방향 저장
+                                    TTSClass.Init(this,  index + "번째 경유지 입니다.           현재 위치에서,"+parsing.destinationmap+"까지," + (int)fullCalDistance +"미터, 거리입니다.               현재 위치에서," + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.                     ");
                                     firstGuide2 = false;
+
                                 }
 
                                 //거리별 분배
@@ -596,12 +596,16 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                     divFour1 = true;
                                 }
                                 if (STACK_POINT != 0 && divFour1) {
-                                    //수정이 필요한 부분
-                                    TTSClass.Init(this,index+"번째 경유지 입니다.                          " +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
+                                    //이새끼가 문제임
+                                    //TTSClass.Init(this,index+"번째 경유지 입니다.                          " +parsing.pathListItems.get(index - 1).getMent() + ", " + clockBasedDirection1 + "으로," + (int) (distanceAToB) + "미터, 남았습니다.");
                                     //
                                     STACK_POINT--;
                                     divFour1 = false;
                                 }
+                            } else if(firstGuide2 && distanceAToB <= 5.0){
+                                TTSClass.Init(NavigationActivity.this, "첫 번째, 경유지가, 현재위치와, 가깝습니다. 다음 경유지로 안내합니다.");
+                                firstGuide2 = false;
+
                             } else if (distanceAToB <= 5.0) {  //현재 위치와 다음 경유지까지의 거리가 5m 안으로 들어왔는가?
                                 //목적지 근방 반경 5미터에 들어옴.
                                 //다음 경유지 좌표 새로 갱신.
@@ -613,7 +617,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
                                 index++;
                                 firstGuide2 = true;
                                 divFour2 = true;
-                                if (parsing.pathListItems.size() - 2 == index) { //모든 경유지를 경우했는가?
+                                if (parsing.pathListItems.size() - 1 == index) { //모든 경유지를 경우했는가?
                                     index = 0;
                                     TTSClass.Init(this, "목적지 근방입니다. 안내를 종료합니다.");
                                     Handler mHandler = new Handler();

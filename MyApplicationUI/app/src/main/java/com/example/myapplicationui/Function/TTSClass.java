@@ -37,9 +37,9 @@ public class TTSClass extends Activity{
                             result == TextToSpeech.LANG_NOT_SUPPORTED) {
                         //Log.e(TAG, "Language is not available.");
                     } else {
-                        if (mTTS!=null) {
+                        if (mTTS.isSpeaking()) {
                            mTTS.speak(mText, TextToSpeech.QUEUE_ADD, null);
-                        } else {
+                        } else if(!mTTS.isSpeaking()) {
                         mTTS.speak(mText, TextToSpeech.QUEUE_FLUSH, null);
                         }
                     }
